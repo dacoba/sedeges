@@ -48,7 +48,13 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'ci' => 'required|numeric|digits_between:6,10|unique:users',
+            'ci_extencion' => 'required|string',
+            'nombres' => 'required|string|max:255',
+            'apellido_paterno' => 'required|string|max:255',
+            'apellido_materno' => 'required|string|max:255',
+            'telefono_fijo' => 'required|digits:7|numeric',
+            'telefono_celular' => 'required|numeric|digits:8',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -62,10 +68,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        print_r($data);
         return User::create([
-            'name' => $data['name'],
+            'ci' => $data['ci'],
+            'ci_extencion' => $data['ci_extencion'],
+            'nombres' => $data['nombres'],
+            'apellido_paterno' => $data['apellido_paterno'],
+            'apellido_materno' => $data['apellido_materno'],
+            'fecha_nacimiento' => $data['fecha_nacimiento'],
+            'telefono_fijo' => $data['telefono_fijo'],
+            'telefono_celular' => $data['telefono_celular'],
+            'desabilitado' => False,
+            'rol' => $data['rol'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        echo "si 2";
     }
 }
