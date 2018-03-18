@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appindex')
 
 @section('content')
     <header>
@@ -12,15 +12,15 @@
                 <!-- Slide One - Set the background image for this slide in the line below -->
                 <div class="carousel-item active" style="background-image: url('img/slider1.jpg');background-position: center">
                     <div class="carousel-caption d-none d-md-block">
-                        <h3>First Slide</h3>
-                        <p>This is a description for the first slide.</p>
+                        <h3>Sedeges</h3>
+                        <p>Servicio Departamental de Gestion Social.</p>
                     </div>
                 </div>
                 <!-- Slide Two - Set the background image for this slide in the line below -->
                 <div class="carousel-item" style="background-image: url('img/slider2.jpg')">
                     <div class="carousel-caption d-none d-md-block">
-                        <h3>Second Slide</h3>
-                        <p>This is a description for the second slide.</p>
+                        <h3>Campaña</h3>
+                        <p>Por mi derecho a tener una familia.</p>
                     </div>
                 </div>
                 <!-- Slide Three - Set the background image for this slide in the line below -->
@@ -41,17 +41,12 @@
             </a>
         </div>
     </header>
-    <div class="container">
 
-        {{--<h1 class="my-4">Welcome to Modern Business</h1>--}}
-
-    </div>
-    <style>
-        footer{
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-    </style>
+    <!-- Page Content -->
+    <section class="py-5">
+        <div class="container">
+            <h1>Sedeges</h1>
+            <p>EL SEDEGES, tiene como misión fundamental aplicar normas y políticas sociales referidas al niños, niñas, adolecentes y grupo familiar a través de programas de prevención, protección y atención integral con las competencias de género, generacional y servicios sociales mediante el apoyo técnico a las instancias responsables y la supervisión del cumplimiento de los objetivos y resultados propuestos, así como la de coordinar los programas y proyectos en materia de gestión social. Al amparo de las disposiciones legales, el SEDEGES realiza trabajos en capacitación ocupacional en los diferentes espacios donde brinda el servicio, constituyéndose como una actividad que reporta resultados positivos en la autoestima personal y capacitación simultanea para enfrentar la vida, desde el punto de vista socio económico cuando las circunstancias a si lo permitan.</p>
+        </div>
+    </section>
 @endsection
