@@ -95,7 +95,7 @@ class CentroController extends Controller
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){
                 $message['error'] = True;
-                $message['error_message'] = 'El Centro no puede ser Eliminad';
+                $message['error_message'] = 'El Centro no puede ser Eliminado';
             }
         }
         $centros = Centro::get();

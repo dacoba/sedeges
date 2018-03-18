@@ -124,15 +124,15 @@ class AdoptanteController extends Controller
         try {
             User::destroy($id);
             $message['success'] = True;
-            $message['success_message'] = 'Usuario Eliminado Exitosamente';
+            $message['success_message'] = 'Adoptante Eliminado Exitosamente';
         }
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){
                 $message['error'] = True;
-                $message['error_message'] = 'El Usuario no puede ser Eliminad';
+                $message['error_message'] = 'El Adoptante no puede ser Eliminado';
             }
         }
-        $usuarios = User::where('rol', '<>', 'Administrador')->get();
-        return view('usuario.index', ['usuarios' => $usuarios, 'message' => $message]);
+        $adoptantes = Adoptante::with(['user'])->get();
+        return view('adoptante.index', ['adoptantes' => $adoptantes, 'message' => $message]);
     }
 }

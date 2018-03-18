@@ -114,7 +114,7 @@ class InfanteController extends Controller
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){
                 $message['error'] = True;
-                $message['error_message'] = 'El Infante no puede ser Eliminad';
+                $message['error_message'] = 'El Infante no puede ser Eliminado';
             }
         }
         $infantes = Infante::get();

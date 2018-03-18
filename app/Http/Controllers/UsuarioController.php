@@ -113,7 +113,7 @@ class UsuarioController extends Controller
         catch (\Illuminate\Database\QueryException $e) {
             if($e->getCode() == "23000"){
                 $message['error'] = True;
-                $message['error_message'] = 'El Usuario no puede ser Eliminad';
+                $message['error_message'] = 'El Usuario no puede ser Eliminado';
             }
         }
         $usuarios = User::where('rol', '<>', 'Administrador')->get();
