@@ -68,7 +68,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        print_r($data);
         return User::create([
             'ci' => $data['ci'],
             'ci_extencion' => $data['ci_extencion'],
@@ -83,6 +82,5 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-        echo "si 2";
     }
 }

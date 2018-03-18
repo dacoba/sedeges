@@ -9,7 +9,7 @@
                 {{ csrf_field() }}
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="exampleInputEmail1">Direccion de Email</label>
-                    <input class="form-control" id="email" type="email" aria-describedby="emailHelp" placeholder="Ingrese su direccion de email" name="email" value="{{ old('email') }}">
+                    <input class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingrese su direccion de email" name="email" value="{{ old('email') }}">
                     @if ($errors->has('email'))
                         <span class="help-block">
                             <strong>{{ $errors->first('email') }}</strong>

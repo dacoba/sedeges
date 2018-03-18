@@ -13,10 +13,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/modern-business.css') }}" rel="stylesheet">
-
 </head>
 <body>
     <div id="app">
@@ -30,12 +30,21 @@
                     <ul class="navbar-nav ml-auto">
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">INICIAR SESION</a>
+                                <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Iniciar Sesion</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">REGISTRAR</a>
+                                <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">Registrar</a>
                             </li>
                         @else
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuarios" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Usuarios
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUsuarios">
+                                    <a class="dropdown-item" href="{{ url('usuario') }}">Mostrar Usuarios</a>
+                                    <a class="dropdown-item" href="{{ url('usuario/create') }}">Registrar Usuarios</a>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLogout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->nombres }}
@@ -69,5 +78,18 @@
     <!-- Scripts -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#dataTable').dataTable( {
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            } );
+        } );
+    </script>
+    <script src="{{ asset('js/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('js/sb-admin.min.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-datatables.min.js') }}"></script>
 </body>
 </html>
