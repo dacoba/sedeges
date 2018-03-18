@@ -13,7 +13,7 @@
         </ol>
         <div class="card mb-5">
             <div class="card-header">
-                <i class="fa fa-table"></i> Usuarios Registrados</div>
+                <i class="fa fa-table"></i> Registro de Usuario</div>
             <div class="card-body">
                 <form class="form-horizontal" method="POST" action="{{ url('/usuario') }}">
                     {{ csrf_field() }}
