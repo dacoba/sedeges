@@ -32,7 +32,7 @@
                     <input type="hidden" name="_method" value="PUT" >
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-8{{ $errors->has('nombre') ? ' has-error' : '' }}">
+                            <div class="col-md-6{{ $errors->has('nombre') ? ' has-error' : '' }}">
                                 <label for="nombre">Nombre del Infante</label>
                                 <input class="form-control" id="nombre" type="text" name="nombre" @if(old('nombre')) value="{{ old('nombre') }}" @else value="{{ $infante['nombre'] }}" @endif aria-describedby="nameHelp" placeholder="Ingrese el Nombre del Infante">
                                 @if ($errors->has('nombre'))
@@ -41,7 +41,7 @@
                                 </span>
                                 @endif
                             </div>
-                            <div class="col-md-4{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
+                            <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                 <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $infante['fecha_nacimiento'] }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento del Infante" readonly>
                                 @if ($errors->has('fecha_nacimiento'))
@@ -49,6 +49,10 @@
                                     <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
                                 </span>
                                 @endif
+                            </div>
+                            <div class="col-md-3{{ $errors->has('genero') ? ' has-error' : '' }}">
+                                <label for="genero">Genero</label>
+                                <input class="form-control" id="genero" type="text" name="genero" value="{{ $infante['genero'] }}" aria-describedby="nameHelp" readonly>
                             </div>
                         </div>
                     </div>

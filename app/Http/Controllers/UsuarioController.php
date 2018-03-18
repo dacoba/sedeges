@@ -60,6 +60,7 @@ class UsuarioController extends Controller
             'nombres' => strtoupper($request['nombres']),
             'apellido_paterno' => strtoupper($request['apellido_paterno']),
             'apellido_materno' => strtoupper($request['apellido_materno']),
+            'genero' => $request['genero'],
             'fecha_nacimiento' => $request['fecha_nacimiento'],
             'telefono_fijo' => $request['telefono_fijo'],
             'telefono_celular' => $request['telefono_celular'],

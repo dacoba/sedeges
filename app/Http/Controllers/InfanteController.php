@@ -57,6 +57,7 @@ class InfanteController extends Controller
             'ci' => $request['ci'],
             'ci_extencion' => $request['ci_extencion'],
             'nombre' => strtoupper($request['nombre']),
+            'genero' => $request['genero'],
             'fecha_nacimiento' => $request['fecha_nacimiento'],
             'fecha_ingreso' => $request['fecha_ingreso'],
             'descripcion' => $request['descripcion'],

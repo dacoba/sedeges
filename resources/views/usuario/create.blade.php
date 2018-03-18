@@ -79,6 +79,35 @@
                     </div>
                     <div class="form-group">
                         <div class="form-row">
+                            <div class="col-md-6{{ $errors->has('email') ? ' has-error' : '' }}">
+                                <label for="email">Direccion de Email</label>
+                                <input class="form-control" id="email" type="email" name="email" value="{{ old('email') }}" aria-describedby="emailHelp" placeholder="Ingrese la Direccion de Email">
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <div class="col-md-3{{ $errors->has('genero') ? ' has-error' : '' }}">
+                                <label for="genero">Genero</label>
+                                <select class="form-control" name="genero">
+                                    <option @if(old('genero') == 'Masculino') selected @endif>Masculino</option>
+                                    <option @if(old('genero') == 'Femenino') selected @endif>Femenino</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
+                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento">
+                                @if ($errors->has('fecha_nacimiento'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
                             <div class="col-md-6{{ $errors->has('telefono_fijo') ? ' has-error' : '' }}">
                                 <label for="telefono_fijo">Telefono Fijo</label>
                                 <input class="form-control" id="telefono_fijo" type="text" name="telefono_fijo" value="{{ old('telefono_fijo') }}" aria-describedby="nameHelp" placeholder="Ingrese el Telefono Fijo">
@@ -94,28 +123,6 @@
                                 @if ($errors->has('telefono_celular'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('telefono_celular') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-9{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email">Direccion de Email</label>
-                                <input class="form-control" id="email" type="email" name="email" value="{{ old('email') }}" aria-describedby="emailHelp" placeholder="Ingrese la Direccion de Email">
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                            <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
-                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento">
-                                @if ($errors->has('fecha_nacimiento'))
-                                    <span class="help-block">
-                                    <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
                                 </span>
                                 @endif
                             </div>

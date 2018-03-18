@@ -47,6 +47,10 @@
                         <td>{{ $usuario['fecha_nacimiento'] }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Genero</th>
+                        <td>{{ $usuario['genero'] }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Telefono Fijo</th>
                         <td>{{ $usuario['telefono_fijo'] }} <i class="fa fa-phone"></i></td>
                     </tr>

@@ -18,6 +18,7 @@ class CreateInfantesTable extends Migration
             $table->integer('ci')->unique();
             $table->string('ci_extencion');
             $table->string('nombre');
+            $table->string('genero');
             $table->date('fecha_nacimiento');
             $table->date('fecha_ingreso');
             $table->string('descripcion');

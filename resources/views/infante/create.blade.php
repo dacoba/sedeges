@@ -19,7 +19,7 @@
                     {{ csrf_field() }}
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-8{{ $errors->has('nombre') ? ' has-error' : '' }}">
+                            <div class="col-md-6{{ $errors->has('nombre') ? ' has-error' : '' }}">
                                 <label for="nombre">Nombre del Infante</label>
                                 <input class="form-control" id="nombre" type="text" name="nombre" value="{{ old('nombre') }}" aria-describedby="nameHelp" placeholder="Ingrese el Nombre del Infante">
                                 @if ($errors->has('nombre'))
@@ -28,7 +28,7 @@
                                 </span>
                                 @endif
                             </div>
-                            <div class="col-md-4{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
+                            <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                 <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento del Infante">
                                 @if ($errors->has('fecha_nacimiento'))
@@ -36,6 +36,13 @@
                                     <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
                                 </span>
                                 @endif
+                            </div>
+                            <div class="col-md-3{{ $errors->has('genero') ? ' has-error' : '' }}">
+                                <label for="genero">Genero</label>
+                                <select class="form-control" name="genero">
+                                    <option @if(old('genero') == 'Masculino') selected @endif>Masculino</option>
+                                    <option @if(old('genero') == 'Femenino') selected @endif>Femenino</option>
+                                </select>
                             </div>
                         </div>
                     </div>

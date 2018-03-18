@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('nombres');
             $table->string('apellido_paterno');
             $table->string('apellido_materno');
+            $table->string('genero');
             $table->date('fecha_nacimiento');
             $table->integer('telefono_fijo');
             $table->integer('telefono_celular');

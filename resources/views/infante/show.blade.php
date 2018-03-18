@@ -31,6 +31,10 @@
                         <td>{{ $infante['nombre'] }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Genero</th>
+                        <td>{{ $infante['genero'] }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">CI</th>
                         <td>{{ $infante['ci'] }} {{ $infante['ci_extencion'] }}</td>
                     </tr>
