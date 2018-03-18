@@ -122,7 +122,7 @@ class AdoptanteController extends Controller
     public function destroy($id)
     {
         try {
-            User::destroy($id);
+            Adoptante::destroy($id);
             $message['success'] = True;
             $message['success_message'] = 'Adoptante Eliminado Exitosamente';
         }
