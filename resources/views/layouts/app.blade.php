@@ -12,7 +12,7 @@
     <link rel="icon" href="{{URL::asset('img/icon.ico')}}"/>
 
     <!-- Styles -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
@@ -52,6 +52,15 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownCentros">
                                     <a class="dropdown-item" href="{{ url('centro') }}">Mostrar Centros</a>
                                     <a class="dropdown-item" href="{{ url('centro/create') }}">Registrar Centros</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownInfantes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Infantes
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownInfantes">
+                                    <a class="dropdown-item" href="{{ url('infante') }}">Mostrar Infantes</a>
+                                    <a class="dropdown-item" href="{{ url('infante/create') }}">Registrar Infantes</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">

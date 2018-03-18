@@ -54,6 +54,15 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownInfantes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Infantes
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownInfantes">
+                                <a class="dropdown-item" href="{{ url('infante') }}">Mostrar Infantes</a>
+                                <a class="dropdown-item" href="{{ url('infante/create') }}">Registrar Infantes</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLogout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->nombres }}
                             </a>
