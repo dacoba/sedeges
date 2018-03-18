@@ -79,15 +79,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3{{ $errors->has('ci_extencion') ? ' has-error' : '' }}">
-                                <label for="ci_extencion">Habilitado</label>
+                            <div class="col-md-3{{ $errors->has('habilitado') ? ' has-error' : '' }}">
+                                <label for="habilitado">Habilitado</label>
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="habilitado" name="habilitado" checked>
                                     <label class="custom-control-label" for="habilitado">Habilitado para ser adoptado</label>
                                 </div>
                             </div>
-                            <div class="col-md-3{{ $errors->has('ci_extencion') ? ' has-error' : '' }}">
-                                <label for="ci_extencion">Adoptado</label>
+                            <div class="col-md-3{{ $errors->has('adoptado') ? ' has-error' : '' }}">
+                                <label for="adoptado">Adoptado</label>
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="adoptado" name="adoptado">
                                     <label class="custom-control-label" for="adoptado">Ya esta adoptado</label>

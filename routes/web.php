@@ -21,3 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/usuario', 'UsuarioController');
 Route::resource('/centro', 'CentroController');
 Route::resource('/infante', 'InfanteController');
+Route::resource('/adoptante', 'AdoptanteController');
