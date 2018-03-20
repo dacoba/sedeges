@@ -35,32 +35,32 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>CI</th>
-                            <th>Nombre</th>
                             <th>Rol</th>
+                            <th>Nombre</th>
+                            <th>CI</th>
                             <th>Email</th>
-                            <th>Fecha Nacimiento</th>
+                            {{--<th>Fecha Nacimiento</th>--}}
                             <th>Accion</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
-                            <th>CI</th>
-                            <th>Nombre</th>
                             <th>Rol</th>
+                            <th>Nombre</th>
+                            <th>CI</th>
                             <th>Email</th>
-                            <th>Fecha Nacimiento</th>
+                            {{--<th>Fecha Nacimiento</th>--}}
                             <th>Accion</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         @foreach($usuarios as $usuario)
                             <tr>
-                                <td class="text-right">{{ $usuario['ci'] }} <strong>{{ $usuario['ci_extencion'] }}</strong></td>
-                                <td>{{ $usuario['nombres'] }} {{ $usuario['apellido_paterno'] }} {{ $usuario['apellido_materno'] }}</td>
                                 <td>{{ $usuario['rol'] }}</td>
+                                <td>{{ $usuario['nombres'] }} {{ $usuario['apellido_paterno'] }} {{ $usuario['apellido_materno'] }}</td>
+                                <td class="text-right">{{ $usuario['ci'] }} {{ $usuario['ci_extencion'] }}</td>
                                 <td>{{ $usuario['email'] }}</td>
-                                <td class="text-right">{{ $usuario['fecha_nacimiento'] }}</td>
+                                {{--<td class="text-right">{{ $usuario['fecha_nacimiento'] }}</td>--}}
                                 <td class="text-center">
                                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
                                         <a href="{{ url('usuario') }}/{{ $usuario['id'] }}">
