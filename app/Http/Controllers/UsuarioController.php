@@ -40,7 +40,7 @@ class UsuarioController extends Controller
 
     public function index()
     {
-        $usuarios = User::where('rol', '<>', 'Administrador')->get();
+        $usuarios = User::whereNotIn('rol', array('Administrador', 'Adoptante'))->get();
         return view('usuario.index', ['usuarios' => $usuarios]);
     }
 
@@ -71,7 +71,7 @@ class UsuarioController extends Controller
         ]);
         $message['success'] = True;
         $message['success_message'] = 'Usuario Registrado Exitosamente';
-        $usuarios = User::where('rol', '<>', 'Administrador')->get();
+        $usuarios = User::whereNotIn('rol', array('Administrador', 'Adoptante'))->get();
         return view('usuario.index', ['usuarios' => $usuarios, 'message' => $message]);
     }
 
@@ -117,7 +117,7 @@ class UsuarioController extends Controller
                 $message['error_message'] = 'El Usuario no puede ser Eliminado';
             }
         }
-        $usuarios = User::where('rol', '<>', 'Administrador')->get();
+        $usuarios = User::whereNotIn('rol', array('Administrador', 'Adoptante'))->get();
         return view('usuario.index', ['usuarios' => $usuarios, 'message' => $message]);
     }
 }
