@@ -88,7 +88,7 @@
                     </div>
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-9{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <div class="col-md-6{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email">Direccion de Email</label>
                                 <input class="form-control" id="email" type="email" name="email" value="{{ old('email') }}" aria-describedby="emailHelp" placeholder="Ingrese la Direccion de Email">
                                 @if ($errors->has('email'))
@@ -96,6 +96,13 @@
                                     <strong>{{ $errors->first('email') }}</strong>
                                 </span>
                                 @endif
+                            </div>
+                            <div class="col-md-3{{ $errors->has('genero') ? ' has-error' : '' }}">
+                                <label for="genero">Genero</label>
+                                <select class="form-control" name="genero">
+                                    <option @if(old('genero') == 'Masculino') selected @endif>Masculino</option>
+                                    <option @if(old('genero') == 'Femenino') selected @endif>Femenino</option>
+                                </select>
                             </div>
                             <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>

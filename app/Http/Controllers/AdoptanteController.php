@@ -63,6 +63,7 @@ class AdoptanteController extends Controller
             'apellido_paterno' => strtoupper($request['apellido_paterno']),
             'apellido_materno' => strtoupper($request['apellido_materno']),
             'fecha_nacimiento' => $request['fecha_nacimiento'],
+            'genero' => $request['genero'],
             'telefono_fijo' => $request['telefono_fijo'],
             'telefono_celular' => $request['telefono_celular'],
             'desabilitado' => True,
