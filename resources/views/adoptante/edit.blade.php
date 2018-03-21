@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-4 mb-3">Usuarios
+        <h1 class="mt-4 mb-3">Adoptantes
             <small>Modificar</small>
         </h1>
         <ol class="breadcrumb">
@@ -10,7 +10,7 @@
                 <a href="{{ url('/') }}">Principal</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ url('/usuario') }}">Mostrar Usuarios</a>
+                <a href="{{ url('/adoptante') }}">Mostrar Adoptantes</a>
             </li>
             <li class="breadcrumb-item active">Modificar</li>
         </ol>

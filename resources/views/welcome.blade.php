@@ -19,15 +19,15 @@
                 <!-- Slide Two - Set the background image for this slide in the line below -->
                 <div class="carousel-item" style="background-image: url('img/slider2.jpg')">
                     <div class="carousel-caption d-none d-md-block">
-                        <h3>Campaña</h3>
-                        <p>Por mi derecho a tener una familia.</p>
+                        <h3>Adopta.</h3>
+                        <p>Ten un Hij@ de Corazón.</p>
                     </div>
                 </div>
                 <!-- Slide Three - Set the background image for this slide in the line below -->
-                <div class="carousel-item" style="background-image: url('img/slider3.jpg')">
+                <div class="carousel-item" style="background-image: url('img/slider4.jpg')">
                     <div class="carousel-caption d-none d-md-block">
-                        <h3>Third Slide</h3>
-                        <p>This is a description for the third slide.</p>
+                        <h3>Campaña</h3>
+                        <p>Por mi derecho a tener una familia.</p>
                     </div>
                 </div>
             </div>
