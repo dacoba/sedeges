@@ -23,6 +23,7 @@ class UsuarioController extends Controller
             'apellido_materno' => 'required|string|max:255',
             'telefono_fijo' => 'required|digits:7|numeric',
             'telefono_celular' => 'required|numeric|digits:8',
+            'fecha_nacimiento' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);

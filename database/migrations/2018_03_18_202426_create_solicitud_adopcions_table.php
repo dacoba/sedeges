@@ -23,15 +23,8 @@ class CreateSolicitudAdopcionsTable extends Migration
             $table->integer('adoptante_id')->unsigned();
             $table->foreign('adoptante_id')->references('id')->on('adoptantes')->onDelete('restrict')->onUpdate('cascade');
             $table->integer('estado');
-            $table->boolean('carta_solicitud');
-            $table->boolean('certificado_antecedentes');
-            $table->boolean('informe_antecedentes');
-            $table->boolean('verificacion_domiciliaria');
-            $table->boolean('certificado_estadocivil');
             $table->text('observacion_registro')->nullable();
-            $table->boolean('verificacion_registro')->nullable();
             $table->text('observacion_requisitos')->nullable();
-            $table->boolean('verificacion_requisitos')->nullable();
             $table->timestamps();
         });
     }

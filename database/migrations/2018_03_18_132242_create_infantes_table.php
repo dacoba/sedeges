@@ -15,7 +15,7 @@ class CreateInfantesTable extends Migration
     {
         Schema::create('infantes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ci')->unique();
+            $table->bigInteger('ci')->unique();
             $table->string('ci_extencion');
             $table->string('nombre');
             $table->string('genero');

@@ -24,6 +24,7 @@ class AdoptanteController extends Controller
             'apellido_materno' => 'required|string|max:255',
             'telefono_fijo' => 'digits:7|numeric',
             'telefono_celular' => 'required|numeric|digits:8',
+            'fecha_nacimiento' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'ocupacion' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',

@@ -15,7 +15,7 @@
             <div class="card-header">
                 <i class="fa fa-table"></i> Registro de Solicitud de Adopcion</div>
             <div class="card-body">
-                <form class="form-horizontal" id="form_solicitud" method="POST" action="{{ url('/solicitud') }}">
+                <form class="form-horizontal" id="form_solicitud" method="POST" action="{{ url('/solicitud') }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <div class="form-row">
@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-md-2{{ $errors->has('infante_edad_desde') ? ' has-error' : '' }}">
                                 <label for="infante_edad_desde">Edad Desde</label>
-                                <input class="form-control" id="infante_edad_desde" type="text" name="infante_edad_desde" value="{{ old('infante_edad_desde') }}" aria-describedby="nameHelp" placeholder="Desde cuantos años">
+                                <input class="form-control text-right" id="infante_edad_desde" type="text" name="infante_edad_desde" value="{{ old('infante_edad_desde') }}" aria-describedby="nameHelp" placeholder="Desde cuantos años">
                                 @if ($errors->has('infante_edad_desde'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('infante_edad_desde') }}</strong>
@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-md-2{{ $errors->has('infante_edad_hasta') ? ' has-error' : '' }}">
                                 <label for="infante_edad_hasta">Edad Hasta</label>
-                                <input class="form-control" id="infante_edad_hasta" type="text" name="infante_edad_hasta" value="{{ old('infante_edad_hasta') }}" aria-describedby="nameHelp" placeholder="Hasta cuantos años">
+                                <input class="form-control text-right" id="infante_edad_hasta" type="text" name="infante_edad_hasta" value="{{ old('infante_edad_hasta') }}" aria-describedby="nameHelp" placeholder="Hasta cuantos años">
                                 @if ($errors->has('infante_edad_hasta'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('infante_edad_hasta') }}</strong>
@@ -56,83 +56,39 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-5"></div>
-                            <div class="{{ $errors->has('carta_solicitud') ? ' has-error' : '' }}">
+                    @foreach($DocumentsTypes as $item)
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-5"></div>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="carta_solicitud" name="carta_solicitud" @if(old('carta_solicitud') and old('carta_solicitud') == 'on') checked @endif>
-                                    <label class="custom-control-label" for="carta_solicitud">Carta Solicitud</label>
-                                    @if ($errors->has('carta_solicitud'))
-                                        <br><span class="help-block">
-                                            <strong>{{ $errors->first('carta_solicitud') }}</strong>
-                                        </span>
-                                    @endif
+                                    <input type="checkbox" class="custom-control-input" id="carta_solicitud" disabled>
+                                    <label class="custom-control-label" for="carta_solicitud">{{ $item }}</label>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-5"></div>
-                            <div class="{{ $errors->has('certificado_antecedentes') ? ' has-error' : '' }}">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="certificado_antecedentes" name="certificado_antecedentes" @if(old('certificado_antecedentes') and old('certificado_antecedentes') == 'on') checked @endif>
-                                    <label class="custom-control-label" for="certificado_antecedentes">Certificado de Antecedentes</label>
-                                    @if ($errors->has('certificado_antecedentes'))
-                                        <br><span class="help-block">
-                                            <strong>{{ $errors->first('certificado_antecedentes') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                            <div class="col-md-4{{ $errors->has('doc_type') ? ' has-error' : '' }}">
+                                <label for="doc_type">Documento</label>
+                                <select class="form-control" name="doc_type">
+                                    @while($item = current($DocumentsTypes))
+                                        <option value="{{key($DocumentsTypes)}}" @if(old('doc_type') == key($DocumentsTypes)) selected @endif>{{ $item }}</option>
+                                        <?php next($DocumentsTypes) ?>
+                                    @endwhile
+                                </select>
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-5"></div>
-                            <div class="{{ $errors->has('informe_antecedentes') ? ' has-error' : '' }}">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="informe_antecedentes" name="informe_antecedentes" @if(old('informe_antecedentes') and old('informe_antecedentes') == 'on') checked @endif>
-                                    <label class="custom-control-label" for="informe_antecedentes">Informe Antecedentes</label>
-                                    @if ($errors->has('informe_antecedentes'))
-                                        <br><span class="help-block">
-                                            <strong>{{ $errors->first('informe_antecedentes') }}</strong>
-                                        </span>
-                                    @endif
+                            <div class="col-md-8{{ $errors->has('doc_file') ? ' has-error' : '' }}">
+                                <label for="doc_file">Archivo</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="doc_file" name="doc_file" lang="es">
+                                    <label class="custom-file-label" for="doc_file">Seleccionar Archivo</label>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-5"></div>
-                            <div class="{{ $errors->has('verificacion_domiciliaria') ? ' has-error' : '' }}">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="verificacion_domiciliaria" name="verificacion_domiciliaria" @if(old('verificacion_domiciliaria') and old('verificacion_domiciliaria') == 'on') checked @endif>
-                                    <label class="custom-control-label" for="verificacion_domiciliaria">Verificacion Domiciliaria</label>
-                                    @if ($errors->has('verificacion_domiciliaria'))
-                                        <br><span class="help-block">
-                                            <strong>{{ $errors->first('verificacion_domiciliaria') }}</strong>
+                                @if ($errors->has('doc_file'))
+                                    <span class="help-block">
+                                            <strong>{{ $errors->first('doc_file') }}</strong>
                                         </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-5"></div>
-                            <div class="{{ $errors->has('certificado_estadocivil') ? ' has-error' : '' }}">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="certificado_estadocivil" name="certificado_estadocivil" @if(old('certificado_estadocivil') and old('certificado_estadocivil') == 'on') checked @endif>
-                                    <label class="custom-control-label" for="certificado_estadocivil">Certificado Estado Civil</label>
-                                    @if ($errors->has('certificado_estadocivil'))
-                                        <br><span class="help-block">
-                                            <strong>{{ $errors->first('certificado_estadocivil') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -145,27 +101,11 @@
                             </span>
                         @endif
                     </div>
-                    <input type="hidden" name="confirm" id="confirm" value="false">
-                    <div class="row">
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-primary btn-block">
-                                Registrar Solicitud
-                            </button>
-                        </div>
-                        <div class="col-6">
-                            <button type="submit" id="submit" class="btn btn-success btn-block" onClick="confirmSolicitud();">
-                                Registrar Y Confirmar Solicitud
-                            </button>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Registrar Solicitud
+                    </button>
                     {{--<a class="btn btn-primary btn-block" href="login.html">Register</a>--}}
                 </form>
-                <script>
-                    function confirmSolicitud() {
-                        $('#confirm').val(true);
-                        $('#form_solicitud').submit();
-                    }
-                </script>
             </div>
         </div>
     </div>

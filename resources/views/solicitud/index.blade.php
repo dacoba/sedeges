@@ -35,6 +35,7 @@
                     <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th>CI del Adoptante</th>
                             <th>Nombre del Adoptante</th>
                             <th>Estado</th>
                             <th>Fecha de la Solicitud</th>
@@ -43,6 +44,7 @@
                         </thead>
                         <tfoot>
                         <tr>
+                            <th>CI del Adoptante</th>
                             <th>Nombre del Adoptante</th>
                             <th>Estado</th>
                             <th>Fecha de la Solicitud</th>
@@ -52,6 +54,7 @@
                         <tbody>
                         @foreach($solicitudes as $solicitud)
                             <tr>
+                                <td class="text-right">{{ $solicitud['adoptante']['user']['ci'] }} <strong>{{ $solicitud['adoptante']['user']['ci_extencion'] }}</strong></td>
                                 <td>{{ $solicitud['adoptante']['user']['nombres'] }} {{ $solicitud['adoptante']['user']['apellido_paterno'] }} {{ $solicitud['adoptante']['user']['apellido_materno'] }}</td>
                                 <td>{{ $estados_solicitud[$solicitud['estado']] }}</td>
                                 <td class="text-right">{{ $solicitud['created_at']->diffForHumans() }} - ({{ $solicitud['created_at']->format('F d, Y') }})</td>
