@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Jenssegers\Date\Date;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,4 +27,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    function adoptante()
+    {
+        return $this->hasOne('App\Adoptante');
+    }
+    public function getFechaNacimientoAttribute($date)
+    {
+        return new Date($date);
+    }
 }

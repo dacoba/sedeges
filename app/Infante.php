@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Jenssegers\Date\Date;
 use Illuminate\Database\Eloquent\Model;
 
 class Infante extends Model
@@ -12,5 +13,13 @@ class Infante extends Model
     ];
     function centro(){
         return $this->belongsTo('App\Centro');
+    }
+    public function getFechaNacimientoAttribute($date)
+    {
+        return new Date($date);
+    }
+    public function getFechaIngresoAttribute($date)
+    {
+        return new Date($date);
     }
 }

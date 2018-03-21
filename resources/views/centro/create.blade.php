@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-8{{ $errors->has('nombre_centro') ? ' has-error' : '' }}">
-                                <label for="email">Nombre del Centro</label>
+                                <label for="nombre_centro">Nombre del Centro</label>
                                 <input class="form-control" id="nombre_centro" type="text" name="nombre_centro" value="{{ old('nombre_centro') }}" aria-describedby="emailHelp" placeholder="Ingrese el Nombre del Centro">
                                 @if ($errors->has('nombre_centro'))
                                     <span class="help-block">

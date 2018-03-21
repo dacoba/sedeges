@@ -35,33 +35,37 @@
                             <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">Registrar</a>
                         </li>
                     @else
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuarios" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Usuarios
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUsuarios">
-                                <a class="dropdown-item" href="{{ url('usuario') }}">Mostrar Usuarios</a>
-                                <a class="dropdown-item" href="{{ url('usuario/create') }}">Registrar Usuarios</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCentros" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Centros
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownCentros">
-                                <a class="dropdown-item" href="{{ url('centro') }}">Mostrar Centros</a>
-                                <a class="dropdown-item" href="{{ url('centro/create') }}">Registrar Centros</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownInfantes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Infantes
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownInfantes">
-                                <a class="dropdown-item" href="{{ url('infante') }}">Mostrar Infantes</a>
-                                <a class="dropdown-item" href="{{ url('infante/create') }}">Registrar Infantes</a>
-                            </div>
-                        </li>
+                        @if (Auth::user()->rol == 'Administrador')
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuarios" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Usuarios
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUsuarios">
+                                    <a class="dropdown-item" href="{{ url('usuario') }}">Mostrar Usuarios</a>
+                                    <a class="dropdown-item" href="{{ url('usuario/create') }}">Registrar Usuarios</a>
+                                </div>
+                            </li>
+                        @endif
+                        @if (in_array(Auth::user()->rol, array('Administrador', 'Trabajador Social')))
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCentros" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Centros
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownCentros">
+                                    <a class="dropdown-item" href="{{ url('centro') }}">Mostrar Centros</a>
+                                    <a class="dropdown-item" href="{{ url('centro/create') }}">Registrar Centros</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownInfantes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Infantes
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownInfantes">
+                                    <a class="dropdown-item" href="{{ url('infante') }}">Mostrar Infantes</a>
+                                    <a class="dropdown-item" href="{{ url('infante/create') }}">Registrar Infantes</a>
+                                </div>
+                            </li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdoptantes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Adoptantes
@@ -69,6 +73,15 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdoptantes">
                                 <a class="dropdown-item" href="{{ url('adoptante') }}">Mostrar Adoptantes</a>
                                 <a class="dropdown-item" href="{{ url('adoptante/create') }}">Registrar Adoptantes</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSolicitudes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Solicitudes de Adopcion
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSolicitudes">
+                                <a class="dropdown-item" href="{{ url('solicitud') }}">Mostrar Solicitudes de Adopcion</a>
+                                <a class="dropdown-item" href="{{ url('solicitud/create') }}">Registrar Solicitudes de Adopcion</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

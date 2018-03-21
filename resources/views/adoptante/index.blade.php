@@ -32,14 +32,14 @@
                 <i class="fa fa-table"></i> Adoptantes Registrados</div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>CI</th>
                             <th>Nombre</th>
                             <th>Ocupacion</th>
                             <th>Email</th>
-                            <th>Fecha Nacimiento</th>
+                            <th>Edad</th>
                             <th>Accion</th>
                         </tr>
                         </thead>
@@ -49,7 +49,7 @@
                             <th>Nombre</th>
                             <th>Ocupacion</th>
                             <th>Email</th>
-                            <th>Fecha Nacimiento</th>
+                            <th>Edad</th>
                             <th>Accion</th>
                         </tr>
                         </tfoot>
@@ -60,7 +60,9 @@
                                 <td>{{ $adoptante['user']['nombres'] }} {{ $adoptante['user']['apellido_paterno'] }} {{ $adoptante['user']['apellido_materno'] }}</td>
                                 <td>{{ $adoptante['ocupacion'] }}</td>
                                 <td>{{ $adoptante['user']['email'] }}</td>
-                                <td class="text-right">{{ $adoptante['user']['fecha_nacimiento'] }}</td>
+{{--                                <td class="text-right">{{ $adoptante['user']['fecha_nacimiento'] }}</td>--}}
+{{--                                <td class="text-right">{{ $adoptante['user']['fecha_nacimiento']->format('F d, Y') }}</td>--}}
+                                <td class="text-right">{{ $adoptante['user']['fecha_nacimiento']->diffInYears(now()) }} años.</td>
                                 <td class="text-center">
                                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
                                         <a href="{{ url('adoptante') }}/{{ $adoptante['id'] }}">

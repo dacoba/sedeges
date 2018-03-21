@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-4 mb-3">Usuarios
+        <h1 class="mt-4 mb-3">Infantes
             <small>Modificar</small>
         </h1>
         <ol class="breadcrumb">

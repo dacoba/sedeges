@@ -22,3 +22,9 @@ Route::resource('/usuario', 'UsuarioController');
 Route::resource('/centro', 'CentroController');
 Route::resource('/infante', 'InfanteController');
 Route::resource('/adoptante', 'AdoptanteController');
+Route::resource('/solicitud', 'SolicitudAdopcionController');
+Route::resource('/document', 'AdopcionDocumentController');
+
+Route::get('/document/download/{id}', 'AdopcionDocumentController@download');
+
+Route::get('adoptantes-json',array('as'=>'adoptantes.json','uses'=>'UsuarioController@user_adoptantes'));

@@ -32,12 +32,12 @@
                 <i class="fa fa-table"></i> Infantes Registrados</div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>Nombre</th>
+                            <th>Edad</th>
                             <th>Centro</th>
-                            <th>Fecha de nacimiento</th>
                             <th>Habilitado</th>
                             <th>Adoptado</th>
                             <th>Accion</th>
@@ -46,8 +46,8 @@
                         <tfoot>
                         <tr>
                             <th>Nombre</th>
+                            <th>Edad</th>
                             <th>Centro</th>
-                            <th>Fecha de nacimiento</th>
                             <th>Habilitado</th>
                             <th>Adoptado</th>
                             <th>Accion</th>
@@ -57,8 +57,8 @@
                         @foreach($infantes as $infante)
                             <tr>
                                 <td>{{ $infante['nombre'] }}</td>
+                                <td class="text-right">{{ $infante['fecha_nacimiento']->diffInYears(now()) }} años.</td>
                                 <td>{{ $infante['centro']['nombre_centro'] }}</td>
-                                <td class="text-right">{{ $infante['fecha_nacimiento'] }}</td>
                                 <td class="text-center">
                                     @if($infante['habilitado'])
                                         <i class="fa fa-check text-success"></i>

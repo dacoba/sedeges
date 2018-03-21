@@ -32,7 +32,7 @@
                 <i class="fa fa-table"></i> Centros Registrados</div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>Nombre del Centro</th>
@@ -54,7 +54,7 @@
                             <tr>
                                 <td>{{ $centro['nombre_centro'] }}</td>
                                 <td>{{ $centro['nombre_director'] }}</td>
-                                <td>{{ $centro['telefono'] }}</td>
+                                <td class="text-right">{{ $centro['telefono'] }}</td>
                                 <td class="text-center">
                                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
                                         <a href="{{ url('centro') }}/{{ $centro['id'] }}">

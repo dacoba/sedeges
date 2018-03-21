@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-4 mb-3">Centros
+        <h1 class="mt-4 mb-3">Infantes
             <small>Registrar</small>
         </h1>
         <ol class="breadcrumb">
@@ -105,7 +105,7 @@
 
                     <div class="form-group{{ $errors->has('descripcion') ? ' has-error' : '' }}">
                         <label for="descripcion">Descripcion del Infante</label>
-                        <input class="form-control" id="descripcion" type="text" name="descripcion" value="{{ old('descripcion') }}" aria-describedby="nameHelp" placeholder="Ingrese la Descripcion del Infante">
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese la Descripcion del Infante">{{ old('descripcion') }}</textarea>
                         @if ($errors->has('descripcion'))
                             <span class="help-block">
                             <strong>{{ $errors->first('descripcion') }}</strong>

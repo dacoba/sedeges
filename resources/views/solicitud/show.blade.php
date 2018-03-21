@@ -4,9 +4,8 @@
     <div class="container">
         <h1 class="mt-4 mb-3">Adoptantes
             <small>Mostrar</small>
-            <button class="btn btn-primary hidden-print pull-right" onclick="window.print()"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
         </h1>
-        <ol class="breadcrumb hidden-print">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ url('/') }}">Principal</a>
             </li>

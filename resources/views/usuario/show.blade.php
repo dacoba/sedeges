@@ -4,8 +4,9 @@
     <div class="container">
         <h1 class="mt-4 mb-3">Usuarios
             <small>Mostrar</small>
+            <button class="btn btn-primary hidden-print pull-right" onclick="window.print()"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb hidden-print">
             <li class="breadcrumb-item">
                 <a href="{{ url('/') }}">Principal</a>
             </li>
@@ -16,7 +17,8 @@
         </ol>
         <div class="card mb-5">
             <div class="card-header">
-                <i class="fa fa-table"></i> Datos del Usuario</div>
+                <i class="fa fa-table"></i> Datos del Usuario
+            </div>
             <div class="card-body">
                 <table class="table table-sm">
                     <thead>
@@ -43,8 +45,12 @@
                         <td>{{ $usuario['email'] }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Edad</th>
+                        <td>{{ $usuario['fecha_nacimiento']->diffInYears(now()) }} años.</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Fecha Nacimiento</th>
-                        <td>{{ $usuario['fecha_nacimiento'] }}</td>
+                        <td>{{ $usuario['fecha_nacimiento']->format('F d, Y') }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Genero</th>

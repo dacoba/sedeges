@@ -21,7 +21,7 @@ class CreateInfantesTable extends Migration
             $table->string('genero');
             $table->date('fecha_nacimiento');
             $table->date('fecha_ingreso');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->boolean('habilitado');
             $table->boolean('adoptado');
             $table->integer('centro_id')->unsigned();

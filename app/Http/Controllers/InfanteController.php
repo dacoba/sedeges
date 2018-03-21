@@ -22,7 +22,7 @@ class InfanteController extends Controller
             'nombre' => 'required|string|max:255',
             'fecha_nacimiento' => 'required',
             'fecha_ingreso' => 'required',
-            'descripcion' => 'required|string|max:255',
+            'descripcion' => 'required',
         ]);
     }
 
@@ -33,7 +33,7 @@ class InfanteController extends Controller
             'ci_extencion' => 'string',
             'centro_id' => 'required',
             'fecha_ingreso' => 'required',
-            'descripcion' => 'required|string|max:255',
+            'descripcion' => 'required',
         ]);
     }
 

@@ -120,4 +120,16 @@ class UsuarioController extends Controller
         $usuarios = User::whereNotIn('rol', array('Administrador', 'Adoptante'))->get();
         return view('usuario.index', ['usuarios' => $usuarios, 'message' => $message]);
     }
+
+    public function user_adoptantes(){
+        $products=User::select(
+            'id',
+            'ci',
+            'ci_extencion',
+            'nombres',
+            'apellido_paterno',
+            'apellido_materno'
+        )->where('rol', 'Adoptante')->get();
+        return response()->json($products);
+    }
 }
