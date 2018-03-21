@@ -12,8 +12,8 @@
     <link rel="icon" href="{{URL::asset('img/icon.ico')}}"/>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/full-slider.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('css/full-slider.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -115,8 +115,8 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ URL::asset('js/jquery.min.js') }}"></script>
+<script src="{{ URL::asset('js/bootstrap.bundle.min.js') }}"></script>
 
 </body>
 </html>
