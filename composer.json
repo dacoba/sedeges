@@ -50,7 +50,9 @@
             "@php artisan package:discover"
         ],
         "post-install-cmd": [
-            "chmod -R 755 bootstrap\/cache",
+            "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "php artisan optimize",
+            "chmod -R 777 bootstrap\/cache",
             "chmod -R 777 storage"
         ]
     },
