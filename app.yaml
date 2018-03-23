@@ -1,0 +1,30 @@
+runtime: php
+env: flex
+
+runtime_config:
+  document_root: public
+
+skip_files:
+  - .env
+
+env_variables:
+  APP_DEBUG: true
+  APP_LOG: errorlog
+  APP_KEY: base64:0cB0V7VqxC8SUxm2HtIVaRbnAVa3X2Q8W1Bb5xZHzFQ=
+  APP_NAME: Sedeges
+  STORAGE_DIR: /tmp
+  BROADCAST_DRIVER: log
+  CACHE_DRIVER: database
+  SESSION_DRIVER: database
+  SESSION_LIFETIME: 120
+  QUEUE_DRIVER: sync
+  DB_CONNECTION: mysql
+  DB_HOST: localhost
+  DB_PORT: 3306
+  DB_DATABASE: sedeges
+  DB_USERNAME: root
+  DB_PASSWORD: sedeges123
+  DB_SOCKET: "/cloudsql/sedeges-198820:us-east1:db-sedeges"
+
+beta_settings:
+  cloud_sql_instances: "sedeges-198820:us-east1:db-sedeges"
