@@ -50,8 +50,8 @@
             "@php artisan package:discover"
         ],
         "post-install-cmd": [
-            "chmod -R 777 bootstrap\\\/cache",
-            "chmod -R 777 storage\\\/framework"
+            "chmod -R 777 bootstrap\\cache",
+            "chmod -R 777 storage"
         ]
     },
     "config": {
