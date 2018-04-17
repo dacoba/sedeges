@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="card card-login mx-auto mt-5">
-        <div class="card-header">Login</div>
+        <div class="card-header">Iniciar Sesion</div>
         <div class="card-body">
             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
@@ -27,7 +27,7 @@
                 </div>
                 {{--<a class="btn btn-primary btn-block" href="index.html">Login</a>--}}
                 <button type="submit" class="btn btn-primary btn-block">
-                    Login
+                    Iniciar Sesion
                 </button>
             </form>
         </div>

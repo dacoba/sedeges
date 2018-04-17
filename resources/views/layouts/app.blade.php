@@ -19,6 +19,8 @@
     <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/modern-business.css') }}" rel="stylesheet">
     <link href="{{ asset('typehead/examples.css') }}" rel="stylesheet">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="{{ asset('css/sedeges.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -33,9 +35,6 @@
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Iniciar Sesion</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">Registrar</a>
                             </li>
                         @else
                             @if (Auth::user()->rol == 'Administrador')
@@ -75,7 +74,9 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdoptantes">
                                     <a class="dropdown-item" href="{{ url('adoptante') }}">Mostrar Adoptantes</a>
-                                    <a class="dropdown-item" href="{{ url('adoptante/create') }}">Registrar Adoptantes</a>
+                                    @if (in_array(Auth::user()->rol, array('Administrador', 'Secretaria')))
+                                        <a class="dropdown-item" href="{{ url('adoptante/create') }}">Registrar Adoptantes</a>
+                                    @endif
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -84,12 +85,14 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSolicitudes">
                                     <a class="dropdown-item" href="{{ url('solicitud') }}">Mostrar Solicitudes de Adopcion</a>
-                                    <a class="dropdown-item" href="{{ url('solicitud/create') }}">Registrar Solicitudes de Adopcion</a>
+                                    @if (in_array(Auth::user()->rol, array('Administrador', 'Secretaria')))
+                                        <a class="dropdown-item" href="{{ url('solicitud/create') }}">Registrar Solicitudes de Adopcion</a>
+                                    @endif
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLogout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ Auth::user()->nombres }}
+                                    {{ Auth::user()->rol }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownLogout">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -150,6 +153,7 @@
     </script>
 {{--    <script src="{{ asset('js/jquery.min.js') }}"></script>--}}
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="{{ asset('js/jquery.dataTables.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -171,5 +175,6 @@
             }
         });
     </script>
+
 </body>
 </html>

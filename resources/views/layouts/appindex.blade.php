@@ -31,9 +31,6 @@
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Iniciar Sesion</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">Registrar</a>
-                        </li>
                     @else
                         @if (Auth::user()->rol == 'Administrador')
                             <li class="nav-item dropdown">
@@ -72,7 +69,9 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdoptantes">
                                 <a class="dropdown-item" href="{{ url('adoptante') }}">Mostrar Adoptantes</a>
-                                <a class="dropdown-item" href="{{ url('adoptante/create') }}">Registrar Adoptantes</a>
+                                @if (in_array(Auth::user()->rol, array('Administrador', 'Secretaria')))
+                                    <a class="dropdown-item" href="{{ url('adoptante/create') }}">Registrar Adoptantes</a>
+                                @endif
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -81,12 +80,14 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSolicitudes">
                                 <a class="dropdown-item" href="{{ url('solicitud') }}">Mostrar Solicitudes de Adopcion</a>
-                                <a class="dropdown-item" href="{{ url('solicitud/create') }}">Registrar Solicitudes de Adopcion</a>
+                                @if (in_array(Auth::user()->rol, array('Administrador', 'Secretaria')))
+                                    <a class="dropdown-item" href="{{ url('solicitud/create') }}">Registrar Solicitudes de Adopcion</a>
+                                @endif
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLogout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->nombres }}
+                                {{ Auth::user()->rol }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownLogout">
                                 <a class="dropdown-item" href="{{ route('logout') }}"

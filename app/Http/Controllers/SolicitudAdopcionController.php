@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use App\SolicitudAdopcion;
 use App\AdopcionDocument;
+use App\ValoracionDoctor;
+use App\ValoracionPsicologo;
+use App\ValoracionTrabajoSocial;
 use App\Adoptante;
 use Illuminate\Http\Request;
 use Validator;
@@ -21,11 +24,22 @@ class SolicitudAdopcionController extends Controller
     protected function getDocumentsTypes()
     {
         return array(
-            1 => "Carta Solicitud",
-            2 => "Certificado de Antecedentes",
-            3 => "Informe Antecedentes",
-            4 => "Verificacion Domiciliaria",
-            5 => "Certificado Estado Civil"
+            "requisitos" => array(
+                1 => "Carta Solicitud",
+                2 => "Certificado de Antecedentes",
+                3 => "Informe Antecedentes",
+                4 => "Verificacion Domiciliaria",
+                5 => "Certificado Estado Civil"
+            ),
+            "valoraciones" => array(
+                101 => "Informe Social",
+                102 => "Informe Psicologico",
+                103 => "Certificado Medico"
+            ),
+            "otros" => array(
+                201 => "Certificado de Idoneidad",
+                202 => "Taller de Preparacion"
+            )
         );
     }
 
@@ -42,10 +56,14 @@ class SolicitudAdopcionController extends Controller
     protected function getEstadosToText()
     {
         return array(
-            0 => "Registro",
-            1 => "Requisitos",
-            2 => "Trabajo Social",
-            101 => "Requisitos Rechazado"
+            0 => "Requisitos",
+            1 => "Verificacion de Requisitos",
+            2 => "Valoracion",
+            3 => "Revision de Documentos",
+            4 => "Area Juridica",
+            5 => "En Representacion",
+            101 => "Requisitos Rechazado",
+            102 => "Documentos Rechazado"
         );
     }
 
@@ -54,8 +72,12 @@ class SolicitudAdopcionController extends Controller
         if (Auth::user()->rol == "Secretaria"){
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->where('estado', 0)->get();
         }elseif (Auth::user()->rol == "Coordinador"){
-            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(1))->get();
+            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(0, 1, 2, 3, 4))->get();
         }elseif (Auth::user()->rol == "Trabajador Social"){
+            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2, 3))->get();
+        }elseif (Auth::user()->rol == "Psicologo"){
+            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2))->get();
+        }elseif (Auth::user()->rol == "Doctor"){
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2))->get();
         }else{
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->get();
@@ -86,6 +108,30 @@ class SolicitudAdopcionController extends Controller
         ]);
     }
 
+    protected function saveDocument($doc_file, $id)
+    {
+        if(Input::hasfile('doc_file')){
+            $file = Input::file('doc_file');
+            AdopcionDocument::create([
+                'type' => $doc_file,
+                'name' => $file->getClientOriginalName(),
+                'size' => $file->getClientSize(),
+                'mime' => $file->getClientMimeType(),
+                'file' => base64_encode(file_get_contents($file->getRealPath())),
+                'solicitud_id' => $id,
+            ]);
+        }
+    }
+
+    protected function ValoracionisDone($id)
+    {
+        $solicitud = SolicitudAdopcion::find($id);
+        if(is_null($solicitud['valoracion_trabajador_social_id']) or $solicitud['valoracion_trabajador_social']['estado'] == 0){return false;}
+        if(is_null($solicitud['valoracion_psicologo_id']) or $solicitud['valoracion_psicologo']['estado'] == 0){return false;}
+        if(is_null($solicitud['valoracion_doctor_id']) or $solicitud['valoracion_doctor']['estado'] == 0){return false;}
+        return true;
+    }
+
     public function index()
     {
         $estados_solicitud = $this->getEstadosToText();
@@ -96,7 +142,7 @@ class SolicitudAdopcionController extends Controller
     public function create()
     {
         $DocumentsTypes = $this->getDocumentsTypes();
-        return view('solicitud.create', ['DocumentsTypes' => $DocumentsTypes]);
+        return view('solicitud.create', ['DocumentsTypes' => $DocumentsTypes['requisitos']]);
     }
 
     public function store(Request $request)
@@ -120,7 +166,6 @@ class SolicitudAdopcionController extends Controller
             ]);
         }
         if(Input::hasfile('doc_file')) {
-            echo "1";
             $solicitud = SolicitudAdopcion::create([
                 'infante_genero' => $request['infante_genero'],
                 'infante_edad_desde' => $request['infante_edad_desde'],
@@ -129,7 +174,6 @@ class SolicitudAdopcionController extends Controller
                 'estado' => 0,
                 'observacion_registro' => $request['observacion_registro'],
             ]);
-            echo "2";
             $file = Input::file('doc_file');
             AdopcionDocument::create([
                 'type' => $request['doc_type'],
@@ -139,11 +183,7 @@ class SolicitudAdopcionController extends Controller
                 'file' => base64_encode(file_get_contents($file->getRealPath())),
                 'solicitud_id' => $solicitud['id'],
             ]);
-            echo "3";
         }
-
-//        $message['success'] = True;
-//        $message['success_message'] = 'Solicitud de Adopcion Registrado Exitosamente';
         $DocumentsTypes = $this->getDocumentsTypes();
         $DocumentsTypesStored = $this->getDocumentsTypesStored($solicitud['id']);
         $documents = AdopcionDocument::select('id', 'name', 'type', 'mime')->where('solicitud_id', $solicitud['id'])->get();
@@ -165,20 +205,35 @@ class SolicitudAdopcionController extends Controller
         $solicitud = SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->find($id);
         $DocumentsTypes = $this->getDocumentsTypes();
         $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
+        $estados_solicitud = $this->getEstadosToText();
         $documents = AdopcionDocument::select('id', 'name', 'type', 'mime')->where('solicitud_id', $id)->get();
-        if($solicitud['estado'] == 0 and in_array(Auth::user()->rol , array("Secretaria", "Administrador"))){
+        if($solicitud['estado'] == 0 and in_array(Auth::user()->rol , array("Secretaria", "Administrador"))) {
             return view('solicitud.edit', [
                 'solicitud' => $solicitud,
                 'DocumentsTypes' => $DocumentsTypes,
                 'DocumentsTypesStored' => $DocumentsTypesStored,
-                'documents' => $documents
+                'documents' => $documents,
+                'estados_solicitud' => $estados_solicitud
+            ]);
+        }elseif ($solicitud['estado'] == 1 and in_array(Auth::user()->rol , array("Coordinador", "Administrador"))) {
+            $equipo['trabajador_socials'] = User::where('rol', 'Trabajador Social')->get();
+            $equipo['psicologos'] = User::where('rol', 'Psicologo')->get();
+            $equipo['doctors'] = User::where('rol', 'Doctor')->get();
+            return view('solicitud.edit', [
+                'solicitud' => $solicitud,
+                'DocumentsTypes' => $DocumentsTypes,
+                'DocumentsTypesStored' => $DocumentsTypesStored,
+                'documents' => $documents,
+                'estados_solicitud' => $estados_solicitud,
+                'equipo' => $equipo
             ]);
         }
         return view('solicitud.edit', [
             'solicitud' => $solicitud,
             'DocumentsTypes' => $DocumentsTypes,
             'DocumentsTypesStored' => $DocumentsTypesStored,
-            'documents' => $documents
+            'documents' => $documents,
+            'estados_solicitud' => $estados_solicitud
         ]);
     }
 
@@ -187,14 +242,14 @@ class SolicitudAdopcionController extends Controller
         $DocumentsTypes = $this->getDocumentsTypes();
         $estados_solicitud = $this->getEstadosToText();
         $solicitud = SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->find($id);
-        if($solicitud['estado'] == 0 and in_array(Auth::user()->rol , array("Secretaria", "Administrador"))){
+        if ($solicitud['estado'] == 0 and in_array(Auth::user()->rol, array("Secretaria", "Administrador"))) {
 
             $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
-            if(count($DocumentsTypes) == count($DocumentsTypesStored)){
+            if (count($DocumentsTypes['requisitos']) == count($DocumentsTypesStored)) {
                 $solicitud['estado'] = 1;
             }
 
-            if(Input::hasfile('doc_file')){
+            if (Input::hasfile('doc_file')) {
                 $this->validatorDocument($request->all())->validate();
                 $file = Input::file('doc_file');
                 AdopcionDocument::create([
@@ -223,28 +278,155 @@ class SolicitudAdopcionController extends Controller
                     'message' => $message
                 ]);
             }
-        }elseif ($solicitud['estado'] == 1 and in_array(Auth::user()->rol , array("Coordinador", "Administrador"))){
+        } elseif ($solicitud['estado'] == 1 and in_array(Auth::user()->rol, array("Coordinador", "Administrador"))) {
             if (isset($request['verificacion_requisitos'])) {
                 $verificacion_requisitos = $request['verificacion_requisitos'] == 'true' ? True : False;
-                if($verificacion_requisitos){
+                if ($verificacion_requisitos) {
                     $solicitud['estado'] = 2;
                     $message['success'] = True;
                     $message['success_message'] = 'Solicitud de Adopcion Confirmada Exitosamente';
-                }else{
+                    SolicitudAdopcion::where('id', $id)
+                        ->update([
+                            'estado' => $solicitud['estado'],
+                            'observacion_requisitos' => $request['observacion_requisitos'],
+                            'trabajador_social_id' => $request['trabajador_social_id'],
+                            'psicologo_id' => $request['psicologo_id'],
+                            'doctor_id' => $request['doctor_id']
+                        ]);
+                } else {
                     $this->validatorVerificacionRequisitos($request->all())->validate();
                     $solicitud['estado'] = 101;
                     $message['error'] = True;
                     $message['error_message'] = 'La Solicitud de Adopcion ha sido Rechazada';
+                    SolicitudAdopcion::where('id', $id)
+                        ->update([
+                            'estado' => $solicitud['estado'],
+                            'observacion_requisitos' => $request['observacion_requisitos']
+                        ]);
                 }
             }
-            SolicitudAdopcion::where('id', $id)
-                ->update([
-                    'estado' => $solicitud['estado'],
-                    'observacion_requisitos' => $request['observacion_requisitos'],
-                    'verificacion_requisitos' => $verificacion_requisitos,
-                ]);
             $solicitudes = $this->getSolicitudes();
             return view('solicitud.index', ['solicitudes' => $solicitudes, 'estados_solicitud' => $estados_solicitud, 'message' => $message]);
+        } elseif ($solicitud['estado'] == 2 and in_array(Auth::user()->rol, array("Trabajador Social", "Psicologo", "Doctor"))) {
+            if (isset($request['fecha_valoracion'])) {
+                if (Auth::user()->rol == "Trabajador Social") {
+                    $Valoracion = ValoracionTrabajoSocial::create([
+                        'fecha_valoracion' => $request['fecha_valoracion'],
+                        'estado' => 0
+                    ]);
+                    SolicitudAdopcion::where('id', $id)
+                        ->update([
+                            'valoracion_trabajador_social_id' => $Valoracion['id'],
+                        ]);
+                } elseif (Auth::user()->rol == "Psicologo") {
+                    $Valoracion = ValoracionPsicologo::create([
+                        'fecha_valoracion' => $request['fecha_valoracion'],
+                        'estado' => 0
+                    ]);
+                    SolicitudAdopcion::where('id', $id)
+                        ->update([
+                            'valoracion_psicologo_id' => $Valoracion['id'],
+                        ]);
+                } elseif (Auth::user()->rol == "Doctor") {
+                    $Valoracion = ValoracionDoctor::create([
+                        'fecha_valoracion' => $request['fecha_valoracion'],
+                        'estado' => 0
+                    ]);
+                    SolicitudAdopcion::where('id', $id)
+                        ->update([
+                            'valoracion_doctor_id' => $Valoracion['id'],
+                        ]);
+                }
+                $message['success'] = True;
+                $message['success_message'] = 'Fecha programada para la valoracion';
+                $solicitudes = $this->getSolicitudes();
+                return view('solicitud.index', [
+                    'solicitudes' => $solicitudes,
+                    'estados_solicitud' => $estados_solicitud,
+                    'message' => $message
+                ]);
+            } else {
+                if (Auth::user()->rol == "Trabajador Social") {
+                    Validator::make($request->all(), [
+                        'observacion_trabajador_social' => 'required',
+                        'doc_file' => 'required'
+                    ])->validate();
+                    $this->saveDocument($request['doc_type'], $id);
+                    ValoracionTrabajoSocial::where('id', $solicitud['valoracion_trabajador_social_id'])
+                        ->update([
+                            'condiciones_vivienda' => $request['condiciones_vivienda'] == 'on' ? True : False,
+                            'estructura_familiar' => $request['estructura_familiar'] == 'on' ? True : False,
+                            'situacion_actual' => $request['situacion_actual'] == 'on' ? True : False,
+                            'observacion_trabajador_social' => $request['observacion_trabajador_social'],
+                            'estado' => 1
+                        ]);
+                } elseif (Auth::user()->rol == "Psicologo") {
+                    Validator::make($request->all(), [
+                        'observacion_psicologo' => 'required',
+                        'doc_file' => 'required'
+                    ])->validate();
+                    $this->saveDocument($request['doc_type'], $id);
+                    ValoracionPsicologo::where('id', $solicitud['valoracion_psicologo_id'])
+                        ->update([
+                            'evaluacion_psicologica' => $request['evaluacion_psicologica'] == 'on' ? True : False,
+                            'dinamica_familiar' => $request['dinamica_familiar'] == 'on' ? True : False,
+                            'motivacion_adopcion' => $request['motivacion_adopcion'] == 'on' ? True : False,
+                            'observacion_psicologo' => $request['observacion_psicologo'],
+                            'estado' => 1
+                        ]);
+                } elseif (Auth::user()->rol == "Doctor") {
+                    Validator::make($request->all(), [
+                        'observacion_doctor' => 'required',
+                        'doc_file' => 'required'
+                    ])->validate();
+                    $this->saveDocument($request['doc_type'], $id);
+                    ValoracionDoctor::where('id', $solicitud['valoracion_doctor_id'])
+                        ->update([
+                            'condicion_medica' => $request['condicion_medica'] == 'on' ? True : False,
+                            'observacion_doctor' => $request['observacion_doctor'],
+                            'estado' => 1
+                        ]);
+                }
+                if ($this->ValoracionisDone($id)) {
+                    SolicitudAdopcion::where('id', $id)->update(['estado' => 3]);
+                }
+            }
+        } elseif ($solicitud['estado'] == 3 and in_array(Auth::user()->rol, array("Coordinador", "Trabajador Social"))) {
+            if (Auth::user()->rol == "Trabajador Social") {
+                Validator::make($request->all(), [
+                    'doc_file' => 'required',
+                ])->validate();
+                $this->saveDocument($request['doc_type'], $id);
+            } elseif (Auth::user()->rol == "Coordinador") {
+                $DocumentsStored = $this->getDocumentsTypesStored($id);
+                if (in_array(202, $DocumentsStored)) {
+                    Validator::make($request->all(), [
+                        'doc_file' => 'required',
+                        'observacion_documentos' => 'required'
+                    ])->validate();
+                    $this->saveDocument($request['doc_type'], $id);
+                    SolicitudAdopcion::where('id', $id)
+                        ->update([
+                            'estado' => 4,
+                            'observacion_documentos' => $request['observacion_documentos']
+                        ]);
+                }
+            }
+        }elseif($solicitud['estado'] == 4 and in_array(Auth::user()->rol , array("Abogado"))){
+            Validator::make($request->all(), [
+                'observacion_representacion' => 'required'
+            ])->validate();
+            SolicitudAdopcion::where('id', $id)
+                ->update([
+                    'estado' => 5,
+                    'observacion_representacion' => $request['observacion_representacion']
+                ]);
+        }elseif(in_array(Auth::user()->rol , array("Abogado"))) {
+            SolicitudAdopcion::where('id', $id)
+                ->update([
+                    'observacion_demanda' => $request['observacion_demanda'],
+                    'demanda_adopcion' => true,
+                ]);
         }
         $solicitud = SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->find($id);
         $documents = AdopcionDocument::select('id', 'name', 'type', 'mime')->where('solicitud_id', $id)->get();
@@ -253,7 +435,8 @@ class SolicitudAdopcionController extends Controller
             'solicitud' => $solicitud,
             'DocumentsTypes' => $DocumentsTypes,
             'DocumentsTypesStored' => $DocumentsTypesStored,
-            'documents' => $documents
+            'documents' => $documents,
+            'estados_solicitud' => $estados_solicitud
         ]);
     }
 

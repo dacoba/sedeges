@@ -1,0 +1,12 @@
+.toggle-handle{
+    background: white;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+.breadcrumb{
+    padding: .1rem 1rem;
+}
+.card-header{
+    padding: .5rem 1.25rem;
+}
