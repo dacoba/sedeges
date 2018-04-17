@@ -20,6 +20,15 @@ class SolicitudAdopcion extends Model
     function adoptante(){
         return $this->belongsTo('App\Adoptante');
     }
+    function trabajador_social(){
+        return $this->belongsTo('App\User');
+    }
+    function psicologo(){
+        return $this->belongsTo('App\User');
+    }
+    function doctor(){
+        return $this->belongsTo('App\User');
+    }
     function valoracion_trabajador_social(){
         return $this->belongsTo('App\ValoracionTrabajoSocial');
     }

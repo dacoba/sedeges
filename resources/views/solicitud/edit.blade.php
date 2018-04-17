@@ -74,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    @if (in_array($solicitud['estado'], array(0))  and in_array(Auth::user()->rol, array('Coordinador', 'Secretaria')))
+                    @if (in_array($solicitud['estado'], array(0, 1))  and in_array(Auth::user()->rol, array('Coordinador', 'Secretaria')))
                         @foreach($DocumentsTypes['requisitos'] as $item)
                             <div class="form-group">
                                 <div class="form-row">
@@ -87,92 +87,199 @@
                             </div>
                         @endforeach
                     @endif
-                    @if(!is_null($solicitud['valoracion_trabajador_social_id']) and in_array(Auth::user()->rol, array('Administrador', 'Coordinador', 'Trabajador Social')))
-                        @if($solicitud['valoracion_trabajador_social']['estado'] == 1)
-                            <h3 class="text-center">Resultados de la Valoracion Social</h3>
-                            <div class="row">
-                                <div class="col-md-6 offset-md-3">
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
-                                        <span class="col-sm-auto">{{ $solicitud['valoracion_trabajador_social']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Condiciones de Vivienda:</span>
-                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_trabajador_social']['condiciones_vivienda'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_trabajador_social']['condiciones_vivienda'] == true ? "Favorable" : "Desfavorable" }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Estructura Familiar:</span>
-                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_trabajador_social']['estructura_familiar'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_trabajador_social']['estructura_familiar'] == true ? "Favorable" : "Desfavorable" }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Situacion Actual:</span>
-                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_trabajador_social']['situacion_actual'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_trabajador_social']['situacion_actual'] == true ? "Favorable" : "Desfavorable" }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-12 font-weight-bold">Observacion:</span>
-                                        <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_trabajador_social']['observacion_trabajador_social'] }}</p>
+                    @if (!in_array($solicitud['estado'], array(0, 1)))
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Valoracion</th>
+                                    <th>Responable</th>
+                                    <th class="text-center">Fecha de la Valoracion</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Accion</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Valoracion Social</td>
+                                        <td>{{ $solicitud['trabajador_social']['nombres'] }} {{ $solicitud['trabajador_social']['apellido_paterno'] }} {{ $solicitud['trabajador_social']['apellido_materno'] }}</td>
+                                        @if(is_null($solicitud['valoracion_trabajador_social_id']))
+                                            <td class="text-center">Sin Fecha Asignada</td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-center">-</td>
+                                        @else
+                                            <td class="text-center">{{ $solicitud['valoracion_trabajador_social']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</td>
+                                            <td class="text-center">{{ $solicitud['valoracion_trabajador_social']['estado'] ? "Valorado" : "Por Valorar" }}</td>
+                                            <td class="text-center">
+                                                @if($solicitud['valoracion_trabajador_social']['estado'] == 1)
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
+                                                        <i class="fa fa-commenting-o text-primary" data-toggle="modal" data-target="#modalTrabajoSocial"></i>
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        <td>Valoracion Psicologica</td>
+                                        <td>{{ $solicitud['psicologo']['nombres'] }} {{ $solicitud['psicologo']['apellido_paterno'] }} {{ $solicitud['psicologo']['apellido_materno'] }}</td>
+                                        @if(is_null($solicitud['valoracion_psicologo_id']))
+                                            <td class="text-center">Sin Fecha Asignada</td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-center">-</td>
+                                        @else
+                                            <td class="text-center">{{ $solicitud['valoracion_psicologo']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</td>
+                                            <td class="text-center">{{ $solicitud['valoracion_psicologo']['estado'] ? "Valorado" : "Por Valorar" }}</td>
+                                            <td class="text-center">
+                                                @if($solicitud['valoracion_psicologo']['estado'] == 1)
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
+                                                        <i class="fa fa-commenting-o text-primary" data-toggle="modal" data-target="#modalPsicologo"></i>
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        <td>Valoracion Medica</td>
+                                        <td>{{ $solicitud['doctor']['nombres'] }} {{ $solicitud['doctor']['apellido_paterno'] }} {{ $solicitud['doctor']['apellido_materno'] }}</td>
+                                        @if(is_null($solicitud['valoracion_doctor_id']))
+                                            <td class="text-center">Sin Fecha Asignada</td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-center">-</td>
+                                        @else
+                                            <td class="text-center">{{ $solicitud['valoracion_doctor']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</td>
+                                            <td class="text-center">{{ $solicitud['valoracion_doctor']['estado'] ? "Valorado" : "Por Valorar" }}</td>
+                                            <td class="text-center">
+                                                @if($solicitud['valoracion_doctor']['estado'] == 1)
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
+                                                        <i class="fa fa-commenting-o text-primary" data-toggle="modal" data-target="#modalDoctor"></i>
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        @endif
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        @if(!is_null($solicitud['valoracion_trabajador_social_id']) and $solicitud['valoracion_trabajador_social']['estado'] == 1)
+                            <div class="modal fade" id="modalTrabajoSocial" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Valoracion Social</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-10 offset-md-1">
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
+                                                        <span class="col-sm-auto">{{ $solicitud['valoracion_trabajador_social']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Condiciones de Vivienda:</span>
+                                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_trabajador_social']['condiciones_vivienda'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_trabajador_social']['condiciones_vivienda'] == true ? "Favorable" : "Desfavorable" }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Estructura Familiar:</span>
+                                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_trabajador_social']['estructura_familiar'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_trabajador_social']['estructura_familiar'] == true ? "Favorable" : "Desfavorable" }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Situacion Actual:</span>
+                                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_trabajador_social']['situacion_actual'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_trabajador_social']['situacion_actual'] == true ? "Favorable" : "Desfavorable" }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-12 font-weight-bold">Observacion:</span>
+                                                        <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_trabajador_social']['observacion_trabajador_social'] }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        @elseif($solicitud['valoracion_trabajador_social']['fecha_valoracion'] > date('Y-m-d h:m:s'))
-                            <h3 class="text-center">Valoracion Social Programada en Fecha</h3>
-                            <h5 class="text-center">{{ $solicitud['valoracion_trabajador_social']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</h5>
                         @endif
-                    @endif
-                    @if(!is_null($solicitud['valoracion_psicologo_id']) and in_array(Auth::user()->rol, array('Administrador', 'Coordinador', 'Psicologo')))
-                        @if($solicitud['valoracion_psicologo']['estado'] == 1)
-                            <h3 class="text-center">Resultados de la Valoracion Psicologica</h3>
-                            <div class="row">
-                                <div class="col-md-6 offset-md-3">
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
-                                        <span class="col-sm-auto">{{ $solicitud['valoracion_psicologo']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Evaluacion Psicologica:</span>
-                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['evaluacion_psicologica'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['evaluacion_psicologica'] == true ? "Favorable" : "Desfavorable" }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Dinamica Familiar:</span>
-                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['dinamica_familiar'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['dinamica_familiar'] == true ? "Favorable" : "Desfavorable" }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Motivacion para Adopcion:</span>
-                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['motivacion_adopcion'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['motivacion_adopcion'] == true ? "Favorable" : "Desfavorable" }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-12 font-weight-bold">Observacion:</span>
-                                        <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_psicologo']['observacion_psicologo'] }}</p>
+                        @if(!is_null($solicitud['valoracion_psicologo_id']) and $solicitud['valoracion_psicologo']['estado'] == 1)
+                            <div class="modal fade" id="modalPsicologo" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Valoracion Psicologica</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-10 offset-md-1">
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
+                                                        <span class="col-sm-auto">{{ $solicitud['valoracion_psicologo']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Evaluacion Psicologica:</span>
+                                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['evaluacion_psicologica'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['evaluacion_psicologica'] == true ? "Favorable" : "Desfavorable" }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Dinamica Familiar:</span>
+                                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['dinamica_familiar'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['dinamica_familiar'] == true ? "Favorable" : "Desfavorable" }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Motivacion para Adopcion:</span>
+                                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['motivacion_adopcion'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['motivacion_adopcion'] == true ? "Favorable" : "Desfavorable" }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-12 font-weight-bold">Observacion:</span>
+                                                        <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_psicologo']['observacion_psicologo'] }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        @elseif($solicitud['valoracion_psicologo']['fecha_valoracion'] > date('Y-m-d h:m:s'))
-                            <h3 class="text-center">Valoracion Psicologica Programada en Fecha</h3>
-                            <h5 class="text-center">{{ $solicitud['valoracion_psicologo']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</h5>
                         @endif
-                    @endif
-                    @if(!is_null($solicitud['valoracion_doctor_id']) and in_array(Auth::user()->rol, array('Administrador', 'Coordinador', 'Doctor')))
-                        @if($solicitud['valoracion_doctor']['estado'] == 1)
-                            <h3 class="text-center">Resultados de la Valoracion Medica</h3>
-                            <div class="row">
-                                <div class="col-md-6 offset-md-3">
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
-                                        <span class="col-sm-auto">{{ $solicitud['valoracion_doctor']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-auto font-weight-bold">Condicion Medica:</span>
-                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_doctor']['condicion_medica'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_doctor']['condicion_medica'] == true ? "Favorable" : "Desfavorable" }}</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-sm-12 font-weight-bold">Observacion:</span>
-                                        <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_doctor']['observacion_doctor'] }}</p>
+                        @if(!is_null($solicitud['valoracion_doctor_id']) and $solicitud['valoracion_doctor']['estado'] == 1)
+                            <div class="modal fade" id="modalDoctor" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Valoracion Medica</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-10 offset-md-1">
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
+                                                        <span class="col-sm-auto">{{ $solicitud['valoracion_doctor']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-auto font-weight-bold">Condicion Medica:</span>
+                                                        <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_doctor']['condicion_medica'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_doctor']['condicion_medica'] == true ? "Favorable" : "Desfavorable" }}</span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-sm-12 font-weight-bold">Observacion:</span>
+                                                        <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_doctor']['observacion_doctor'] }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        @elseif($solicitud['valoracion_doctor']['fecha_valoracion'] > date('Y-m-d h:m:s'))
-                            <h3 class="text-center">Valoracion Medica Programada en Fecha</h3>
-                            <h5 class="text-center">{{ $solicitud['valoracion_doctor']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</h5>
                         @endif
                     @endif
                     @if (in_array($solicitud['estado'], array(2)) and in_array(Auth::user()->rol, array('Trabajador Social', 'Psicologo', 'Doctor')))
@@ -385,28 +492,30 @@
                     @endif
                     @if (in_array($solicitud['estado'], array(3)) and in_array(Auth::user()->rol, array('Coordinador')) and $solicitud['demanda_adopcion'])
                         @if (in_array(202, $DocumentsTypesStored))
-                            <div class="form-group mt-2{{ $errors->has('doc_file') ? ' mb-0' : '' }}">
-                                <div class="form-row">
-                                    <div class="col-md-4">
-                                        <label for="doc_type">Documento</label>
-                                        <select class="form-control" name="doc_type" readonly>
-                                            <option value="201">Certificado de Idoneidad</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-8{{ $errors->has('doc_file') ? ' has-error' : '' }}">
-                                        <label for="doc_file">Archivo</label>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input cursor-pointer" id="doc_file" name="doc_file" lang="es">
-                                            <label class="custom-file-label" for="doc_file">Seleccionar Archivo</label>
+                            @if (!in_array(201, $DocumentsTypesStored))
+                                <div class="form-group mt-2{{ $errors->has('doc_file') ? ' mb-0' : '' }}">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <label for="doc_type">Documento</label>
+                                            <select class="form-control" name="doc_type" readonly>
+                                                <option value="201">Certificado de Idoneidad</option>
+                                            </select>
                                         </div>
-                                        @if ($errors->has('doc_file'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('doc_file') }}</strong>
-                                            </span>
-                                        @endif
+                                        <div class="col-md-8{{ $errors->has('doc_file') ? ' has-error' : '' }}">
+                                            <label for="doc_file">Archivo</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input cursor-pointer" id="doc_file" name="doc_file" lang="es">
+                                                <label class="custom-file-label" for="doc_file">Seleccionar Archivo</label>
+                                            </div>
+                                            @if ($errors->has('doc_file'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('doc_file') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                             <div class="form-group{{ $errors->has('observacion_documentos') ? ' has-error' : '' }}">
                                 <label for="observacion_documentos">Observacion</label>
                                 <textarea class="form-control" id="observacion_documentos" name="observacion_documentos" rows="3" placeholder="Observaciones de la Revision de Documentos.">@if(old('observacion_documentos')) {{ old('observacion_documentos') }} @else{{ $solicitud['observacion_documentos'] }}@endif</textarea>
@@ -455,25 +564,39 @@
                         <div class="mt-3">
                             <h6>Documentos de la Solicitud
                                 <span class="pull-right">
-                                    <small>Acciones</small>
+                                    Acciones
                                 </span>
                             </h6>
-                            <ul class="list-group list-group-flush">
-                                @foreach($DocumentsTypes as $DocumentsType)
-                                    @foreach($documents as $document)
-                                        @if($DocumentsType[$document['type']])
-                                            <li class="list-group-item text-primary" style="padding: .15rem 0rem;font-size: 14px;"><strong>{{$DocumentsType[$document['type']]}}</strong> {{$document['name']}}
-                                                <span class="pull-right">
-                                                    @if(in_array($document['mime'], array("image/png", "application/pdf", "image/jpeg")))
-                                                        <a class="btn btn-primary btn-sm" target="_blank" href="{{ url('/document') }}/{{$document['id']}}" data-toggle="tooltip" data-placement="left" title="Ver"><i class="fa fa-eye"></i></a>
-                                                    @endif
-                                                    <a class="btn btn-success btn-sm" href="{{ url('/document/download') }}/{{$document['id']}}" data-toggle="tooltip" data-placement="left" title="Descargar"><i class="fa fa-download"></i></a>
-                                                </span>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                @endforeach
-                            </ul>
+                            <div id="accordion2">
+                            @foreach($DocumentsTypes as $DocumentsType)
+                                <div id="heading{{ key($DocumentsTypes) }}">
+                                    <span class="list-group-item text-uppercase collapsed" style="padding: .5rem 1.25rem;font-size: 14px;"
+                                          data-toggle="collapse"
+                                          data-target="#collapse{{ key($DocumentsTypes) }}"
+                                          aria-expanded="false"
+                                          aria-controls="collapse{{ key($DocumentsTypes) }}">
+                                        <strong>{{ key($DocumentsTypes) }}</strong>
+                                    </span>
+                                </div>
+                                <div id="collapse{{ key($DocumentsTypes) }}" class="collapse" aria-labelledby="heading{{ key($DocumentsTypes) }}" data-parent="#accordion2">
+                                    <ul class="list-group list-group-flush">
+                                        @foreach($documents as $document)
+                                            @if($DocumentsType[$document['type']])
+                                                <li class="list-group-item text-primary" style="padding: .10rem 0rem .10rem 2rem;font-size: 14px;"><strong>{{$DocumentsType[$document['type']]}}</strong> {{$document['name']}}
+                                                    <span class="pull-right">
+                                                        @if(in_array($document['mime'], array("image/png", "application/pdf", "image/jpeg")))
+                                                            <a class="btn btn-primary btn-sm" target="_blank" href="{{ url('/document') }}/{{$document['id']}}" data-toggle="tooltip" data-placement="left" title="Ver"><i class="fa fa-eye"></i></a>
+                                                        @endif
+                                                        <a class="btn btn-success btn-sm" href="{{ url('/document/download') }}/{{$document['id']}}" data-toggle="tooltip" data-placement="left" title="Descargar"><i class="fa fa-download"></i></a>
+                                                    </span>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <?php next($DocumentsTypes); ?>
+                            @endforeach
+                            </div>
                         </div>
                     @endif
                     @if ($solicitud['estado'] == 0 and in_array(Auth::user()->rol, array('Secretaria')))
@@ -527,7 +650,7 @@
                     @elseif($solicitud['estado'] == 1 and in_array(Auth::user()->rol, array('Coordinador')))
                         <div class="form-group mt-3{{ $errors->has('observacion_requisitos') ? ' has-error' : '' }}">
                             <label for="observacion_requisitos">Observacion</label>
-                            <textarea class="form-control" id="observacion_requisitos" name="observacion_requisitos" rows="3" placeholder="Observaciones de la Solicitud de Adopcion.">@if(old('observacion_requisitos')) {{ old('observacion_requisitos') }} @else {{ $solicitud['observacion_requisitos'] }} @endif</textarea>
+                            <textarea class="form-control" id="observacion_requisitos" name="observacion_requisitos" rows="3" placeholder="Observaciones en la Verificacion de Requisitos.">@if(old('observacion_requisitos')){{ old('observacion_requisitos') }}@else{{ $solicitud['observacion_requisitos'] }}@endif</textarea>
                             @if ($errors->has('observacion_requisitos'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('observacion_requisitos') }}</strong>

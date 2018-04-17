@@ -72,7 +72,7 @@ class SolicitudAdopcionController extends Controller
         if (Auth::user()->rol == "Secretaria"){
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->where('estado', 0)->get();
         }elseif (Auth::user()->rol == "Coordinador"){
-            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(0, 1, 2, 3, 4))->get();
+            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(0, 1, 2, 3, 4, 5))->get();
         }elseif (Auth::user()->rol == "Trabajador Social"){
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2, 3))->get();
         }elseif (Auth::user()->rol == "Psicologo"){
@@ -400,11 +400,15 @@ class SolicitudAdopcionController extends Controller
             } elseif (Auth::user()->rol == "Coordinador") {
                 $DocumentsStored = $this->getDocumentsTypesStored($id);
                 if (in_array(202, $DocumentsStored)) {
+                    if (!in_array(201, $DocumentsStored)){
+                        Validator::make($request->all(), [
+                            'doc_file' => 'required',
+                        ])->validate();
+                        $this->saveDocument($request['doc_type'], $id);
+                    }
                     Validator::make($request->all(), [
-                        'doc_file' => 'required',
                         'observacion_documentos' => 'required'
                     ])->validate();
-                    $this->saveDocument($request['doc_type'], $id);
                     SolicitudAdopcion::where('id', $id)
                         ->update([
                             'estado' => 4,
