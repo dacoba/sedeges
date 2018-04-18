@@ -9,6 +9,7 @@ use App\ValoracionDoctor;
 use App\ValoracionPsicologo;
 use App\ValoracionTrabajoSocial;
 use App\Adoptante;
+use App\Infante;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,8 @@ class SolicitudAdopcionController extends Controller
             ),
             "otros" => array(
                 201 => "Certificado de Idoneidad",
-                202 => "Taller de Preparacion"
+                202 => "Taller de Preparacion",
+                203 => "Informe Psicosocial"
             )
         );
     }
@@ -62,6 +64,10 @@ class SolicitudAdopcionController extends Controller
             3 => "Revision de Documentos",
             4 => "Area Juridica",
             5 => "En Representacion",
+            6 => "Asignacion",
+            7 => "Acercamiento",
+            8 => "Acercamiento Finalizado",
+            100 => "Terminado",
             101 => "Requisitos Rechazado",
             102 => "Documentos Rechazado"
         );
@@ -74,7 +80,7 @@ class SolicitudAdopcionController extends Controller
         }elseif (Auth::user()->rol == "Coordinador"){
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(0, 1, 2, 3, 4, 5))->get();
         }elseif (Auth::user()->rol == "Trabajador Social"){
-            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2, 3))->get();
+            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2, 3, 6, 7))->get();
         }elseif (Auth::user()->rol == "Psicologo"){
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2))->get();
         }elseif (Auth::user()->rol == "Doctor"){
@@ -400,7 +406,7 @@ class SolicitudAdopcionController extends Controller
             } elseif (Auth::user()->rol == "Coordinador") {
                 $DocumentsStored = $this->getDocumentsTypesStored($id);
                 if (in_array(202, $DocumentsStored)) {
-                    if (!in_array(201, $DocumentsStored)){
+                    if (!in_array(201, $DocumentsStored)) {
                         Validator::make($request->all(), [
                             'doc_file' => 'required',
                         ])->validate();
@@ -416,7 +422,7 @@ class SolicitudAdopcionController extends Controller
                         ]);
                 }
             }
-        }elseif($solicitud['estado'] == 4 and in_array(Auth::user()->rol , array("Abogado"))){
+        } elseif ($solicitud['estado'] == 4 and in_array(Auth::user()->rol, array("Abogado"))) {
             Validator::make($request->all(), [
                 'observacion_representacion' => 'required'
             ])->validate();
@@ -424,6 +430,49 @@ class SolicitudAdopcionController extends Controller
                 ->update([
                     'estado' => 5,
                     'observacion_representacion' => $request['observacion_representacion']
+                ]);
+        }elseif($solicitud['estado'] == 5 and in_array(Auth::user()->rol , array("Abogado"))){
+            SolicitudAdopcion::where('id', $id)
+                ->update([
+                    'estado' => 6,
+                ]);
+        }elseif($solicitud['estado'] == 6 and in_array(Auth::user()->rol , array("Trabajador Social"))){
+            Validator::make($request->all(), [
+                'infante' => 'required',
+            ])->validate();
+            Validator::make($request->all(), [
+                'infante_id' => 'required|exists:infantes,id'
+            ], [
+                'required' => 'Seleccione un infante.',
+                'exists' => 'Seleccione un infante.'
+            ])->validate();
+            SolicitudAdopcion::where('id', $id)
+                ->update([
+                    'estado' => 7,
+                    'infante_id' => $request['infante_id'],
+                ]);
+        }elseif($solicitud['estado'] == 7 and in_array(Auth::user()->rol , array("Trabajador Social"))){
+            Validator::make($request->all(), [
+                'doc_file' => 'required',
+                'observacion_informe_psiosocial' => 'required'
+            ])->validate();
+            $this->saveDocument($request['doc_type'], $id);
+            if($request['informe_psicosocial'] == 'on'){
+                Infante::where('id', $solicitud['infante_id'])
+                    ->update([
+                        'adoptado' => True,
+                    ]);
+            }
+            SolicitudAdopcion::where('id', $id)
+                ->update([
+                    'estado' => 8,
+                    'informe_psicosocial' => $request['informe_psicosocial'] == 'on' ? True : False,
+                    'observacion_informe_psiosocial' => $request['observacion_informe_psiosocial']
+                ]);
+        }elseif($solicitud['estado'] == 8 and in_array(Auth::user()->rol , array("Abogado"))){
+            SolicitudAdopcion::where('id', $id)
+                ->update([
+                    'estado' => 100
                 ]);
         }elseif(in_array(Auth::user()->rol , array("Abogado"))) {
             SolicitudAdopcion::where('id', $id)

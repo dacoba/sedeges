@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Infante;
 use App\Centro;
 use Illuminate\Http\Request;
@@ -120,5 +121,16 @@ class InfanteController extends Controller
         }
         $infantes = Infante::get();
         return view('infante.index', ['infantes' => $infantes, 'message' => $message]);
+    }
+    public function json_infantes(){
+        $products=Infante::join('centros', 'infantes.centro_id', '=', 'centros.id')->select(
+            'infantes.id as id',
+            'ci',
+            'ci_extencion',
+            'nombre',
+            DB::raw('TIMESTAMPDIFF(YEAR,fecha_nacimiento,CURDATE()) AS age'),
+            'centros.nombre_centro'
+        )->where('habilitado', true)->where('adoptado', false)->get();
+        return response()->json($products);
     }
 }

@@ -28,3 +28,4 @@ Route::resource('/document', 'AdopcionDocumentController');
 Route::get('/document/download/{id}', 'AdopcionDocumentController@download');
 
 Route::get('adoptantes-json',array('as'=>'adoptantes.json','uses'=>'UsuarioController@user_adoptantes'));
+Route::get('infantes-json',array('as'=>'infantes.json','uses'=>'InfanteController@json_infantes'));

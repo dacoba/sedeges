@@ -24,6 +24,7 @@ class CreateSolicitudAdopcionsTable extends Migration
             $table->text('observacion_demanda')->nullable();
             $table->text('observacion_documentos')->nullable();
             $table->text('observacion_representacion')->nullable();
+            $table->text('observacion_informe_psiosocial')->nullable();
 
             $table->integer('adoptante_id')->unsigned();
             $table->integer('trabajador_social_id')->nullable()->unsigned();
@@ -35,6 +36,7 @@ class CreateSolicitudAdopcionsTable extends Migration
 
             $table->boolean('demanda_adopcion')->default(false);
             $table->integer('infante_id')->nullable()->unsigned();
+            $table->boolean('informe_psicosocial')->nullable();
 
             $table->foreign('adoptante_id')->references('id')->on('adoptantes')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('trabajador_social_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

@@ -66,10 +66,17 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label for="demanda_adopcion" class="col-sm-4 col-md-5 col-form-label">Demanda de Adopcion</label>
-                                    <div class="col-sm-8 col-md-7">
-                                        <input class="form-control-plaintext {{ $solicitud['demanda_adopcion'] ? 'font-weight-bold text-uppercase' : '' }}" id="demanda_adopcion" type="text" name="demanda_adopcion" value="{{ $solicitud['demanda_adopcion'] ? "Recibida" : "No Recibida" }}" aria-describedby="nameHelp" readonly>
-                                    </div>
+                                    @if(is_null($solicitud['infante_id']))
+                                        <label for="demanda_adopcion" class="col-sm-4 col-md-5 col-form-label">Demanda de Adopcion</label>
+                                        <div class="col-sm-8 col-md-7">
+                                            <input class="form-control-plaintext {{ $solicitud['demanda_adopcion'] ? 'font-weight-bold text-uppercase' : '' }}" id="demanda_adopcion" type="text" name="demanda_adopcion" value="{{ $solicitud['demanda_adopcion'] ? "Recibida" : "No Recibida" }}" aria-describedby="nameHelp" readonly>
+                                        </div>
+                                    @else
+                                        <label for="infante_asignado" class="col-sm-4 col-md-5 col-form-label">Infante Asignado</label>
+                                        <div class="col-sm-8 col-md-7">
+                                            <input class="form-control-plaintext" id="infante_asignado" type="text" name="infante_asignado" value="{{ $solicitud['infante']['nombre'] }}" aria-describedby="nameHelp" readonly>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -490,8 +497,8 @@
                             Adjuntar Certificado de Taller de Preparacion
                         </button>
                     @endif
-                    @if (in_array($solicitud['estado'], array(3)) and in_array(Auth::user()->rol, array('Coordinador')) and $solicitud['demanda_adopcion'])
-                        @if (in_array(202, $DocumentsTypesStored))
+                    @if (in_array($solicitud['estado'], array(3)) and in_array(Auth::user()->rol, array('Coordinador')))
+                        @if (in_array(202, $DocumentsTypesStored) and $solicitud['demanda_adopcion'])
                             @if (!in_array(201, $DocumentsTypesStored))
                                 <div class="form-group mt-2{{ $errors->has('doc_file') ? ' mb-0' : '' }}">
                                     <div class="form-row">
@@ -528,7 +535,7 @@
                             <button type="submit" class="btn btn-primary btn-block">
                                 Enviar Documentos a Area Juridica
                             </button>
-                        @else
+                        @elseif(!in_array(202, $DocumentsTypesStored))
                             <h6 class="text-center text-danger">Sin Certificado de Taller de Preparacion a Madres y Padres en Proceso de Adopcion</h6>
                         @endif
                     @endif
@@ -544,6 +551,92 @@
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">
                             Iniciar Representacion
+                        </button>
+                    @endif
+                    @if (in_array($solicitud['estado'], array(5)) and in_array(Auth::user()->rol, array('Abogado')))
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Dispocision de Asignacion Recibida
+                        </button>
+                    @endif
+                    @if (in_array($solicitud['estado'], array(6)) and in_array(Auth::user()->rol, array('Trabajador Social')))
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-6{{ $errors->has('infante') ? ' has-error' : '' }} {{ $errors->has('infante_id') ? ' has-error' : '' }}">
+                                    <label for="infante">Infante</label>
+                                    <input id="infante_search" name="infante" class="form-control" type="text" placeholder="Ingrese el CI del infante" value="{{ old('infante') }}">
+                                    @if ($errors->has('infante'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('infante') }}</strong>
+                                        </span>
+                                    @endif
+                                    @if ($errors->has('infante_id'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('infante_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <input type="hidden" name="infante_id" id="infante_id" value="{{ old('infante_id') }}">
+                                <div class="col-md-3{{ $errors->has('infante_age') ? ' has-error' : '' }}">
+                                    <label for="infante_age">Edad</label>
+                                    <input id="infante_age" name="infante_age" class="form-control" type="text" placeholder="-" value="{{ old('infante_age') }}" readonly>
+                                </div>
+                                <div class="col-md-3{{ $errors->has('infante_centro') ? ' has-error' : '' }}">
+                                    <label for="infante_centro">Centro</label>
+                                    <input id="infante_centro" name="infante_centro" class="form-control" type="text" placeholder="-" value="{{ old('infante_centro') }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Asignar Niño
+                        </button>
+                    @endif
+                    @if (in_array($solicitud['estado'], array(7)) and in_array(Auth::user()->rol, array('Trabajador Social')))
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-sm-8 offset-sm-2 col-lg-4 offset-lg-4 text-center">
+                                    <label for="informe_psicosocial" class="mr-3">Resultado del Informe</label>
+                                    <input type="checkbox" class="d-none" checked id="informe_psicosocial" name="informe_psicosocial" data-toggle="toggle" data-on="Favorable" data-off="Desfavorable" data-onstyle="success" data-offstyle="danger">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2{{ $errors->has('doc_file') ? ' mb-0' : '' }}">
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <label for="doc_type">Documento</label>
+                                    <select class="form-control" name="doc_type" readonly>
+                                        <option value="203">Informe Psicosocial</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8{{ $errors->has('doc_file') ? ' has-error' : '' }}">
+                                    <label for="doc_file">Archivo</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input cursor-pointer" id="doc_file" name="doc_file" lang="es">
+                                        <label class="custom-file-label" for="doc_file">Seleccionar Archivo</label>
+                                    </div>
+                                    @if ($errors->has('doc_file'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('doc_file') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('observacion_informe_psiosocial') ? ' has-error' : '' }}">
+                            <label for="observacion_informe_psiosocial">Observacion</label>
+                            <textarea class="form-control" id="observacion_informe_psiosocial" name="observacion_informe_psiosocial" rows="3" placeholder="Observaciones del Informe Psicosocial.">@if(old('observacion_informe_psiosocial')) {{ old('observacion_informe_psiosocial') }} @else{{ $solicitud['observacion_informe_psiosocial'] }}@endif</textarea>
+                            @if ($errors->has('observacion_informe_psiosocial'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('observacion_informe_psiosocial') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Subir Informe Psicosocial
+                        </button>
+                    @endif
+                    @if (in_array($solicitud['estado'], array(8)) and in_array(Auth::user()->rol, array('Abogado')))
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Enviar Informe Psicosocial
                         </button>
                     @endif
                     @if(in_array(Auth::user()->rol, array('Abogado')) and !$solicitud['demanda_adopcion'])

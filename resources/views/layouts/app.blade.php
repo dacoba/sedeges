@@ -151,6 +151,36 @@
             document.getElementById('adoptante_user_id').value = datum['id'];
         });
     </script>
+    <script>
+        var url = "{{ route('infantes.json') }}";
+        var dataSets = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('ci'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: {
+                url: url,
+                cache: false
+            }
+        });
+
+        $('#infante_search').typeahead('destroy').typeahead(null, {
+            name: name,
+            source: dataSets,
+            display: function(data) { return data.ci + " " + data.ci_extencion + " - " + data.nombre; },
+            templates: {
+                empty: [
+                    '<div class="empty-message">',
+                    'No se encontraron resultados para su busqueda',
+                    '</div>'
+                ].join('\n'),
+                suggestion: Handlebars.compile('<div>{{ "{"."{ci}"."}" }} {{ "{"."{ci_extencion}"."}" }} – {{ "{"."{nombre}"."}" }}</div>')
+            }
+        });
+        $('#infante_search').on('typeahead:selected', function (e, datum) {
+            document.getElementById('infante_id').value = datum['id'];
+            document.getElementById('infante_age').value = datum['age'] + " Años";
+            document.getElementById('infante_centro').value = datum['nombre_centro'];
+        });
+    </script>
 {{--    <script src="{{ asset('js/jquery.min.js') }}"></script>--}}
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
