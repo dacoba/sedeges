@@ -96,8 +96,8 @@
                                     'background-color': 'white',
                                     'background-width': '100%',
                                     'background-height': '100%',
-                                    'width': 80,
-                                    'height': 80
+                                    'width': 90,
+                                    'height': 90
                                 })
                                 .selector('edge')
                                 .css({
@@ -111,9 +111,10 @@
                                 })
                                 .selector('.highlighted')
                                 .css({
-                                    'background-color': '#33ce33',
-                                    'line-color': '#33ce33',
-                                    'target-arrow-color': '#33ce33',
+                                    'color': '#036aff',
+                                    'background-color': '#9bc3f9',
+                                    'line-color': '#489df9',
+                                    'target-arrow-color': '#489df9',
                                     'transition-property': 'background-color, line-color, target-arrow-color',
                                     'transition-duration': '0.5s'
                                 })
@@ -126,12 +127,21 @@
                                 .selector('#cor, #cor2').css({'background-image': '../../img/icon/cordinador2.png'})
                                 .selector('#ts, #ts3').css({'background-image': '../../img/icon/trabajador_social.png'})
                                 .selector('#cert').css({'background-image': '../../img/icon/certificado.png'})
+                                .selector('#secre, #cor, #cor2, #ab2, #ab3')
+                                .css({
+                                    'background-width': '65%',
+                                    'background-height': '65%'
+                                })
+                                .selector('#doc, #ps, #inf, #ts, #ts3')
+                                .css({
+                                    'background-width': '75%',
+                                    'background-height': '75%'
+                                })
                                 .selector('#demand, #cert')
                                 .css({
-                                    'background-width': '80%',
-                                    'background-height': '80%'
+                                    'background-width': '50%',
+                                    'background-height': '50%'
                                 })
-                                .selector('.edge_done').css({'line-color': "green", 'target-arrow-color': "green"})
                                 .selector(':selected'),
                             elements: {
                                 nodes: [
@@ -149,19 +159,19 @@
                                     { data: { id: 'ab3', name: 'Abogado' }, position: { x: 1200, y: 200 }, grabbable: false  }
                                 ],
                                 edges: [
-                                    { data: { source: 'secre', target: 'cor' }, classes:@if($edges_done['requisitos']) "edge_done" @else "" @endif },
-                                    { data: { source: 'cor', target: 'ts' }, classes:@if($edges_done['verificado']) "edge_done" @else "" @endif },
-                                    { data: { source: 'cor', target: 'ps' }, classes:@if($edges_done['verificado']) "edge_done" @else "" @endif },
-                                    { data: { source: 'cor', target: 'doc' }, classes:@if($edges_done['verificado']) "edge_done" @else "" @endif },
-                                    { data: { source: 'cert', target: 'cor2' }, classes:@if($edges_done['certificado']) "edge_done" @else "" @endif },
-                                    { data: { source: 'ts', target: 'cor2' }, classes:@if($edges_done['val_social']) "edge_done" @else "" @endif },
-                                    { data: { source: 'ps', target: 'cor2' }, classes:@if($edges_done['val_psicologica']) "edge_done" @else "" @endif },
-                                    { data: { source: 'doc', target: 'cor2' }, classes:@if($edges_done['val_medica']) "edge_done" @else "" @endif },
-                                    { data: { source: 'demand', target: 'cor2' }, classes:@if($edges_done['demanda']) "edge_done" @else "" @endif },
-                                    { data: { source: 'cor2', target: 'ab2' }, classes:@if($edges_done['area_juridica']) "edge_done" @else "" @endif },
-                                    { data: { source: 'inf', target: 'ts3' }, classes:@if($edges_done['acercamiento']) "edge_done" @else "" @endif },
-                                    { data: { source: 'ab2', target: 'ts3' }, classes:@if($edges_done['asignacion']) "edge_done" @else "" @endif },
-                                    { data: { source: 'ts3', target: 'ab3' }, classes:@if($edges_done['finalizado']) "edge_done" @else "" @endif }
+                                    { data: { id: 'secre_cor', source: 'secre', target: 'cor' }},
+                                    { data: { id: 'cor_ts', source: 'cor', target: 'ts' }},
+                                    { data: { id: 'cor_ps', source: 'cor', target: 'ps' }},
+                                    { data: { id: 'cor_doc', source: 'cor', target: 'doc' }},
+                                    { data: { id: 'cert_cor2', source: 'cert', target: 'cor2' }},
+                                    { data: { id: 'ts_cor2', source: 'ts', target: 'cor2' }},
+                                    { data: { id: 'ps_cor2', source: 'ps', target: 'cor2' }},
+                                    { data: { id: 'doc_cor2', source: 'doc', target: 'cor2' }},
+                                    { data: { id: 'demand_cor2', source: 'demand', target: 'cor2' }},
+                                    { data: { id: 'cor2_ab2', source: 'cor2', target: 'ab2' }},
+                                    { data: { id: 'inf_ts3', source: 'inf', target: 'ts3' }},
+                                    { data: { id: 'ab2_ts3', source: 'ab2', target: 'ts3' }},
+                                    { data: { id: 'ts3_ab3', source: 'ts3', target: 'ab3' }}
                                 ]
                             },
 
@@ -192,6 +202,17 @@
                             $('#modalTrabajoSocial').modal('show');
                         }
 
+                        var j = 0;
+                        var edges_done = <?php echo json_encode($edges_done);?>;
+
+                        var animatedWorlflow = function(){
+                            if( j < edges_done.length ){
+                                cy.$(edges_done[j]).addClass('highlighted');
+                                j++;
+                                setTimeout(animatedWorlflow, 200);
+                            }
+                        };
+                        animatedWorlflow();
                     </script>
                     @if (in_array($solicitud['estado'], array(0, 1))  and in_array(Auth::user()->rol, array('Coordinador', 'Secretaria')))
                         @foreach($DocumentsTypes['requisitos'] as $item)
@@ -780,7 +801,7 @@
                                           data-target="#collapse{{ key($DocumentsTypes) }}"
                                           aria-expanded="false"
                                           aria-controls="collapse{{ key($DocumentsTypes) }}">
-                                        <strong>{{ key($DocumentsTypes) }}</strong>
+                                        <strong>{{ key($DocumentsTypes) }} ({{count(array_intersect(array_keys($DocumentsType), array_map(function ($ar) {return $ar['type'];}, $documents->toArray())))}})</strong>
                                     </span>
                                 </div>
                                 <div id="collapse{{ key($DocumentsTypes) }}" class="collapse" aria-labelledby="heading{{ key($DocumentsTypes) }}" data-parent="#accordion2">

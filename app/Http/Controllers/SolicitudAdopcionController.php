@@ -140,33 +140,22 @@ class SolicitudAdopcionController extends Controller
 
     protected function EdgesDoneArray($id)
     {
-        $edge_done = array(
-            'requisitos' => false,
-            'verificado' => false,
-            'val_social' => false,
-            'val_psicologica' => false,
-            'val_medica' => false,
-            'certificado' => false,
-            'demanda' => false,
-            'area_juridica' => false,
-            'asignacion' => false,
-            'acercamiento' => false,
-            'finalizado' => false
-        );
+        $edge_done = ['#secre'];
         $solicitud = SolicitudAdopcion::find($id);
         $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
-        if($solicitud['estado'] >= 1){$edge_done['requisitos'] = true;}else{return $edge_done;}
-        if($solicitud['demanda_adopcion']){$edge_done['demanda'] = true;}
-        if($solicitud['estado'] >= 2){$edge_done['verificado'] = true;}else{return $edge_done;}
-        if($solicitud['valoracion_trabajador_social']['estado'] == 1){$edge_done['val_social'] = true;}
-        if($solicitud['valoracion_psicologo']['estado'] == 1){$edge_done['val_psicologica'] = true;}
-        if($solicitud['valoracion_doctor']['estado'] == 1){$edge_done['val_medica'] = true;}
+        if($solicitud['estado'] >= 1){$edge_done = array_merge($edge_done, ['#secre_cor', '#cor']);}else{return $edge_done;}
+        if($solicitud['demanda_adopcion']){$edge_done = array_merge($edge_done, ['#demand', '#demand_cor2']);}
+        if($solicitud['estado'] >= 2){$edge_done = array_merge($edge_done, ['#cor_ts', '#ts', '#cor_ps', '#ps', '#cor_doc', '#doc']);}else{return $edge_done;}
+        if($solicitud['valoracion_trabajador_social']['estado'] == 1){$edge_done[] = '#ts_cor2';}
+        if($solicitud['valoracion_psicologo']['estado'] == 1){$edge_done[] = '#ps_cor2';}
+        if($solicitud['valoracion_doctor']['estado'] == 1){$edge_done[] = '#doc_cor2';}
         if($solicitud['estado'] < 3){return $edge_done;}
-        if(in_array(202, $DocumentsTypesStored)){$edge_done['certificado'] = true;}
-        if($solicitud['estado'] >= 4){$edge_done['area_juridica'] = true;}else{return $edge_done;}
-        if($solicitud['estado'] >= 6){$edge_done['asignacion'] = true;}else{return $edge_done;}
-        if($solicitud['estado'] >= 7){$edge_done['acercamiento'] = true;}else{return $edge_done;}
-        if($solicitud['estado'] >= 8){$edge_done['finalizado'] = true;}else{return $edge_done;}
+        if($solicitud['estado'] >= 3){$edge_done[] = '#cor2';}else{return $edge_done;}
+        if(in_array(202, $DocumentsTypesStored)){$edge_done = array_merge($edge_done, ['#cert', '#cert_cor2']);}
+        if($solicitud['estado'] >= 4){$edge_done = array_merge($edge_done, ['#cor2_ab2', '#ab2']);}else{return $edge_done;}
+        if($solicitud['estado'] >= 6){$edge_done = array_merge($edge_done, ['#ab2_ts3', '#ts3']);}else{return $edge_done;}
+        if($solicitud['estado'] >= 7){$edge_done = array_merge($edge_done, ['#inf', '#inf_ts3']);}else{return $edge_done;}
+        if($solicitud['estado'] >= 8){$edge_done = array_merge($edge_done, ['#ts3_ab3', '#ab3']);}else{return $edge_done;}
         return $edge_done;
     }
 
