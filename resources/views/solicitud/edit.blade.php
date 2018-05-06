@@ -81,6 +81,118 @@
                             </div>
                         </div>
                     </div>
+                    <div id="cy"></div>
+                    <script>
+                        var cy = cytoscape({
+                            container: document.getElementById('cy'),
+                            style: cytoscape.stylesheet()
+                                .selector('node')
+                                .css({
+                                    'content': 'data(name)',
+                                    'text-valign': 'bottom',
+                                    'color': 'black',
+                                    'font-size': "16px",
+                                    'font-weight': "bold",
+                                    'background-color': 'white',
+                                    'background-width': '100%',
+                                    'background-height': '100%',
+                                    'width': 80,
+                                    'height': 80
+                                })
+                                .selector('edge')
+                                .css({
+                                    'width': 5,
+                                    'line-color': '#999',
+                                    'target-arrow-color': '#999',
+                                    'target-arrow-shape': 'triangle',
+                                    "curve-style": "unbundled-bezier",
+                                    "control-point-distances": [-40],
+
+                                })
+                                .selector('.highlighted')
+                                .css({
+                                    'background-color': '#33ce33',
+                                    'line-color': '#33ce33',
+                                    'target-arrow-color': '#33ce33',
+                                    'transition-property': 'background-color, line-color, target-arrow-color',
+                                    'transition-duration': '0.5s'
+                                })
+                                .selector('#demand').css({'background-image': '../../img/icon/doc.png'})
+                                .selector('#ab2, #ab3').css({'background-image': '../../img/icon/lawyer.png'})
+                                .selector('#doc').css({'background-image': '../../img/icon/doctor.png'})
+                                .selector('#ps').css({'background-image': '../../img/icon/psicologo.png'})
+                                .selector('#secre').css({'background-image': '../../img/icon/secretaria.png'})
+                                .selector('#inf').css({'background-image': '../../img/icon/infante.png'})
+                                .selector('#cor, #cor2').css({'background-image': '../../img/icon/cordinador2.png'})
+                                .selector('#ts, #ts3').css({'background-image': '../../img/icon/trabajador_social.png'})
+                                .selector('#cert').css({'background-image': '../../img/icon/certificado.png'})
+                                .selector('#demand, #cert')
+                                .css({
+                                    'background-width': '80%',
+                                    'background-height': '80%'
+                                })
+                                .selector('.edge_done').css({'line-color': "green", 'target-arrow-color': "green"})
+                                .selector(':selected'),
+                            elements: {
+                                nodes: [
+                                    { data: { id: 'secre', name: 'Secretaria'}, position: { x: 0, y: 200 }, grabbable: false },
+                                    { data: { id: 'cor', name: 'Cordinador'}, position: { x: 200, y: 200 }, grabbable: false  },
+                                    { data: { id: 'ts', name: 'Trabajadora Social' }, position: { x: 400, y: 50 }, grabbable: false  },
+                                    { data: { id: 'ps', name: 'Psicologo' }, position: { x: 400, y: 200 }, grabbable: false  },
+                                    { data: { id: 'doc', name: 'Doctor' }, position: { x: 400, y: 350 }, grabbable: false  },
+                                    { data: { id: 'cert', name: 'Certificado de Taller ' }, position: { x: 600, y: 50 }, grabbable: false  },
+                                    { data: { id: 'cor2', name: 'Cordinador' }, position: { x: 600, y: 200 }, grabbable: false  },
+                                    { data: { id: 'demand', name: 'Demanda de Adopcion' }, position: { x: 600, y: 350 }, grabbable: false  },
+                                    { data: { id: 'ab2', name: 'Area Juridica' }, position: { x: 800, y: 200 }, grabbable: false  },
+                                    { data: { id: 'inf', name: 'Infante' }, position: { x: 1000, y: 50 }, grabbable: false  },
+                                    { data: { id: 'ts3', name: 'Trabajadora Social' }, position: { x: 1000, y: 200 }, grabbable: false  },
+                                    { data: { id: 'ab3', name: 'Abogado' }, position: { x: 1200, y: 200 }, grabbable: false  }
+                                ],
+                                edges: [
+                                    { data: { source: 'secre', target: 'cor' }, classes:@if($edges_done['requisitos']) "edge_done" @else "" @endif },
+                                    { data: { source: 'cor', target: 'ts' }, classes:@if($edges_done['verificado']) "edge_done" @else "" @endif },
+                                    { data: { source: 'cor', target: 'ps' }, classes:@if($edges_done['verificado']) "edge_done" @else "" @endif },
+                                    { data: { source: 'cor', target: 'doc' }, classes:@if($edges_done['verificado']) "edge_done" @else "" @endif },
+                                    { data: { source: 'cert', target: 'cor2' }, classes:@if($edges_done['certificado']) "edge_done" @else "" @endif },
+                                    { data: { source: 'ts', target: 'cor2' }, classes:@if($edges_done['val_social']) "edge_done" @else "" @endif },
+                                    { data: { source: 'ps', target: 'cor2' }, classes:@if($edges_done['val_psicologica']) "edge_done" @else "" @endif },
+                                    { data: { source: 'doc', target: 'cor2' }, classes:@if($edges_done['val_medica']) "edge_done" @else "" @endif },
+                                    { data: { source: 'demand', target: 'cor2' }, classes:@if($edges_done['demanda']) "edge_done" @else "" @endif },
+                                    { data: { source: 'cor2', target: 'ab2' }, classes:@if($edges_done['area_juridica']) "edge_done" @else "" @endif },
+                                    { data: { source: 'inf', target: 'ts3' }, classes:@if($edges_done['acercamiento']) "edge_done" @else "" @endif },
+                                    { data: { source: 'ab2', target: 'ts3' }, classes:@if($edges_done['asignacion']) "edge_done" @else "" @endif },
+                                    { data: { source: 'ts3', target: 'ab3' }, classes:@if($edges_done['finalizado']) "edge_done" @else "" @endif }
+                                ]
+                            },
+
+                            layout: {
+                                name: 'preset'
+                            },
+                            userZoomingEnabled: false,
+                            userPanningEnabled: false,
+                            grabbable: false
+                        });
+                        cy.$('node').on('click', function(e){
+                            var ele = e.target;
+                            if(ele.id() === 'ts'){
+                                $('#modalTrabajoSocial').modal('show');
+                            }else if(ele.id() === 'ps'){
+                                $('#modalPsicologo').modal('show');
+                            }else if(ele.id() === 'doc'){
+                                $('#modalDoctor').modal('show');
+                            }
+                            // console.log('clicked ' + ele.id());
+                        });
+
+                        // cy.getElementById('secre').onclick = function() {myFunction()};
+                        // document.getElementById("secre").onclick = function() {myFunction()};
+                        // document.getElementById("cy").onclick = function() {myFunction()};
+
+                        function myFunction() {
+                            $('#modalTrabajoSocial').modal('show');
+                        }
+
+                    </script>
                     @if (in_array($solicitud['estado'], array(0, 1))  and in_array(Auth::user()->rol, array('Coordinador', 'Secretaria')))
                         @foreach($DocumentsTypes['requisitos'] as $item)
                             <div class="form-group">

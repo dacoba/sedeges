@@ -138,6 +138,38 @@ class SolicitudAdopcionController extends Controller
         return true;
     }
 
+    protected function EdgesDoneArray($id)
+    {
+        $edge_done = array(
+            'requisitos' => false,
+            'verificado' => false,
+            'val_social' => false,
+            'val_psicologica' => false,
+            'val_medica' => false,
+            'certificado' => false,
+            'demanda' => false,
+            'area_juridica' => false,
+            'asignacion' => false,
+            'acercamiento' => false,
+            'finalizado' => false
+        );
+        $solicitud = SolicitudAdopcion::find($id);
+        $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
+        if($solicitud['estado'] >= 1){$edge_done['requisitos'] = true;}else{return $edge_done;}
+        if($solicitud['demanda_adopcion']){$edge_done['demanda'] = true;}
+        if($solicitud['estado'] >= 2){$edge_done['verificado'] = true;}else{return $edge_done;}
+        if($solicitud['valoracion_trabajador_social']['estado'] == 1){$edge_done['val_social'] = true;}
+        if($solicitud['valoracion_psicologo']['estado'] == 1){$edge_done['val_psicologica'] = true;}
+        if($solicitud['valoracion_doctor']['estado'] == 1){$edge_done['val_medica'] = true;}
+        if($solicitud['estado'] < 3){return $edge_done;}
+        if(in_array(202, $DocumentsTypesStored)){$edge_done['certificado'] = true;}
+        if($solicitud['estado'] >= 4){$edge_done['area_juridica'] = true;}else{return $edge_done;}
+        if($solicitud['estado'] >= 6){$edge_done['asignacion'] = true;}else{return $edge_done;}
+        if($solicitud['estado'] >= 7){$edge_done['acercamiento'] = true;}else{return $edge_done;}
+        if($solicitud['estado'] >= 8){$edge_done['finalizado'] = true;}else{return $edge_done;}
+        return $edge_done;
+    }
+
     public function index()
     {
         $estados_solicitud = $this->getEstadosToText();
@@ -208,6 +240,7 @@ class SolicitudAdopcionController extends Controller
 
     public function edit($id)
     {
+        $edges_done = $this->EdgesDoneArray($id);
         $solicitud = SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->find($id);
         $DocumentsTypes = $this->getDocumentsTypes();
         $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
@@ -219,7 +252,8 @@ class SolicitudAdopcionController extends Controller
                 'DocumentsTypes' => $DocumentsTypes,
                 'DocumentsTypesStored' => $DocumentsTypesStored,
                 'documents' => $documents,
-                'estados_solicitud' => $estados_solicitud
+                'estados_solicitud' => $estados_solicitud,
+                'edges_done' => $edges_done
             ]);
         }elseif ($solicitud['estado'] == 1 and in_array(Auth::user()->rol , array("Coordinador", "Administrador"))) {
             $equipo['trabajador_socials'] = User::where('rol', 'Trabajador Social')->get();
@@ -231,7 +265,8 @@ class SolicitudAdopcionController extends Controller
                 'DocumentsTypesStored' => $DocumentsTypesStored,
                 'documents' => $documents,
                 'estados_solicitud' => $estados_solicitud,
-                'equipo' => $equipo
+                'equipo' => $equipo,
+                'edges_done' => $edges_done
             ]);
         }
         return view('solicitud.edit', [
@@ -239,7 +274,8 @@ class SolicitudAdopcionController extends Controller
             'DocumentsTypes' => $DocumentsTypes,
             'DocumentsTypesStored' => $DocumentsTypesStored,
             'documents' => $documents,
-            'estados_solicitud' => $estados_solicitud
+            'estados_solicitud' => $estados_solicitud,
+            'edges_done' => $edges_done
         ]);
     }
 
@@ -484,12 +520,14 @@ class SolicitudAdopcionController extends Controller
         $solicitud = SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->find($id);
         $documents = AdopcionDocument::select('id', 'name', 'type', 'mime')->where('solicitud_id', $id)->get();
         $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
+        $edges_done = $this->EdgesDoneArray($id);
         return view('solicitud.edit', [
             'solicitud' => $solicitud,
             'DocumentsTypes' => $DocumentsTypes,
             'DocumentsTypesStored' => $DocumentsTypesStored,
             'documents' => $documents,
-            'estados_solicitud' => $estados_solicitud
+            'estados_solicitud' => $estados_solicitud,
+            'edges_done' => $edges_done
         ]);
     }
 

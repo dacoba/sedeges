@@ -12,6 +12,7 @@
     <title>{{ config('app.name', 'Sedeges') }}</title>
     <link rel="icon" href="{{URL::asset('img/icon.ico')}}"/>
 
+    <script src="{{ asset('js/cytoscape.min.js') }}"></script>
     <!-- Styles -->
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">

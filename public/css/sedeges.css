@@ -10,3 +10,7 @@
 .card-header{
     padding: .5rem 1.25rem;
 }
+#cy {
+    height: 350px;
+    width: 100%;
+}
