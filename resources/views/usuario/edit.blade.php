@@ -22,6 +22,14 @@
                 </button>
             </div>
         @endif
+        @if(isset($message['warning']) and $message['warning'])
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Advertecia!</strong> {{ $message['warning_message'] }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fa fa-table"></i> Datos del Usuario</div>

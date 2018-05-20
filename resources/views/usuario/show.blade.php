@@ -66,7 +66,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Desabilitado</th>
-                        <td>{{ $usuario['desabilitado'] }}</td>
+                        <td>{{ $usuario['habilitado'] }}</td>
                     </tr>
                     </tbody>
                 </table>

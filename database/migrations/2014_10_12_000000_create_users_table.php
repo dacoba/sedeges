@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\User;
 
 class CreateUsersTable extends Migration
 {
@@ -24,7 +25,8 @@ class CreateUsersTable extends Migration
             $table->date('fecha_nacimiento');
             $table->integer('telefono_fijo');
             $table->integer('telefono_celular');
-            $table->boolean('desabilitado');
+            $table->string('habilitado')->default(User::USUARIO_NO_HABILITADO);
+            $table->string('admin')->default(User::USUARIO_REGULAR);
             $table->string('rol');
             $table->string('email')->unique();
             $table->string('password');
