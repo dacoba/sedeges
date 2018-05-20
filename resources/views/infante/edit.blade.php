@@ -14,14 +14,7 @@
             </li>
             <li class="breadcrumb-item active">Modificar</li>
         </ol>
-        @if(isset($message['success']) and $message['success'])
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Satisfactorio!</strong> {{ $message['success_message'] }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
+        @include('messages')
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fa fa-table"></i> Datos del Centro</div>
@@ -43,7 +36,7 @@
                             </div>
                             <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $infante['fecha_nacimiento'] }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento del Infante" readonly>
+                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $infante['fecha_nacimiento']->format('Y-m-d') }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento del Infante" readonly>
                                 @if ($errors->has('fecha_nacimiento'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
@@ -68,7 +61,7 @@
                             </div>
                             <div class="col-md-6{{ $errors->has('fecha_ingreso') ? ' has-error' : '' }}">
                                 <label for="fecha_ingreso">Fecha de Ingreso</label>
-                                <input class="form-control text-right" id="fecha_ingreso" type="date" name="fecha_ingreso" @if(old('fecha_ingreso')) value="{{ old('fecha_ingreso') }}" @else value="{{ $infante['fecha_ingreso'] }}" @endif aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Ingreso al Centro">
+                                <input class="form-control text-right" id="fecha_ingreso" type="date" name="fecha_ingreso" @if(old('fecha_ingreso')) value="{{ old('fecha_ingreso') }}" @else value="{{ $infante['fecha_ingreso']->format('Y-m-d') }}" @endif aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Ingreso al Centro">
                                 @if ($errors->has('fecha_ingreso'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('fecha_ingreso') }}</strong>
@@ -99,7 +92,7 @@
                             <div class="col-md-3{{ $errors->has('ci_extencion') ? ' has-error' : '' }}">
                                 <label for="ci_extencion">Habilitado</label>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="habilitado" name="habilitado" @if($infante['habilitado']) checked @endif>
+                                    <input type="checkbox" class="custom-control-input" id="habilitado" name="habilitado" value="true" @if($infante['habilitado']) checked @endif>
                                     <label class="custom-control-label" for="habilitado">Habilitado para ser adoptado</label>
                                 </div>
                             </div>

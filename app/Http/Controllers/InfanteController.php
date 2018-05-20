@@ -3,39 +3,17 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Infante;
-use App\Centro;
-use Illuminate\Http\Request;
+use App\User;
 use Validator;
+use App\Centro;
+use App\Infante;
+use Illuminate\Http\Request;
 
 class InfanteController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'ci' => 'numeric|digits_between:6,10|unique:users',
-            'ci_extencion' => 'string',
-            'nombre' => 'required|string|max:255',
-            'fecha_nacimiento' => 'required',
-            'fecha_ingreso' => 'required',
-            'descripcion' => 'required',
-        ]);
-    }
-
-    protected function validatorUpdate(array $data)
-    {
-        return Validator::make($data, [
-            'ci' => 'numeric|digits_between:6,10|unique:users',
-            'ci_extencion' => 'string',
-            'centro_id' => 'required',
-            'fecha_ingreso' => 'required',
-            'descripcion' => 'required',
-        ]);
     }
 
     public function index()
@@ -47,25 +25,31 @@ class InfanteController extends Controller
     public function create()
     {
         $centros = Centro::get();
-        $extenciones = array('LP', 'CB', 'SCZ', 'TR', 'OR', 'PT', 'SC', 'BI', 'PA');
+        $extenciones = User::USUARIO_CI_EXT;
         return view('infante.create', ['centros' => $centros, 'extenciones' => $extenciones]);
     }
 
     public function store(Request $request)
     {
-        $this->validator($request->all())->validate();
-        Infante::create([
-            'ci' => $request['ci'],
-            'ci_extencion' => $request['ci_extencion'],
-            'nombre' => strtoupper($request['nombre']),
-            'genero' => $request['genero'],
-            'fecha_nacimiento' => $request['fecha_nacimiento'],
-            'fecha_ingreso' => $request['fecha_ingreso'],
-            'descripcion' => $request['descripcion'],
-            'habilitado' => $request['habilitado'] == 'on' ? True : False,
-            'adoptado' => $request['adoptado'] == 'on' ? True : False,
-            'centro_id' => $request['centro_id'],
-        ]);
+        $rules = [
+            'ci' => 'numeric|digits_between:6,10|unique:infantes',
+            'ci_extencion' => 'string',
+            'nombre' => 'required|string|max:255',
+            'fecha_nacimiento' => 'required',
+            'fecha_ingreso' => 'required',
+            'descripcion' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $campos = $request->all();
+        $centro = Centro::findOrFail($request->centro_id);
+        $campos['habilitado'] = $request->has('habilitado') ? 1 : 0;
+        $campos['adoptado'] = $request->has('adoptado') ? 1 : 0;
+        $campos['centro_id'] = $centro->id;
+
+        Infante::create($campos);
+
         $message['success'] = True;
         $message['success_message'] = 'Infante Registrado Exitosamente';
         $infantes = Infante::get();
@@ -82,34 +66,79 @@ class InfanteController extends Controller
     {
         $centros = Centro::get();
         $infante = Infante::with(['centro'])->find($id);
-        $extenciones = array('LP', 'CB', 'SCZ', 'TR', 'OR', 'PT', 'SC', 'BI', 'PA');
+        $extenciones = User::USUARIO_CI_EXT;
         return view('infante.edit', ['centros' => $centros, 'extenciones' => $extenciones, 'infante' => $infante]);
     }
 
     public function update(Request $request, $id)
     {
-        $this->validatorUpdate($request->all())->validate();
-        Infante::where('id', $id)
-            ->update([
-                'ci' => $request['ci'],
-                'ci_extencion' => $request['ci_extencion'],
-                'descripcion' => $request['descripcion'],
-                'habilitado' => $request['habilitado'] == 'on' ? True : False,
-                'adoptado' => $request['adoptado'] == 'on' ? True : False,
-                'centro_id' => $request['centro_id'],
+        $infante = Infante::find($id);
+
+        $reglas = [
+            'ci' => 'numeric|digits_between:6,10|unique:infantes',
+            'ci_extencion' => 'string',
+            'nombre' => 'required|string',
+            'centro_id' => 'required',
+            'fecha_ingreso' => 'required',
+            'descripcion' => 'required',
+        ];
+
+        $this->validate($request, $reglas);
+
+        if ($request->has('ci') && $infante->ci != $request->ci) {
+            $infante->ci = $request->ci;
+        }
+        if ($request->has('ci_extencion') && $infante->ci_extencion != $request->ci_extencion) {
+            $infante->ci_extencion = $request->ci_extencion;
+        }
+        if ($request->has('nombre') && $infante->nombre != $request->nombre) {
+            $infante->nombre = $request->nombre;
+        }
+        if ($request->has('descripcion') && $infante->descripcion != $request->descripcion) {
+            $infante->descripcion = $request->descripcion;
+        }
+        if ($request->has('centro_id') && $infante->centro_id != $request->centro_id) {
+            $centro = Centro::findOrFail($request->centro_id);
+            $infante->centro_id = $centro->id;
+            $infante->fecha_ingreso = $request->fecha_ingreso;
+        }
+        if ($request->has('descripcion') && $infante->descripcion != $request->descripcion) {
+            $infante->descripcion = $request->descripcion;
+        }
+        $infante->habilitado = $request->has('habilitado') ? 1 : 0;
+        $infante->adoptado = $request->has('adoptado') ? 1 : 0;
+
+        $centros = Centro::get();
+        $extenciones = User::USUARIO_CI_EXT;
+
+        if (!$infante->isDirty()) {
+            $message['warning'] = True;
+            $message['warning_message'] = 'Se debe especificar al menos un valor diferente para actualizar';
+            return view('infante.edit', [
+                'centros' => $centros,
+                'extenciones' => $extenciones,
+                'infante' => $infante,
+                'message' => $message
             ]);
+        }
+
+        $infante->save();
+
         $message['success'] = True;
         $message['success_message'] = 'Datos Actualizados Exitosamente';
-        $centros = Centro::get();
-        $infante = Infante::with(['centro'])->find($id);
-        $extenciones = array('LP', 'CB', 'SCZ', 'TR', 'OR', 'PT', 'SC', 'BI', 'PA');
-        return view('infante.edit', ['centros' => $centros, 'extenciones' => $extenciones, 'infante' => $infante, 'message' => $message]);
+        return view('infante.edit', [
+            'centros' => $centros,
+            'extenciones' => $extenciones,
+            'infante' => $infante,
+            'message' => $message
+        ]);
     }
 
     public function destroy($id)
     {
+        $infante = Infante::find($id);
         try {
-            Infante::destroy($id);
+            $infante->delete();
             $message['success'] = True;
             $message['success_message'] = 'Infante Eliminado Exitosamente';
         }
