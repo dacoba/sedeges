@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-4 mb-3">Usuarios
+        <h1 class="mt-4 mb-3">Centros
             <small>Mostrar</small>
             <button class="btn btn-primary hidden-print pull-right" onclick="window.print()"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
         </h1>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Fecha de Fundacion</th>
-                        <td>{{ $centro['fecha_fundacion'] }}</td>
+                        <td>{{ $centro['fecha_fundacion']->format('F d, Y') }}</td>
                     </tr>
                     </tbody>
                 </table>

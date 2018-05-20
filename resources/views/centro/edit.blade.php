@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-4 mb-3">Usuarios
+        <h1 class="mt-4 mb-3">Centros
             <small>Modificar</small>
         </h1>
         <ol class="breadcrumb">
@@ -17,6 +17,14 @@
         @if(isset($message['success']) and $message['success'])
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Satisfactorio!</strong> {{ $message['success_message'] }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        @if(isset($message['warning']) and $message['warning'])
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Advertecia!</strong> {{ $message['warning_message'] }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -56,7 +64,7 @@
                         <div class="form-row">
                             <div class="col-md-4{{ $errors->has('fecha_fundacion') ? ' has-error' : '' }}">
                                 <label for="fecha_fundacion">Fecha de Fundacion</label>
-                                <input class="form-control text-right" id="fecha_fundacion" type="date" name="fecha_fundacion" value="{{ $centro['fecha_fundacion'] }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Fundacion del Centro" readonly>
+                                <input class="form-control text-right" id="fecha_fundacion" type="date" name="fecha_fundacion" value="{{ $centro['fecha_fundacion']->format('Y-m-d') }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Fundacion del Centro" readonly>
                                 @if ($errors->has('fecha_fundacion'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('fecha_fundacion') }}</strong>

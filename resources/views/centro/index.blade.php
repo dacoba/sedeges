@@ -66,17 +66,19 @@
                                             <i class="fa fa-pencil text-warning"></i>
                                         </a>
                                     </span>
-                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">
-                                        <a href="{{ url('centro') }}/{{ $centro['id'] }}" onclick="event.preventDefault();
-                                                     document.getElementById('delete-form-{{ $centro["id"] }}').submit();">
-                                            <i class="fa fa-trash text-danger" title data-original-title="Delete"></i>
-                                        </a>
-                                        <form id="delete-form-{{ $centro['id'] }}" action="{{ url('centro') }}/{{ $centro['id'] }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="_method" value="DELETE" >
-                                        </form>
-                                    </span>
+                                    @if (Auth::user()->rol == 'Administrador')
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">
+                                            <a href="{{ url('centro') }}/{{ $centro['id'] }}" onclick="event.preventDefault();
+                                                         document.getElementById('delete-form-{{ $centro["id"] }}').submit();">
+                                                <i class="fa fa-trash text-danger" title data-original-title="Delete"></i>
+                                            </a>
+                                            <form id="delete-form-{{ $centro['id'] }}" action="{{ url('centro') }}/{{ $centro['id'] }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="hidden" name="_method" value="DELETE" >
+                                            </form>
+                                        </span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

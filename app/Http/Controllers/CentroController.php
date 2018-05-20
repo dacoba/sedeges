@@ -13,24 +13,6 @@ class CentroController extends Controller
         $this->middleware('auth');
     }
 
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'nombre_centro' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-            'nombre_director' => 'required|string|max:255',
-            'telefono' => 'required|digits:7|numeric',
-        ]);
-    }
-    protected function validatorUpdate(array $data)
-    {
-        return Validator::make($data, [
-            'direccion' => 'required|string|max:255',
-            'nombre_director' => 'required|string|max:255',
-            'telefono' => 'required|digits:7|numeric',
-        ]);
-    }
-
     public function index()
     {
         $centros = Centro::get();
@@ -44,16 +26,20 @@ class CentroController extends Controller
 
     public function store(Request $request)
     {
-        $this->validator($request->all())->validate();
-        Centro::create([
-            'nombre_centro' => strtoupper($request['nombre_centro']),
-            'direccion' => $request['direccion'],
-            'nombre_director' => strtoupper($request['nombre_director']),
-            'telefono' => $request['telefono'],
-            'fecha_fundacion' => $request['fecha_fundacion'],
-        ]);
+        $rules = [
+            'nombre_centro' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'nombre_director' => 'required|string|max:255',
+            'telefono' => 'required|digits:7|numeric'
+        ];
+
+        $this->validate($request, $rules);
+
+        Centro::create($request->all());
+
         $message['success'] = True;
         $message['success_message'] = 'Centro Registrado Exitosamente';
+
         $centros = Centro::get();
         return view('centro.index', ['centros' => $centros, 'message' => $message]);
     }
@@ -72,23 +58,43 @@ class CentroController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validatorUpdate($request->all())->validate();
-        Centro::where('id', $id)
-            ->update([
-                'direccion' => $request['direccion'],
-                'nombre_director' => strtoupper($request['nombre_director']),
-                'telefono' => $request['telefono'],
-            ]);
+        $centro = Centro::find($id);
+        $reglas = [
+            'direccion' => 'required|string|max:255',
+            'nombre_director' => 'required|string|max:255',
+            'telefono' => 'required|digits:7|numeric',
+        ];
+
+        $this->validate($request, $reglas);
+
+        if ($request->has('direccion')) {
+            $centro->direccion = $request->direccion;
+        }
+        if ($request->has('nombre_director')) {
+            $centro->nombre_director = $request->nombre_director;
+        }
+        if ($request->has('telefono')) {
+            $centro->telefono = $request->telefono;
+        }
+
+        if (!$centro->isDirty()) {
+            $message['warning'] = True;
+            $message['warning_message'] = 'Se debe especificar al menos un valor diferente para actualizar';
+            return view('centro.edit', ['centro' => $centro, 'message' => $message]);
+        }
+
+        $centro->save();
+
         $message['success'] = True;
         $message['success_message'] = 'Datos Actualizados Exitosamente';
-        $centro = Centro::find($id);
         return view('centro.edit', ['centro' => $centro, 'message' => $message]);
     }
 
     public function destroy($id)
     {
+        $centro = Centro::find($id);
         try {
-            Centro::destroy($id);
+            $centro->delete();
             $message['success'] = True;
             $message['success_message'] = 'Centro Eliminado Exitosamente';
         }
