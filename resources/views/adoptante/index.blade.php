@@ -11,22 +11,7 @@
             </li>
             <li class="breadcrumb-item active">Mostrar Adoptantes</li>
         </ol>
-        @if(isset($message['success']) and $message['success'])
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Satisfactorio!</strong> {{ $message['success_message'] }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if(isset($message['error']) and $message['error'])
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Fallo!</strong> {{ $message['error_message'] }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
+        @include('messages')
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fa fa-table"></i> Adoptantes Registrados</div>

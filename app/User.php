@@ -15,13 +15,13 @@ class User extends Authenticatable
     const USUARIO_REGULAR = 'false';
     const USUARIO_GENERO = ['Masculino', 'Femenino'];
     const USUARIO_ROLES = [
-        'Secretaria',
-        'Cordinador',
-        'Trabajador Social',
-        'Psicologo',
-        'Medico',
-        'Abogado',
-        'Adoptante',
+        'SE' => 'Secretaria',
+        'CO' => 'Cordinador',
+        'TS' => 'Trabajador Social',
+        'PS' => 'Psicologo',
+        'ME' => 'Medico',
+        'AB' => 'Abogado',
+        'AD' => 'Adoptante',
     ];
     const USUARIO_CI_EXT = ['LP', 'CB', 'SCZ', 'TR', 'OR', 'PT', 'SC', 'BI', 'PA'];
 

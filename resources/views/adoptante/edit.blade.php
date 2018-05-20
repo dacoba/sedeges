@@ -14,14 +14,7 @@
             </li>
             <li class="breadcrumb-item active">Modificar</li>
         </ol>
-        @if(isset($message['success']) and $message['success'])
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Satisfactorio!</strong> {{ $message['success_message'] }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
+        @include('messages')
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fa fa-table"></i> Datos del Usuario</div>
@@ -108,7 +101,7 @@
                             </div>
                             <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $adoptante['user']['fecha_nacimiento'] }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento" readonly>
+                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $adoptante['user']['fecha_nacimiento']->format('Y-m-d') }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento" readonly>
                                 @if ($errors->has('fecha_nacimiento'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
@@ -137,11 +130,11 @@
                                 </span>
                                 @endif
                             </div>
-                            <div class="col-md-4{{ $errors->has('desabilitado') ? ' has-error' : '' }}">
-                                <label for="desabilitado">Desabilitado</label>
+                            <div class="col-md-4{{ $errors->has('habilitado') ? ' has-error' : '' }}">
+                                <label for="habilitado">Adopcion</label>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="desabilitado" name="desabilitado" @if($adoptante['desabilitado']) checked @endif>
-                                    <label class="custom-control-label" for="desabilitado">Desabilitado para adoptar</label>
+                                    <input type="checkbox" class="custom-control-input" id="habilitado" name="habilitado" @if($adoptante['habilitado']) checked @endif>
+                                    <label class="custom-control-label" for="habilitado">El Adoptante puede adoptar</label>
                                 </div>
                             </div>
                         </div>

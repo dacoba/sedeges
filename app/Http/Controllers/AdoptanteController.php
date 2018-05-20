@@ -2,43 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Adoptante;
 use App\User;
-use Illuminate\Http\Request;
 use Validator;
+use App\Adoptante;
+use Illuminate\Http\Request;
 
 class AdoptanteController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'ci' => 'required|numeric|digits_between:6,10|unique:users',
-            'ci_extencion' => 'required|string',
-            'nombres' => 'required|string|max:255',
-            'apellido_paterno' => 'required|string|max:255',
-            'apellido_materno' => 'required|string|max:255',
-            'telefono_fijo' => 'digits:7|numeric',
-            'telefono_celular' => 'required|numeric|digits:8',
-            'fecha_nacimiento' => 'required',
-            'email' => 'required|string|email|max:255|unique:users',
-            'ocupacion' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-        ]);
-    }
-
-    protected function validatorUpdate(array $data)
-    {
-        return Validator::make($data, [
-            'telefono_fijo' => 'digits:7|numeric',
-            'telefono_celular' => 'required|numeric|digits:8',
-            'ocupacion' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-        ]);
     }
 
     public function index()
@@ -49,36 +22,43 @@ class AdoptanteController extends Controller
 
     public function create()
     {
-        $extenciones = array('LP', 'CB', 'SCZ', 'TR', 'OR', 'PT', 'SC', 'BI', 'PA');
-        $estado_civil = array('Casado', 'Soltero', 'Viudo');
+        $extenciones = User::USUARIO_CI_EXT;
+        $estado_civil = Adoptante::ADOPTANTE_ESTADO_CIVIL;
         return view('adoptante.create', ['extenciones' => $extenciones, 'estado_civil' => $estado_civil]);
     }
 
     public function store(Request $request)
     {
-        $this->validator($request->all())->validate();
-        $user = User::create([
-            'ci' => $request['ci'],
-            'ci_extencion' => $request['ci_extencion'],
-            'nombres' => strtoupper($request['nombres']),
-            'apellido_paterno' => strtoupper($request['apellido_paterno']),
-            'apellido_materno' => strtoupper($request['apellido_materno']),
-            'fecha_nacimiento' => $request['fecha_nacimiento'],
-            'genero' => $request['genero'],
-            'telefono_fijo' => $request['telefono_fijo'],
-            'telefono_celular' => $request['telefono_celular'],
-            'desabilitado' => True,
-            'rol' => 'Adoptante',
-            'email' => $request['email'],
-            'password' => bcrypt('123456'),
-        ]);
-        Adoptante::create([
-            'direccion' => $request['direccion'],
-            'ocupacion' => $request['ocupacion'],
-            'estado_civil' => $request['estado_civil'],
-            'desabilitado' => $request['desabilitado'] == 'on' ? True : False,
-            'user_id' => $user['id'],
-        ]);
+        $rules = [
+            'ci' => 'required|numeric|digits_between:6,10|unique:users',
+            'ci_extencion' => 'required|string|'.'in:' . implode(",",User::USUARIO_CI_EXT),
+            'nombres' => 'required|string|max:20',
+            'apellido_paterno' => 'required|string|max:20',
+            'apellido_materno' => 'required|string|max:20',
+            'telefono_fijo' => 'required|digits:7|numeric',
+            'telefono_celular' => 'required|numeric|digits:8',
+            'fecha_nacimiento' => 'required',
+            'email' => 'required|string|email|max:30|unique:users',
+            'ocupacion' => 'required|string|max:20',
+            'direccion' => 'required|string|max:50',
+            'genero' => 'required|string|'.'in:' . implode(",",User::USUARIO_GENERO),
+        ];
+
+        $this->validate($request, $rules);
+
+        $campos_user = $request->all();
+        $campos_user['habilitado'] = User::USUARIO_NO_HABILITADO;
+        $campos_user['rol'] = User::USUARIO_ROLES['AD'];
+        $campos_user['password'] = '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm';
+
+        $user = User::create($campos_user);
+
+        $campos_adoptante = $request->all();
+        $campos_adoptante['habilitado'] = $request->has('habilitado') ? 1 : 0;
+        $campos_adoptante['user_id'] = $user->id;
+
+        Adoptante::create($campos_adoptante);
+
         $message['success'] = True;
         $message['success_message'] = 'Adoptate Registrado Exitosamente';
         $adoptantes = Adoptante::with(['user'])->get();
@@ -93,38 +73,71 @@ class AdoptanteController extends Controller
 
     public function edit($id)
     {
-        $estado_civil = array('Casado', 'Soltero', 'Viudo');
+        $estado_civil = Adoptante::ADOPTANTE_ESTADO_CIVIL;
         $adoptante = Adoptante::with(['user'])->find($id);
         return view('adoptante.edit', ['adoptante' => $adoptante, 'estado_civil' => $estado_civil]);
     }
 
     public function update(Request $request, $id)
     {
-        $this->validatorUpdate($request->all())->validate();
-        Adoptante::where('id', $id)
-            ->update([
-                'direccion' => $request['direccion'],
-                'ocupacion' => $request['ocupacion'],
-                'estado_civil' => $request['estado_civil'],
-                'desabilitado' => $request['desabilitado'] == 'on' ? True : False,
-            ]);
         $adoptante = Adoptante::find($id);
-        User::where('id', $adoptante['user_id'])
-            ->update([
-                'telefono_fijo' => $request['telefono_fijo'],
-                'telefono_celular' => $request['telefono_celular'],
-            ]);
-        $message['success'] = True;
-        $message['success_message'] = 'Datos Actualizados Exitosamente';
-        $estado_civil = array('Casado', 'Soltero', 'Viudo');
-        $adoptante = Adoptante::with(['user'])->find($id);
-        return view('adoptante.edit', ['adoptante' => $adoptante, 'estado_civil' => $estado_civil, 'message' => $message]);
+        $reglas = [
+            'telefono_fijo' => 'digits:7|numeric',
+            'telefono_celular' => 'required|numeric|digits:8',
+            'ocupacion' => 'required|string|max:20',
+            'estado_civil' => 'required|string|'.'in:' . implode(",",Adoptante::ADOPTANTE_ESTADO_CIVIL),
+            'direccion' => 'required|string|max:50',
+        ];
+
+        $this->validate($request, $reglas);
+
+        if ($request->has('telefono_fijo') && $adoptante->user->telefono_fijo != $request->telefono_fijo) {
+            $adoptante->user->telefono_fijo = $request->telefono_fijo;
+        }
+        if ($request->has('telefono_celular')  && $adoptante->user->telefono_celular != $request->telefono_celular) {
+            $adoptante->user->telefono_celular = $request->telefono_celular;
+        }
+        if ($request->has('ocupacion')  && $adoptante->ocupacion != $request->ocupacion) {
+            $adoptante->ocupacion = $request->ocupacion;
+        }
+        if ($request->has('estado_civil')  && $adoptante->estado_civil != $request->estado_civil) {
+            $adoptante->estado_civil = $request->estado_civil;
+        }
+        if ($request->has('direccion')  && $adoptante->direccion != $request->direccion) {
+            $adoptante->direccion = $request->direccion;
+        }
+        $adoptante->habilitado = $request->has('habilitado') ? 1 : 0;
+
+        if ($adoptante->isClean() && $adoptante->user->isClean())
+        {
+            $message['warning'] = True;
+            $message['warning_message'] = 'Se debe especificar al menos un valor diferente para actualizar';
+        }
+        else
+        {
+            if($adoptante->isDirty()){
+                $adoptante->save();
+            }
+            if($adoptante->user->isDirty()){
+                $adoptante->user->save();
+            }
+            $message['success'] = True;
+            $message['success_message'] = 'Datos Actualizados Exitosamente';
+        }
+
+        $estado_civil = Adoptante::ADOPTANTE_ESTADO_CIVIL;
+        return view('adoptante.edit', [
+            'adoptante' => $adoptante,
+            'estado_civil' => $estado_civil,
+            'message' => $message
+        ]);
     }
 
     public function destroy($id)
     {
+        $adoptante = Adoptante::find($id);
         try {
-            Adoptante::destroy($id);
+            $adoptante->delete();
             $message['success'] = True;
             $message['success_message'] = 'Adoptante Eliminado Exitosamente';
         }

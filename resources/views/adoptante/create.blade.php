@@ -135,11 +135,11 @@
                                 </span>
                                 @endif
                             </div>
-                            <div class="col-md-4{{ $errors->has('desabilitado') ? ' has-error' : '' }}">
-                                <label for="desabilitado">Desabilitado</label>
+                            <div class="col-md-4{{ $errors->has('habilitado') ? ' has-error' : '' }}">
+                                <label for="habilitado">Adopcion</label>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="desabilitado" name="desabilitado">
-                                    <label class="custom-control-label" for="desabilitado">Desabilitado para adoptar</label>
+                                    <input type="checkbox" class="custom-control-input" id="habilitado" name="habilitado">
+                                    <label class="custom-control-label" for="habilitado">El Adoptante puede adoptar</label>
                                 </div>
                             </div>
                         </div>

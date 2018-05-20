@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Fecha Nacimiento</th>
-                        <td>{{ $adoptante['user']['fecha_nacimiento'] }}</td>
+                        <td>{{ $adoptante['user']['fecha_nacimiento']->format('F d, Y') }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Telefono Fijo</th>
@@ -68,15 +68,15 @@
                         <td>{{ $adoptante['ocupacion'] }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Cuenta Desabilitada</th>
+                        <th scope="row">Cuenta Habilitada</th>
                         <td>
-                            @if($adoptante['user']['desabilitado']) Si @else No @endif
+                            @if($adoptante['user']['habilitado']) Si @else No @endif
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Desabilitado para adoptar</th>
+                        <th scope="row">Adopcion Habilitada</th>
                         <td>
-                            @if($adoptante['desabilitado']) Si @else No @endif
+                            @if($adoptante['habilitado']) Si @else No @endif
                         </td>
                     </tr>
                     </tbody>
