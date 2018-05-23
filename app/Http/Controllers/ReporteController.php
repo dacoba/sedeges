@@ -44,31 +44,39 @@ class ReporteController extends Controller
         ]);
     }
 
+    protected function getSolicitues(Request $request)
+    {
+        return SolicitudAdopcion::where('created_at','>=', $request->date_from)
+            ->where('created_at','<=',$request->date_to.' 23:59:59')
+            ->orderBy('created_at', 'asc');
+    }
+
     public function solicitudReporte(Request $request)
     {
         $estados_solicitud = $this->getEstadosToText();
-        $solicitudes = SolicitudAdopcion::where('created_at','>=', $request->date_from)
-            ->where('created_at','<=',$request->date_to.' 23:59:59')
-            ->orderBy('created_at', 'asc');
-        $solicitudes_registradas = $solicitudes->get()->count();
 
-        $estados_aux = $solicitudes->get()->pluck('estado');
+        $estados_aux = $this->getSolicitues($request)->get()->pluck('estado');
         foreach ($estados_aux as $estado)
         {
-            $valores[] = $solicitudes->where('estado', $estado)->get()->count();
+            $valores[] = $this->getSolicitues($request)->where('estado', $estado)->get()->count();
             $estados[] = $estados_solicitud[$estado];
         }
+
+        $solicitudes = $this->getSolicitues($request)->get();
+        $solicitudes_registradas = $this->getSolicitues($request)->get()->count();
+
         if ($request->has('estado') && $request->estado != '-1') {
-            $solicitudes = $solicitudes->where('estado', $request->estado);
-            $valores = [$solicitudes->where('estado', $request->estado)->get()->count()];
+            $solicitudes = $this->getSolicitues($request)->where('estado', $request->estado)->get();
+            $valores = [$this->getSolicitues($request)->where('estado', $request->estado)->get()->count()];
             $estados = [$estados_solicitud[$request->estado]];
+            $estado_definido = True;
         }
 
-        $solicitudes = $solicitudes->get();
         return view('reporte.solicitud', [
             'estados' => $estados,
             'valores' => $valores,
             'solicitudes' => $solicitudes,
+            'estado_definido' => $estado_definido,
             'solicitudes_registradas' => $solicitudes_registradas,
             'date_from' => new Date($request->date_from),
             'date_to' => new Date($request->date_to),

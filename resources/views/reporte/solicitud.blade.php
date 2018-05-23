@@ -38,6 +38,11 @@
                                         <div class="align-self-center d-table-cell align-middle">
                                             <h1 class="card-title">{{$solicitudes_registradas}}</h1>
                                             <p class="card-text">Solicitudes registradas.</p>
+                                            @if(isset($estado_definido) && $valores != [0])
+                                                <br>
+                                                <h1 class="card-title">{{$valores[0]}}</h1>
+                                                <p class="card-text">Solicitudes en estado {{ $estados[0] }}.</p>
+                                            @endif
                                         </div>
 
                                         {{--<a href="#" class="btn btn-primary">Go somewhere</a>--}}
