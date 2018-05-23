@@ -207,6 +207,10 @@
                         animatedWorlflow();
                     </script>
 
+                    @if (in_array($solicitud['estado'], array(0, 1)))
+                        @include('solicitud.include.requisitos_display')
+                    @endif
+
                     @include('solicitud.include.modals')
                     {{--@if (Auth::user()->rol == 'Secretaria')--}}
                         {{--@if (in_array($solicitud['estado'], array(0)))--}}

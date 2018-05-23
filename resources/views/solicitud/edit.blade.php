@@ -81,6 +81,10 @@
                             </div>
                         </div>
                     </div>
+                    @if(isset($password_adoptante))
+                        <h1 class="text-center">Usuario: {{$login_adoptante}}</h1>
+                        <h1 class="text-center">Contraseña: {{$password_adoptante}}</h1>
+                    @endif
                     <div id="cy"></div>
                     <script>
                         var cy = cytoscape({
@@ -206,17 +210,17 @@
                         };
                         animatedWorlflow();
                     </script>
-
+                    @if (in_array($solicitud['estado'], array(0, 1)))
+                        @include('solicitud.include.requisitos_display')
+                    @endif
                     @include('solicitud.include.modals')
                     @if (Auth::user()->rol == 'Secretaria')
                         @if (in_array($solicitud['estado'], array(0)))
-                            @include('solicitud.include.requisitos_display')
                             @include('solicitud.include.requisitos')
                         @endif
                     @endif
                     @if (Auth::user()->rol == 'Coordinador')
                         @if (in_array($solicitud['estado'], array(1)))
-                            @include('solicitud.include.requisitos_display')
                             @include('solicitud.include.verificacion')
                         @elseif(in_array($solicitud['estado'], array(3)))
                             @include('solicitud.include.cert_idoneidad')

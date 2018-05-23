@@ -64,11 +64,13 @@
                                             <i class="fa fa-eye text-primary"></i>
                                         </a>
                                     </span>
-                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Modificar">
-                                        <a href="{{ url('solicitud') }}/{{ $solicitud['id'] }}/edit">
-                                            <i class="fa fa-pencil text-warning"></i>
-                                        </a>
-                                    </span>
+                                    @if (!in_array(Auth::user()->rol, array('Adoptante')))
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Modificar">
+                                            <a href="{{ url('solicitud') }}/{{ $solicitud['id'] }}/edit">
+                                                <i class="fa fa-pencil text-warning"></i>
+                                            </a>
+                                        </span>
+                                    @endif
                                     {{--<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">--}}
                                         {{--<a href="{{ url('solicitud') }}/{{ $solicitud['id'] }}" onclick="event.preventDefault();--}}
                                                      {{--document.getElementById('delete-form-{{ $solicitud["id"] }}').submit();">--}}

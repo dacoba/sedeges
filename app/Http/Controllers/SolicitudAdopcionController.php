@@ -85,6 +85,9 @@ class SolicitudAdopcionController extends Controller
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2))->get();
         }elseif (Auth::user()->rol == "Doctor"){
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->whereIn('estado', array(2))->get();
+        }elseif (Auth::user()->rol == "Adoptante"){
+            $adoptamte = Adoptante::where('user_id', Auth::user()->id)->first();
+            return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->where('adoptante_id', $adoptamte->id)->get();
         }else{
             return SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->get();
         }
@@ -201,6 +204,15 @@ class SolicitudAdopcionController extends Controller
                 'estado' => 0,
                 'observacion_registro' => $request['observacion_registro'],
             ]);
+
+            $login_adoptante = $adoptante_user->email;
+            $password_adoptante = str_random(10);
+
+            $adoptante_user->desabilitado = 0;
+            $adoptante_user->password = bcrypt($password_adoptante);
+            $adoptante_user->save();
+
+
             $file = Input::file('doc_file');
             AdopcionDocument::create([
                 'type' => $request['doc_type'],
@@ -214,11 +226,18 @@ class SolicitudAdopcionController extends Controller
         $DocumentsTypes = $this->getDocumentsTypes();
         $DocumentsTypesStored = $this->getDocumentsTypesStored($solicitud['id']);
         $documents = AdopcionDocument::select('id', 'name', 'type', 'mime')->where('solicitud_id', $solicitud['id'])->get();
+        $edges_done = $this->EdgesDoneArray($solicitud['id']);
+        $estados_solicitud = $this->getEstadosToText();
+
         return view('solicitud.edit', [
             'solicitud' => $solicitud,
+            'documents' => $documents,
+            'edges_done' => $edges_done,
             'DocumentsTypes' => $DocumentsTypes,
+            'login_adoptante' => $login_adoptante,
+            'estados_solicitud' => $estados_solicitud,
+            'password_adoptante' => $password_adoptante,
             'DocumentsTypesStored' => $DocumentsTypesStored,
-            'documents' => $documents
         ]);
     }
 

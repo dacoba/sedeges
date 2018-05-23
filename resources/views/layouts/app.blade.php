@@ -69,17 +69,19 @@
                                     </div>
                                 </li>
                             @endif
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdoptantes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Adoptantes
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdoptantes">
-                                    <a class="dropdown-item" href="{{ url('adoptante') }}">Mostrar Adoptantes</a>
-                                    @if (in_array(Auth::user()->rol, array('Administrador', 'Secretaria')))
-                                        <a class="dropdown-item" href="{{ url('adoptante/create') }}">Registrar Adoptantes</a>
-                                    @endif
-                                </div>
-                            </li>
+                            @if (!in_array(Auth::user()->rol, array('Adoptante')))
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdoptantes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Adoptantes
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdoptantes">
+                                        <a class="dropdown-item" href="{{ url('adoptante') }}">Mostrar Adoptantes</a>
+                                        @if (in_array(Auth::user()->rol, array('Administrador', 'Secretaria')))
+                                            <a class="dropdown-item" href="{{ url('adoptante/create') }}">Registrar Adoptantes</a>
+                                        @endif
+                                    </div>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSolicitudes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Solicitudes de Adopcion
