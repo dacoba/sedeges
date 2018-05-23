@@ -85,6 +85,16 @@
                                 @endif
                             </div>
                         </li>
+                            @if (in_array(Auth::user()->rol, array('Administrador', 'Coordinador')))
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSolicitudes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Reportes
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSolicitudes">
+                                        <a class="dropdown-item" href="{{ url('reporte/solicitud') }}">Reporte de Solicitudes</a>
+                                    </div>
+                                </li>
+                            @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLogout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->rol }}

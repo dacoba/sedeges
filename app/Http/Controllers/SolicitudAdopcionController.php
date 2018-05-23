@@ -222,9 +222,42 @@ class SolicitudAdopcionController extends Controller
         ]);
     }
 
-    public function show(SolicitudAdopcion $solicitudAdopcion)
+    public function show($id)
     {
-        //
+        $edges_done = $this->EdgesDoneArray($id);
+        $solicitud = SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->find($id);
+        $DocumentsTypes = $this->getDocumentsTypes();
+        $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
+        $estados_solicitud = $this->getEstadosToText();
+        $documents = AdopcionDocument::select('id', 'name', 'type', 'mime')->where('solicitud_id', $id)->get();
+
+        return view('solicitud.show', [
+            'solicitud' => $solicitud,
+            'DocumentsTypes' => $DocumentsTypes,
+            'DocumentsTypesStored' => $DocumentsTypesStored,
+            'documents' => $documents,
+            'estados_solicitud' => $estados_solicitud,
+            'edges_done' => $edges_done
+        ]);
+    }
+
+    public function showReport($id)
+    {
+        $edges_done = $this->EdgesDoneArray($id);
+        $solicitud = SolicitudAdopcion::with(['adoptante', 'adoptante.user'])->find($id);
+        $DocumentsTypes = $this->getDocumentsTypes();
+        $DocumentsTypesStored = $this->getDocumentsTypesStored($id);
+        $estados_solicitud = $this->getEstadosToText();
+        $documents = AdopcionDocument::select('id', 'name', 'type', 'mime')->where('solicitud_id', $id)->get();
+
+        return view('reporte.solicitudShow', [
+            'solicitud' => $solicitud,
+            'DocumentsTypes' => $DocumentsTypes,
+            'DocumentsTypesStored' => $DocumentsTypesStored,
+            'documents' => $documents,
+            'estados_solicitud' => $estados_solicitud,
+            'edges_done' => $edges_done
+        ]);
     }
 
     public function edit($id)

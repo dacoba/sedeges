@@ -59,11 +59,11 @@
                                 <td>{{ $estados_solicitud[$solicitud['estado']] }}</td>
                                 <td class="text-right">{{ $solicitud['created_at']->diffForHumans() }} - ({{ $solicitud['created_at']->format('F d, Y') }})</td>
                                 <td class="text-center">
-                                    {{--<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">--}}
-                                        {{--<a href="{{ url('solicitud') }}/{{ $solicitud['id'] }}">--}}
-                                            {{--<i class="fa fa-eye text-primary"></i>--}}
-                                        {{--</a>--}}
-                                    {{--</span>--}}
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
+                                        <a href="{{ url('solicitud') }}/{{ $solicitud['id'] }}">
+                                            <i class="fa fa-eye text-primary"></i>
+                                        </a>
+                                    </span>
                                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Modificar">
                                         <a href="{{ url('solicitud') }}/{{ $solicitud['id'] }}/edit">
                                             <i class="fa fa-pencil text-warning"></i>

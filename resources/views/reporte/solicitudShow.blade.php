@@ -2,26 +2,18 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-4 mb-3">Solicitudes de Adopcion
-            <small>Modificar</small>
+        <h1 class="mt-4 mb-3">Reporte
+            <small>Solicitud</small>
         </h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ url('/') }}">Principal</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ url('/solicitud') }}">Mostrar Solicitudes de Adopcion</a>
+                <a href="{{ url('/reporte/solicitud') }}">Reporte de Solicitud</a>
             </li>
-            <li class="breadcrumb-item active">Modificar</li>
+            <li class="breadcrumb-item active">Solicitud</li>
         </ol>
-        @if(isset($message['success']) and $message['success'])
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Satisfactorio!</strong> {{ $message['success_message'] }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fa fa-table"></i> Datos de la Solicitud de Adopcion</div>
