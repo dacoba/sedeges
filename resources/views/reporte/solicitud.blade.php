@@ -136,7 +136,13 @@
                 labels: <?=json_encode($estados)?>,
                 datasets: [{
                     data: <?=json_encode($valores)?>,
-                    backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+                    backgroundColor: [
+                        '#007bff',
+                        '#dc3545',
+                        '#ffc107',
+                        '#28a745',
+                        '#7D3C98'
+                    ]
                 }]
             },
             options: {

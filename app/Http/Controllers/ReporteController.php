@@ -55,7 +55,7 @@ class ReporteController extends Controller
     {
         $estados_solicitud = $this->getEstadosToText();
 
-        $estados_aux = $this->getSolicitues($request)->get()->pluck('estado');
+        $estados_aux = $this->getSolicitues($request)->get()->pluck('estado')->unique();
         foreach ($estados_aux as $estado)
         {
             $valores[] = $this->getSolicitues($request)->where('estado', $estado)->get()->count();
