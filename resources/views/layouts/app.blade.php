@@ -201,6 +201,9 @@
     <script type="text/javascript">
         $(document).ready(function() {
             var t = $('#dataTable').DataTable( {
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
                 "columnDefs": [ {
                     "searchable": false,
                     "orderable": false,
