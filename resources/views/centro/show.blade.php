@@ -26,6 +26,14 @@
                         <td>{{ $centro['nombre_centro'] }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Capacidad</th>
+                        <td>{{ $centro['capacidad'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Cantidad de Infantes</th>
+                        <td>{{ $centro->infantes->count() }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Telefono</th>
                         <td>{{ $centro['telefono'] }} <i class="fa fa-phone"></i></td>
                     </tr>

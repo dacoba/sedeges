@@ -38,6 +38,7 @@
                             <th></th>
                             <th>Nombre del Centro</th>
                             <th>Nombre del Director</th>
+                            <th>Capacidad</th>
                             <th>Cantidad de Infantes</th>
                             <th>Telefono</th>
                             <th>Acción</th>
@@ -48,6 +49,7 @@
                             <th></th>
                             <th>Nombre del Centro</th>
                             <th>Nombre del Director</th>
+                            <th>Capacidad</th>
                             <th>Cantidad de Infantes</th>
                             <th>Telefono</th>
                             <th>Acción</th>
@@ -59,6 +61,7 @@
                                 <td></td>
                                 <td>{{ $centro['nombre_centro'] }}</td>
                                 <td>{{ $centro['nombre_director'] }}</td>
+                                <td>{{ $centro['capacidad'] }}</td>
                                 <td class="text-right">{{ $centro->infantes->count() }}</td>
                                 <td class="text-right">{{ $centro['telefono'] }}</td>
                                 <td class="text-center">

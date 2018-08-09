@@ -32,12 +32,21 @@
                     <input type="hidden" name="_method" value="PUT" >
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-8{{ $errors->has('nombre_centro') ? ' has-error' : '' }}">
+                            <div class="col-md-4{{ $errors->has('nombre_centro') ? ' has-error' : '' }}">
                                 <label for="email">Nombre del Centro</label>
                                 <input class="form-control" id="nombre_centro" type="text" name="nombre_centro" value="{{ $centro['nombre_centro'] }}" aria-describedby="emailHelp" placeholder="Ingrese el Nombre del Centro" readonly>
                                 @if ($errors->has('nombre_centro'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('nombre_centro') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <div class="col-md-4{{ $errors->has('capacidad') ? ' has-error' : '' }}">
+                                <label for="capacidad">Nombre del Centro</label>
+                                <input class="form-control" id="capacidad" type="text" name="capacidad" value="{{ $centro['capacidad'] }}" aria-describedby="emailHelp" placeholder="Ingrese el Nombre del Centro">
+                                @if ($errors->has('capacidad'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('capacidad') }}</strong>
                                 </span>
                                 @endif
                             </div>

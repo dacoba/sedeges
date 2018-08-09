@@ -17,6 +17,7 @@ class CentroController extends Controller
     {
         return Validator::make($data, [
             'nombre_centro' => 'required|string|max:255',
+            'capacidad' => 'required|integer|min:1|max:100',
             'direccion' => 'required|string|max:255',
             'nombre_director' => 'required|string|max:255',
             'telefono' => 'required|digits:7|numeric',
@@ -26,6 +27,7 @@ class CentroController extends Controller
     {
         return Validator::make($data, [
             'direccion' => 'required|string|max:255',
+            'capacidad' => 'required|integer|min:1|max:100',
             'nombre_director' => 'required|string|max:255',
             'telefono' => 'required|digits:7|numeric',
         ]);
@@ -47,6 +49,7 @@ class CentroController extends Controller
         $this->validator($request->all())->validate();
         Centro::create([
             'nombre_centro' => strtoupper($request['nombre_centro']),
+            'capacidad' => $request['capacidad'],
             'direccion' => $request['direccion'],
             'nombre_director' => strtoupper($request['nombre_director']),
             'telefono' => $request['telefono'],
@@ -75,6 +78,7 @@ class CentroController extends Controller
         $this->validatorUpdate($request->all())->validate();
         Centro::where('id', $id)
             ->update([
+                'capacidad' => $request['capacidad'],
                 'direccion' => $request['direccion'],
                 'nombre_director' => strtoupper($request['nombre_director']),
                 'telefono' => $request['telefono'],

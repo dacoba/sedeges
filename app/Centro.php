@@ -8,7 +8,7 @@ class Centro extends Model
 {
     protected $table = 'centros';
     protected $fillable = [
-        'nombre_centro', 'direccion', 'nombre_director', 'telefono', 'fecha_fundacion',
+        'nombre_centro', 'capacidad', 'direccion', 'nombre_director', 'telefono', 'fecha_fundacion',
     ];
 
     function infantes(){

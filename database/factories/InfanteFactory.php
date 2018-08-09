@@ -15,6 +15,5 @@ $factory->define(Infante::class, function (Faker $faker) {
         'descripcion' => $faker->paragraph,
         'habilitado' => $faker->randomElement([0 , 1]),
         'adoptado' => $faker->randomElement([0 , 1]),
-        'centro_id' => $faker->numberBetween($min = 1, $max = 20),
     ];
 });
