@@ -154,12 +154,12 @@
                                     { data: { id: 'secre', name: 'Secretaria'}, position: { x: 0, y: 200 }, grabbable: false },
                                     { data: { id: 'cor', name: 'Cordinador'}, position: { x: 200, y: 200 }, grabbable: false  },
                                     { data: { id: 'ts', name: 'Trabajadora Social' }, position: { x: 400, y: 50 }, grabbable: false  },
-                                    { data: { id: 'ps', name: 'Psicologo' }, position: { x: 400, y: 200 }, grabbable: false  },
+                                    { data: { id: 'ps', name: 'Psicólogo' }, position: { x: 400, y: 200 }, grabbable: false  },
                                     { data: { id: 'doc', name: 'Doctor' }, position: { x: 400, y: 350 }, grabbable: false  },
                                     { data: { id: 'cert', name: 'Certificado de Taller ' }, position: { x: 600, y: 50 }, grabbable: false  },
                                     { data: { id: 'cor2', name: 'Cordinador' }, position: { x: 600, y: 200 }, grabbable: false  },
                                     { data: { id: 'demand', name: 'Demanda de Adopcion' }, position: { x: 600, y: 350 }, grabbable: false  },
-                                    { data: { id: 'ab2', name: 'Area Juridica' }, position: { x: 800, y: 200 }, grabbable: false  },
+                                    { data: { id: 'ab2', name: 'Area Jurídica' }, position: { x: 800, y: 200 }, grabbable: false  },
                                     { data: { id: 'inf', name: 'Infante' }, position: { x: 1000, y: 50 }, grabbable: false  },
                                     { data: { id: 'ts3', name: 'Trabajadora Social' }, position: { x: 1000, y: 200 }, grabbable: false  },
                                     { data: { id: 'ab3', name: 'Abogado' }, position: { x: 1200, y: 200 }, grabbable: false  }
@@ -268,16 +268,16 @@
                             <table class="table table-bordered table-sm" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>Valoracion</th>
+                                    <th>Valoración</th>
                                     <th>Responable</th>
-                                    <th class="text-center">Fecha de la Valoracion</th>
+                                    <th class="text-center">Fecha de la Valoración</th>
                                     <th class="text-center">Estado</th>
-                                    <th class="text-center">Accion</th>
+                                    <th class="text-center">Acción</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Valoracion Social</td>
+                                    <td>Valoración Social</td>
                                     <td>{{ $solicitud['trabajador_social']['nombres'] }} {{ $solicitud['trabajador_social']['apellido_paterno'] }} {{ $solicitud['trabajador_social']['apellido_materno'] }}</td>
                                     @if(is_null($solicitud['valoracion_trabajador_social_id']))
                                         <td class="text-center">Sin Fecha Asignada</td>
@@ -298,7 +298,7 @@
                                     @endif
                                 </tr>
                                 <tr>
-                                    <td>Valoracion Psicologica</td>
+                                    <td>Valoración Psicológica</td>
                                     <td>{{ $solicitud['psicologo']['nombres'] }} {{ $solicitud['psicologo']['apellido_paterno'] }} {{ $solicitud['psicologo']['apellido_materno'] }}</td>
                                     @if(is_null($solicitud['valoracion_psicologo_id']))
                                         <td class="text-center">Sin Fecha Asignada</td>
@@ -319,7 +319,7 @@
                                     @endif
                                 </tr>
                                 <tr>
-                                    <td>Valoracion Medica</td>
+                                    <td>Valoración Medica</td>
                                     <td>{{ $solicitud['doctor']['nombres'] }} {{ $solicitud['doctor']['apellido_paterno'] }} {{ $solicitud['doctor']['apellido_materno'] }}</td>
                                     @if(is_null($solicitud['valoracion_doctor_id']))
                                         <td class="text-center">Sin Fecha Asignada</td>

@@ -10,4 +10,8 @@ class Centro extends Model
     protected $fillable = [
         'nombre_centro', 'direccion', 'nombre_director', 'telefono', 'fecha_fundacion',
     ];
+
+    function infantes(){
+        return $this->hasMany('App\Infante');
+    }
 }

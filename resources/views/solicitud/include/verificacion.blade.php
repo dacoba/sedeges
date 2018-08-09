@@ -39,7 +39,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="psicologo_id">Psicologo</label>
+                    <label for="psicologo_id">Psicólogo</label>
                     <select class="form-control" name="psicologo_id">
                         @foreach($equipo['psicologos'] as $psicologo)
                             <option value="{{ $psicologo['id'] }}">{{ $psicologo['nombres'] }} {{ $psicologo['apellido_paterno'] }} {{ $psicologo['apellido_materno'] }}</option>

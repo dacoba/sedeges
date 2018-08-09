@@ -200,11 +200,20 @@
     <script src="{{ asset('js/jquery.dataTables.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#dataTable').dataTable( {
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                }
+            var t = $('#dataTable').DataTable( {
+                "columnDefs": [ {
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                } ],
+                "order": [[ 1, 'asc' ]]
             } );
+
+            t.on( 'order.dt search.dt', function () {
+                t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).draw();
         } );
     </script>
     <script src="{{ asset('js/dataTables.bootstrap4.js') }}"></script>

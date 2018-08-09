@@ -35,25 +35,31 @@
                     <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Nombre del Centro</th>
                             <th>Nombre del Director</th>
+                            <th>Cantidad de Infantes</th>
                             <th>Telefono</th>
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
+                            <th></th>
                             <th>Nombre del Centro</th>
                             <th>Nombre del Director</th>
+                            <th>Cantidad de Infantes</th>
                             <th>Telefono</th>
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         @foreach($centros as $centro)
                             <tr>
+                                <td></td>
                                 <td>{{ $centro['nombre_centro'] }}</td>
                                 <td>{{ $centro['nombre_director'] }}</td>
+                                <td class="text-right">{{ $centro->infantes->count() }}</td>
                                 <td class="text-right">{{ $centro['telefono'] }}</td>
                                 <td class="text-center">
                                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">

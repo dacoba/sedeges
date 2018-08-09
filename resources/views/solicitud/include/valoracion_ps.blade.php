@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-md-4 offset-md-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Fecha de Valoracion</label>
-                <input type="date" class="form-control text-right" id="fecha_valoracion" name="fecha_valoracion" aria-describedby="fecha_valoracionHelp" placeholder="Ingrese la fecha de valoracion">
-                <small id="fecha_valoracionHelp" class="form-text text-muted">Fecha en la que sera realizada la valoracion respectiva.</small>
+                <label for="exampleInputEmail1">Fecha de Valoración</label>
+                <input type="date" class="form-control text-right" id="fecha_valoracion" name="fecha_valoracion" aria-describedby="fecha_valoracionHelp" placeholder="Ingrese la fecha de valoración">
+                <small id="fecha_valoracionHelp" class="form-text text-muted">Fecha en la que será realizada la valoración respectiva.</small>
             </div>
             <button type="submit" class="btn btn-primary btn-block mb-2">Confirmar Fecha</button>
         </div>
@@ -59,18 +59,18 @@
                 </div>
                 <div class="form-group{{ $errors->has('observacion_psicologo') ? ' has-error' : '' }}">
                     <label for="observacion_psicologo">Observacion</label>
-                    <textarea class="form-control" id="observacion_psicologo" name="observacion_psicologo" rows="3" placeholder="Observaciones de la Valoracion Psicologica.">@if(old('observacion_psicologo')) {{ old('observacion_psicologo') }} @else{{ $solicitud['observacion_psicologo'] }}@endif</textarea>
+                    <textarea class="form-control" id="observacion_psicologo" name="observacion_psicologo" rows="3" placeholder="Observaciones de la Valoración Psicológica.">@if(old('observacion_psicologo')) {{ old('observacion_psicologo') }} @else{{ $solicitud['observacion_psicologo'] }}@endif</textarea>
                     @if ($errors->has('observacion_psicologo'))
                         <span class="help-block"><strong>{{ $errors->first('observacion_psicologo') }}</strong></span>
                     @endif
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">
-                    Registrar Valoracion
+                    Registrar Valoración
                 </button>
             </div>
         @else
             <div class="text-center jumbotron jumbotron-fluid">
-                <h5>Valoracion Psicologica Programada</h5>
+                <h5>Valoración Psicológica Programada</h5>
                 <h4>{{ $solicitud['valoracion_psicologo']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</h4>
             </div>
         @endif

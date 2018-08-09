@@ -29,7 +29,7 @@
         @endif
     </div>
     <button type="submit" class="btn btn-primary btn-block">
-        Enviar Documentos a Area Juridica
+        Enviar Documentos a Area Jurídica
     </button>
 @elseif(!in_array(202, $DocumentsTypesStored))
     <h6 class="text-center text-danger mb-4">Sin Certificado de Taller de Preparacion a Madres y Padres en Proceso de Adopcion</h6>

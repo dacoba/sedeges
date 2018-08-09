@@ -4,7 +4,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Valoracion Social</h5>
+                        <h5 class="modal-title">Valoración Social</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="col-md-10 offset-md-1">
                                 <div class="row">
-                                    <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
+                                    <span class="col-sm-auto font-weight-bold">Fecha de la Valoración:</span>
                                     <span class="col-sm-auto">{{ $solicitud['valoracion_trabajador_social']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
                                 </div>
                                 <div class="row">
@@ -47,7 +47,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Valoracion Psicologica</h5>
+                        <h5 class="modal-title">Valoración Psicológica</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -56,11 +56,11 @@
                         <div class="row">
                             <div class="col-md-10 offset-md-1">
                                 <div class="row">
-                                    <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
+                                    <span class="col-sm-auto font-weight-bold">Fecha de la Valoración:</span>
                                     <span class="col-sm-auto">{{ $solicitud['valoracion_psicologo']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
                                 </div>
                                 <div class="row">
-                                    <span class="col-sm-auto font-weight-bold">Evaluacion Psicologica:</span>
+                                    <span class="col-sm-auto font-weight-bold">Evaluacion Psicológica:</span>
                                     <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['evaluacion_psicologica'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['evaluacion_psicologica'] == true ? "Favorable" : "Desfavorable" }}</span>
                                 </div>
                                 <div class="row">
@@ -68,11 +68,11 @@
                                     <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['dinamica_familiar'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['dinamica_familiar'] == true ? "Favorable" : "Desfavorable" }}</span>
                                 </div>
                                 <div class="row">
-                                    <span class="col-sm-auto font-weight-bold">Motivacion para Adopcion:</span>
+                                    <span class="col-sm-auto font-weight-bold">Motivación para Adopción:</span>
                                     <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_psicologo']['motivacion_adopcion'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_psicologo']['motivacion_adopcion'] == true ? "Favorable" : "Desfavorable" }}</span>
                                 </div>
                                 <div class="row">
-                                    <span class="col-sm-12 font-weight-bold">Observacion:</span>
+                                    <span class="col-sm-12 font-weight-bold">Observación:</span>
                                     <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_psicologo']['observacion_psicologo'] }}</p>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Valoracion Medica</h5>
+                        <h5 class="modal-title">Valoración Medica</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -99,7 +99,7 @@
                         <div class="row">
                             <div class="col-md-10 offset-md-1">
                                 <div class="row">
-                                    <span class="col-sm-auto font-weight-bold">Fecha de la Valoracion:</span>
+                                    <span class="col-sm-auto font-weight-bold">Fecha de la Valoración:</span>
                                     <span class="col-sm-auto">{{ $solicitud['valoracion_doctor']['fecha_valoracion']->format('d \d\e F \d\e\l Y')  }}</span>
                                 </div>
                                 <div class="row">
@@ -107,7 +107,7 @@
                                     <span class="col-sm-auto font-weight-bold {{$solicitud['valoracion_doctor']['condicion_medica'] ? 'text-success' : 'text-danger'}}">{{$solicitud['valoracion_doctor']['condicion_medica'] == true ? "Favorable" : "Desfavorable" }}</span>
                                 </div>
                                 <div class="row">
-                                    <span class="col-sm-12 font-weight-bold">Observacion:</span>
+                                    <span class="col-sm-12 font-weight-bold">Observación:</span>
                                     <p class="col-sm-12 text-justify">{{ $solicitud['valoracion_doctor']['observacion_doctor'] }}</p>
                                 </div>
                             </div>

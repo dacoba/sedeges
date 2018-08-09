@@ -35,25 +35,28 @@
                     <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>CI del Adoptante</th>
                             <th>Nombre del Adoptante</th>
                             <th>Estado</th>
                             <th>Fecha de la Solicitud</th>
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
+                            <th></th>
                             <th>CI del Adoptante</th>
                             <th>Nombre del Adoptante</th>
                             <th>Estado</th>
                             <th>Fecha de la Solicitud</th>
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         @foreach($solicitudes as $solicitud)
                             <tr>
+                                <td></td>
                                 <td class="text-right">{{ $solicitud['adoptante']['user']['ci'] }} <strong>{{ $solicitud['adoptante']['user']['ci_extencion'] }}</strong></td>
                                 <td>{{ $solicitud['adoptante']['user']['nombres'] }} {{ $solicitud['adoptante']['user']['apellido_paterno'] }} {{ $solicitud['adoptante']['user']['apellido_materno'] }}</td>
                                 <td>{{ $estados_solicitud[$solicitud['estado']] }}</td>

@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-md-4 offset-md-4">
             <div class="form-group">
-                <label for="exampleInputEmail1">Fecha de Valoracion</label>
-                <input type="date" class="form-control text-right" id="fecha_valoracion" name="fecha_valoracion" aria-describedby="fecha_valoracionHelp" placeholder="Ingrese la fecha de valoracion">
-                <small id="fecha_valoracionHelp" class="form-text text-muted">Fecha en la que sera realizada la valoracion respectiva.</small>
+                <label for="exampleInputEmail1">Fecha de Valoración</label>
+                <input type="date" class="form-control text-right" id="fecha_valoracion" name="fecha_valoracion" aria-describedby="fecha_valoracionHelp" placeholder="Ingrese la fecha de valoración">
+                <small id="fecha_valoracionHelp" class="form-text text-muted">Fecha en la que será realizada la valoración respectiva.</small>
             </div>
             <button type="submit" class="btn btn-primary btn-block mb-2">Confirmar Fecha</button>
         </div>
@@ -58,19 +58,19 @@
                     </div>
                 </div>
                 <div class="form-group{{ $errors->has('observacion_trabajador_social') ? ' has-error' : '' }}">
-                    <label for="observacion_trabajador_social">Observacion</label>
-                    <textarea class="form-control" id="observacion_trabajador_social" name="observacion_trabajador_social" rows="3" placeholder="Observaciones de la Valoracion Social.">@if(old('observacion_trabajador_social')) {{ old('observacion_trabajador_social') }} @else{{ $solicitud['observacion_trabajador_social'] }}@endif</textarea>
+                    <label for="observacion_trabajador_social">Observación</label>
+                    <textarea class="form-control" id="observacion_trabajador_social" name="observacion_trabajador_social" rows="3" placeholder="Observaciones de la Valoración Social.">@if(old('observacion_trabajador_social')) {{ old('observacion_trabajador_social') }} @else{{ $solicitud['observacion_trabajador_social'] }}@endif</textarea>
                     @if ($errors->has('observacion_trabajador_social'))
                         <span class="help-block"><strong>{{ $errors->first('observacion_trabajador_social') }}</strong></span>
                     @endif
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">
-                    Registrar Valoracion
+                    Registrar Valoración
                 </button>
             </div>
         @else
             <div class="text-center jumbotron jumbotron-fluid">
-                <h5>Valoracion Social Programada</h5>
+                <h5>Valoración Social Programada</h5>
                 <h4>{{ $solicitud['valoracion_trabajador_social']['fecha_valoracion']->format('d \d\e F \d\e\l Y') }}</h4>
             </div>
         @endif

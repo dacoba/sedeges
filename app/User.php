@@ -10,11 +10,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    const CI_EXTENSIONS = array('LP', 'CB', 'SCZ', 'TR', 'OR', 'PT', 'SC', 'BI', 'PA');
+    const GENERO = ['Masculino', 'Femenino'];
+
     protected $fillable = [
         'ci', 'ci_extencion', 'nombres', 'apellido_paterno', 'apellido_materno', 'genero', 'fecha_nacimiento', 'telefono_fijo', 'telefono_celular', 'desabilitado', 'rol', 'email', 'password',
     ];

@@ -35,27 +35,30 @@
                     <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Rol</th>
                             <th>Nombre</th>
                             <th>CI</th>
                             <th>Email</th>
                             {{--<th>Fecha Nacimiento</th>--}}
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
+                            <th></th>
                             <th>Rol</th>
                             <th>Nombre</th>
                             <th>CI</th>
                             <th>Email</th>
                             {{--<th>Fecha Nacimiento</th>--}}
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         @foreach($usuarios as $usuario)
                             <tr>
+                                <td></td>
                                 <td>{{ $usuario['rol'] }}</td>
                                 <td>{{ $usuario['nombres'] }} {{ $usuario['apellido_paterno'] }} {{ $usuario['apellido_materno'] }}</td>
                                 <td class="text-right">{{ $usuario['ci'] }} <strong>{{ $usuario['ci_extencion'] }}</strong></td>

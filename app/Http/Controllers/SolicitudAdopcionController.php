@@ -59,12 +59,12 @@ class SolicitudAdopcionController extends Controller
     {
         return array(
             0 => "Requisitos",
-            1 => "Verificacion de Requisitos",
-            2 => "Valoracion",
+            1 => "Verificación de Requisitos",
+            2 => "Valoración",
             3 => "Revision de Documentos",
-            4 => "Area Juridica",
+            4 => "Area Jurídica",
             5 => "En Representacion",
-            6 => "Asignacion",
+            6 => "Asignación",
             7 => "Acercamiento",
             8 => "Acercamiento Finalizado",
             100 => "Terminado",
@@ -421,7 +421,7 @@ class SolicitudAdopcionController extends Controller
                         ]);
                 }
                 $message['success'] = True;
-                $message['success_message'] = 'Fecha programada para la valoracion';
+                $message['success_message'] = 'Fecha programada para la valoración';
                 $solicitudes = $this->getSolicitudes();
                 return view('solicitud.index', [
                     'solicitudes' => $solicitudes,

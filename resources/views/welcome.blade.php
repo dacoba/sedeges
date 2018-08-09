@@ -13,7 +13,7 @@
                 <div class="carousel-item active" style="background-image: url('img/slider1.jpg');background-position: center">
                     <div class="carousel-caption d-none d-md-block">
                         <h3>Sedeges</h3>
-                        <p>Servicio Departamental de Gestion Social.</p>
+                        <p>Servicio Departamental de Gestion Social</p>
                     </div>
                 </div>
                 <!-- Slide Two - Set the background image for this slide in the line below -->

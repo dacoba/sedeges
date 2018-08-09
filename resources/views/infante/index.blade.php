@@ -35,29 +35,32 @@
                     <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Nombre</th>
-                            <th>Edad</th>
+                            <th>Edad (Años)</th>
                             <th>Centro</th>
                             <th>Habilitado</th>
                             <th>Adoptado</th>
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
+                            <th></th>
                             <th>Nombre</th>
-                            <th>Edad</th>
+                            <th>Edad (Años)</th>
                             <th>Centro</th>
                             <th>Habilitado</th>
                             <th>Adoptado</th>
-                            <th>Accion</th>
+                            <th>Acción</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         @foreach($infantes as $infante)
                             <tr>
+                                <td></td>
                                 <td>{{ $infante['nombre'] }}</td>
-                                <td class="text-right">{{ $infante['fecha_nacimiento']->diffInYears(now()) }} años.</td>
+                                <td class="text-right">{{ $infante['fecha_nacimiento']->diffInYears(now()) }}</td>
                                 <td>{{ $infante['centro']['nombre_centro'] }}</td>
                                 <td class="text-center">
                                     @if($infante['habilitado'])

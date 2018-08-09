@@ -21,7 +21,7 @@ class InfanteController extends Controller
             'ci' => 'numeric|digits_between:6,10|unique:users',
             'ci_extencion' => 'string',
             'nombre' => 'required|string|max:255',
-            'fecha_nacimiento' => 'required',
+            'fecha_nacimiento' => 'required|date|after:-18 years',
             'fecha_ingreso' => 'required',
             'descripcion' => 'required',
         ]);
