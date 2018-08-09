@@ -42,8 +42,8 @@
                                 @endif
                             </div>
                             <div class="col-md-4{{ $errors->has('capacidad') ? ' has-error' : '' }}">
-                                <label for="capacidad">Nombre del Centro</label>
-                                <input class="form-control" id="capacidad" type="text" name="capacidad" value="{{ $centro['capacidad'] }}" aria-describedby="emailHelp" placeholder="Ingrese el Nombre del Centro">
+                                <label for="capacidad">Capacidad</label>
+                                <input class="form-control" id="capacidad" type="text" name="capacidad" value="{{ $centro['capacidad'] }}" aria-describedby="emailHelp" placeholder="Ingrese La Capacidad del Centro">
                                 @if ($errors->has('capacidad'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('capacidad') }}</strong>
