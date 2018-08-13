@@ -24,7 +24,7 @@ env_variables:
   DB_DATABASE: sedeges
   DB_USERNAME: root
   DB_PASSWORD: sedeges123
-  DB_SOCKET: "/cloudsql/sedeges-212805:us-central1-a:db-sedeges"
+  DB_SOCKET: "/cloudsql/sedeges-212805:us-central1:db-sedeges"
 
 beta_settings:
-  cloud_sql_instances: "sedeges-212805:us-central1-a:db-sedeges"
+  cloud_sql_instances: "sedeges-212805:us-central1:db-sedeges"
