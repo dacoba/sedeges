@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Fecha Nacimiento</th>
-                        <td>{{ $adoptante['user']['fecha_nacimiento'] }}</td>
+                        <td>{{ $adoptante['user']['fecha_nacimiento']->format('F d, Y') }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Telefono Fijo</th>
@@ -56,10 +56,6 @@
                     <tr>
                         <th scope="row">Direccion</th>
                         <td>{{ $adoptante['direccion'] }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Ocupacion</th>
-                        <td>{{ $adoptante['ocupacion'] }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Cuenta Desabilitada</th>
