@@ -21,12 +21,6 @@
             </div>
             <div class="card-body">
                 <table class="table table-sm">
-                    <thead>
-                    <tr>
-                        <th scope="col">Nombre del Campo</th>
-                        <th scope="col">Valor</th>
-                    </tr>
-                    </thead>
                     <tbody>
                     <tr>
                         <th scope="row">CI</th>

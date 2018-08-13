@@ -15,24 +15,12 @@ class InfanteController extends Controller
         $this->middleware('auth');
     }
 
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'ci' => 'numeric|digits_between:6,10|unique:users',
-            'ci_extencion' => 'string',
-            'nombre' => 'required|string|max:255',
-            'fecha_nacimiento' => 'required|date|after:-18 years',
-            'fecha_ingreso' => 'required',
-            'descripcion' => 'required',
-        ]);
-    }
-
     protected function validatorUpdate(array $data)
     {
         return Validator::make($data, [
             'ci' => 'numeric|digits_between:6,10|unique:users',
             'ci_extencion' => 'string',
-            'centro_id' => 'required',
+            'centro_id' => 'required|exists:centros,id',
             'fecha_ingreso' => 'required',
             'descripcion' => 'required',
         ]);
@@ -53,28 +41,38 @@ class InfanteController extends Controller
 
     public function store(Request $request)
     {
-        $this->validator($request->all())->validate();
-        Infante::create([
-            'ci' => $request['ci'],
-            'ci_extencion' => $request['ci_extencion'],
-            'nombre' => strtoupper($request['nombre']),
-            'genero' => $request['genero'],
-            'fecha_nacimiento' => $request['fecha_nacimiento'],
-            'fecha_ingreso' => $request['fecha_ingreso'],
-            'descripcion' => $request['descripcion'],
-            'habilitado' => $request['habilitado'] == 'on' ? True : False,
-            'adoptado' => $request['adoptado'] == 'on' ? True : False,
-            'centro_id' => $request['centro_id'],
-        ]);
-        $message['success'] = True;
-        $message['success_message'] = 'Infante Registrado Exitosamente';
+        $rules = [
+            'ci' => 'numeric|digits_between:6,10|unique:users',
+            'ci_extencion' => 'string',
+            'nombre' => 'required|string|max:255',
+            'fecha_nacimiento' => 'required|date|after:-18 years|before:now',
+            'fecha_ingreso' => 'required|after:fecha_nacimiento|before:now',
+            'descripcion' => 'required',
+            'centro_id' => 'required|exists:centros,id',
+        ];
+        $this->validate($request, $rules);
+
+        $centro = Centro::find($request->centro_id);
         $infantes = Infante::get();
+        $capacidad = $centro->capacidad;
+        $cantidad_infantes = $centro->infantes->count();
+        if((int)$capacidad > (int)$cantidad_infantes) {
+            $values = $request->all();
+            $values['nombre'] = strtoupper($request['nombre']);
+            $values['habilitado'] = $request->habilitado == 'on' ? True : False;
+            $values['adoptado'] = $request->adoptado == 'on' ? True : False;
+            $infante = Infante::create($values);
+            $message['success'] = True;
+            $message['success_message'] = 'Infante Registrado Exitosamente';
+        }else{
+            $message['error'] = True;
+            $message['error_message'] = 'El centro ya alcanzo el numero limite de infantes';
+        }
         return view('infante.index', ['infantes' => $infantes, 'message' => $message]);
     }
 
-    public function show($id)
+    public function show(Infante $infante)
     {
-        $infante = Infante::with(['centro'])->find($id);
         return view('infante.show', ['infante' => $infante]);
     }
 

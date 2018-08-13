@@ -20,16 +20,10 @@
                 <i class="fa fa-table"></i> Datos del Infante</div>
             <div class="card-body">
                 <table class="table table-sm">
-                    <thead>
-                    <tr>
-                        <th scope="col" style="width: 35%!important;">Nombre del Campo</th>
-                        <th scope="col" style="width: 65%!important;">Valor</th>
-                    </tr>
-                    </thead>
                     <tbody>
                     <tr>
-                        <th scope="row">Nombre del Infante</th>
-                        <td>{{ $infante['nombre'] }}</td>
+                        <th scope="col" style="width: 35%!important;">Nombre del Infante</th>
+                        <td scope="col" style="width: 65%!important;">{{ $infante['nombre'] }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Genero</th>
@@ -71,8 +65,53 @@
                         <th scope="row">Descripcion</th>
                         <td class="mw-50 text-justify">{{ $infante['descripcion'] }}</td>
                     </tr>
+                    <tr>
+                        <th scope="row">Solicitudes de Adopcion</th>
+                    </tr>
                     </tbody>
                 </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>CI del Adoptante</th>
+                            <th>Nombre del Adoptante</th>
+                            <th>Estado</th>
+                            <th>Fecha de la Solicitud</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>CI del Adoptante</th>
+                            <th>Nombre del Adoptante</th>
+                            <th>Estado</th>
+                            <th>Fecha de la Solicitud</th>
+                            <th>Acción</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        @foreach($infante->solicitudes as $solicitud)
+                            <tr>
+                                <td></td>
+                                <td class="text-right">{{ $solicitud['adoptante']['user']['ci'] }} <strong>{{ $solicitud['adoptante']['user']['ci_extencion'] }}</strong></td>
+                                <td>{{ $solicitud['adoptante']['user']['nombres'] }} {{ $solicitud['adoptante']['user']['apellido_paterno'] }} {{ $solicitud['adoptante']['user']['apellido_materno'] }}</td>
+                                <td>{{ $estados_solicitud[$solicitud['estado']] }}</td>
+                                <td class="text-right">{{ $solicitud['created_at']->diffForHumans() }} - ({{ $solicitud['created_at']->format('F d, Y') }})</td>
+                                <td class="text-center">
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
+                                            <a href="{{ url('reporte/solicitud') }}/{{ $solicitud['id'] }}">
+                                                <i class="fa fa-eye text-primary"></i>
+                                            </a>
+                                        </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

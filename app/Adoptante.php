@@ -13,4 +13,8 @@ class Adoptante extends Model
     function user(){
         return $this->belongsTo('App\User');
     }
+    function solicitudes()
+    {
+        return $this->hasMany('App\SolicitudAdopcion');
+    }
 }

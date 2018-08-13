@@ -85,9 +85,8 @@ class AdoptanteController extends Controller
         return view('adoptante.index', ['adoptantes' => $adoptantes, 'message' => $message]);
     }
 
-    public function show($id)
+    public function show(Adoptante $adoptante)
     {
-        $adoptante = Adoptante::with(['user'])->find($id);
         return view('adoptante.show', ['adoptante' => $adoptante]);
     }
 

@@ -14,6 +14,10 @@ class Infante extends Model
     function centro(){
         return $this->belongsTo('App\Centro');
     }
+    function solicitudes()
+    {
+        return $this->hasMany('App\SolicitudAdopcion');
+    }
     public function getFechaNacimientoAttribute($date)
     {
         return new Date($date);

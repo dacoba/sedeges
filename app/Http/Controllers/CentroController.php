@@ -16,7 +16,7 @@ class CentroController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nombre_centro' => 'required|string|max:255',
+            'nombre_centro' => 'required|string|max:255|unique:centros',
             'capacidad' => 'required|integer|min:1|max:100',
             'direccion' => 'required|string|max:255',
             'nombre_director' => 'required|string|max:255',
