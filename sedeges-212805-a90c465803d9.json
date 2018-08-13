@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sedeges-212805",
+  "private_key_id": "a90c465803d96186c1cb3879b1c110277e584994",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuQwO44TM3/08u\n2np/6NaFplPHZ+ZPzjcpCgAIAwIa8/MhFaI4L0TabDW/MHRyKpo2JdJkF7Tiak+t\ng7Wh3Mm/tG2Kzy5ntr/DQIm3inKdXFKLDen19QHL3repM8QqVB+yFU7pYgU3BvSc\nXKi4EXz2WXsLNGAZNH6oq2jPIPuX0IXAJN6OFXQ5vl+L3o4ooUjk+eA8rWXXi4Hf\nn9X78ifM+TY0qmGDhRL1MjzsHpyf3f9qlWR8hv72j2XEC/tIHB5ulQ9cBh4b3zNi\nBvthv8VBa68b9RMAKq10n8nVkEQveDZIA4ttd1N7MlB+ct82G/D7U6jXsWXV7T6r\n/77t1FktAgMBAAECggEAD+sfPpbpJDG2UgQIh1awV1Uc92zjpQv5Y05T4md5Rxex\nxfvr7aX5FtrRA2ixunFvKjMaR6UYE6Fn1eSKMFcINvLhxCRY4NsuI+/pT1LeVXGc\nOLJKBPsfRuL5dANpOqn58JKcZXAGz0Kwuvfb5wnx7a8O27R/yCL7eaeZfhJNPqOE\nDWFn27ZjQb+wquOQcWcfDN1AgSQiYMvIVIlzuyyznCLxz1FTQLGcllfI7YZx9a2F\nFJHR+sBXzbLtWHrsPaqXDH/2J97tLmR6f5yRIX/oONr2tdkEUGDD7jDCUderosiH\nG+kegGTHAv9sw1VmhhvSZrxoouS/Qec2Qv+nugiLIQKBgQD1jVvJI1srgwOqMV63\nVNYLNLjAMbWFEbrHmpyVB2VihEB8CrY/uMLHGurAbvtAE/9puUge/B7Wn5BC55MX\n84BsvartYquPwxXjShfE/enICY1YWvB3VlRbxOj6kap/OGvFYyVwnVPSQUagNWTt\nsZ923P8DYkMU8VIALlkgazVO9wKBgQC1rSK3WbKwIlzfF7llfvktGPqnAqx3igcS\nhBwZ32+EQB317vq/+yDUk/aOKiZ2XoHfnAZn+Ll3cnm0GvMn1ooo5H+9+dISn6SO\nhY7wOr2DSUsHd7UmYTXOmF2AW8JMq9aJkCH21BqFka1wFPa3NikZMlZFBKblwuss\nQ+0Wg0s7+wKBgAx0Sv98p5chYgIz1tX9m42d8vDslIRXTd3p3Z9BbMb+ZjbkZDH/\nMQHgP5/bAStS2FWIbDwGFZpVJX//Ntq0IwNg61Z29rSn9Gg+zc3UAxN+SIj+s8uZ\nuVWeOyLaWIdzWSP9z1xS3nl/jhF6I9BaffgNZXHKfhSF2N7heuvGBEIpAoGBAKSx\nCPGRPKzy2aHbjdN2YUgChuZzRAkxdOvSGu9RX3RR81cIhwMWElLitvV1PFy9m5or\nhJsoHGktuyoL7DVHBQPA8BQ1rbv4QGJ6rHMVrMqg3IUufWcHZJGeCdTcWazLcbZO\nlJt+93Px9XnPZz/6txMCULZMW0eZhTshcIGiD8eVAoGAEV63WcxhQy8DiMukyh97\nNijPcIKbbIhqSBQXTQfIcxP84KFKX7clUS8pr+y5n5LVSxwbcmzGtzQvE0/dbYlW\nduOJphyNaMIDk5ERsh1vUG3FgC2K6craD96PEQQsr+KMSWhaiThHF13vmiSO4GVV\nY0axvflbyBppoEfm6dLlyds=\n-----END PRIVATE KEY-----\n",
+  "client_email": "sedeges-sql@sedeges-212805.iam.gserviceaccount.com",
+  "client_id": "115533777976804378103",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sedeges-sql%40sedeges-212805.iam.gserviceaccount.com"
+}
