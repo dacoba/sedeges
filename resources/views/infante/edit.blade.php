@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $infante['fecha_nacimiento'] }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento del Infante" readonly>
+                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $infante['fecha_nacimiento']->format('Y-m-d') }}" aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Nacimiento del Infante" readonly>
                                 @if ($errors->has('fecha_nacimiento'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-md-6{{ $errors->has('fecha_ingreso') ? ' has-error' : '' }}">
                                 <label for="fecha_ingreso">Fecha de Ingreso</label>
-                                <input class="form-control text-right" id="fecha_ingreso" type="date" name="fecha_ingreso" @if(old('fecha_ingreso')) value="{{ old('fecha_ingreso') }}" @else value="{{ $infante['fecha_ingreso'] }}" @endif aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Ingreso al Centro">
+                                <input class="form-control text-right" id="fecha_ingreso" type="date" name="fecha_ingreso" @if(old('fecha_ingreso')) value="{{ old('fecha_ingreso') }}" @else value="{{ $infante['fecha_ingreso']->format('Y-m-d') }}" @endif aria-describedby="emailHelp" placeholder="Ingrese la Fecha de Ingreso al Centro">
                                 @if ($errors->has('fecha_ingreso'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('fecha_ingreso') }}</strong>

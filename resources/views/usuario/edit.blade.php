@@ -99,7 +99,7 @@
                             </div>
                             <div class="col-md-3{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $usuario['fecha_nacimiento'] }}" aria-describedby="emailHelp" readonly>
+                                <input class="form-control text-right" id="fecha_nacimiento" type="date" name="fecha_nacimiento" value="{{ $usuario['fecha_nacimiento']->format('Y-m-d') }}" aria-describedby="emailHelp" readonly>
                                 @if ($errors->has('fecha_nacimiento'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
