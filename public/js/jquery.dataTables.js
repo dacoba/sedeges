@@ -14352,10 +14352,10 @@
 	
 		/* Features */
 		"sWrapper": "dataTables_wrapper",
-		"sFilter": "dataTables_filter",
-		"sInfo": "dataTables_info",
-		"sPaging": "dataTables_paginate paging_", /* Note that the type is postfixed */
-		"sLength": "dataTables_length",
+		"sFilter": "dataTables_filter hidden-print",
+		"sInfo": "dataTables_info hidden-print",
+		"sPaging": "dataTables_paginate hidden-print paging_", /* Note that the type is postfixed */
+		"sLength": "dataTables_length hidden-print",
 		"sProcessing": "dataTables_processing",
 	
 		/* Sorting */

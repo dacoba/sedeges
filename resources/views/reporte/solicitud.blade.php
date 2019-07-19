@@ -4,8 +4,9 @@
     <div class="container">
         <h1 class="mt-4 mb-3">Reporte
             <small>Solicitud</small>
+            <button class="btn btn-primary hidden-print pull-right" onclick="window.print()"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb hidden-print">
             <li class="breadcrumb-item">
                 <a href="{{ url('/') }}">Principal</a>
             </li>
@@ -20,7 +21,7 @@
                 <span class="pull-right">del {{$date_from->format('j \d\e F \d\e\l Y')}} al {{$date_to->format('j \d\e F \d\e\l Y')}}</span>
             </div>
             <div class="card-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs hidden-print" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="resumen-tab" data-toggle="tab" href="#resumen" role="tab" aria-controls="resumen" aria-selected="true">Resumen</a>
                     </li>
@@ -34,7 +35,7 @@
                         <div class="row">
                             <div class="col-sm-6 d-flex">
                                 <div class="card w-100 card-block">
-                                    <div class="card-body text-center my-auto d-table">
+                                    <div class="card-body text-center my-auto d-table w-100">
                                         <div class="align-self-center d-table-cell align-middle">
                                             <h1 class="card-title">{{$solicitudes_registradas}}</h1>
                                             <p class="card-text">Solicitudes registradas.</p>
@@ -74,17 +75,17 @@
                                     <th>Nombre del Adoptante</th>
                                     <th>Estado</th>
                                     <th>Fecha de la Solicitud</th>
-                                    <th>Acción</th>
+                                    <th class="hidden-print">Acción</th>
                                 </tr>
                                 </thead>
-                                <tfoot>
+                                <tfoot class="hidden-print">
                                 <tr>
                                     <th></th>
                                     <th>CI del Adoptante</th>
                                     <th>Nombre del Adoptante</th>
                                     <th>Estado</th>
                                     <th>Fecha de la Solicitud</th>
-                                    <th>Acción</th>
+                                    <th class="hidden-print">Acción</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -95,7 +96,7 @@
                                         <td>{{ $solicitud['adoptante']['user']['nombres'] }} {{ $solicitud['adoptante']['user']['apellido_paterno'] }} {{ $solicitud['adoptante']['user']['apellido_materno'] }}</td>
                                         <td>{{ $estados_solicitud[$solicitud['estado']] }}</td>
                                         <td class="text-right">{{ $solicitud['created_at']->diffForHumans() }} - ({{ $solicitud['created_at']->format('F d, Y') }})</td>
-                                        <td class="text-center">
+                                        <td class="text-center hidden-print">
                                             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Mostrar">
                                                 <a href="{{ url('reporte/solicitud') }}/{{ $solicitud['id'] }}">
                                                     <i class="fa fa-eye text-primary"></i>
@@ -150,7 +151,10 @@
             },
             options: {
                 legend: {
-                    position: 'bottom'
+                    position: 'bottom',
+                    labels: {
+                        fontColor: '#000'
+                    }
                 }
             }
         });
