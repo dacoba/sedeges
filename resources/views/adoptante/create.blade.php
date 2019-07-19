@@ -135,13 +135,15 @@
                                 </span>
                                 @endif
                             </div>
-                            <div class="col-md-4{{ $errors->has('desabilitado') ? ' has-error' : '' }}">
-                                <label for="desabilitado">Desabilitado</label>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="desabilitado" name="desabilitado">
-                                    <label class="custom-control-label" for="desabilitado">Desabilitado para adoptar</label>
+                            <?php if(Auth::user()->rol == 'Administrador'): ?>
+                                <div class="col-md-4{{ $errors->has('desabilitado') ? ' has-error' : '' }}">
+                                    <label for="desabilitado">Desabilitado</label>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="desabilitado" name="desabilitado">
+                                        <label class="custom-control-label" for="desabilitado">Desabilitado para adoptar</label>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
