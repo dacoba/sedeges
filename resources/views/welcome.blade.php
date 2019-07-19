@@ -46,6 +46,15 @@
     <section class="py-5">
         <div class="container">
             <h1>Sedeges</h1>
+            <h2>Requisitos para Adoptar</h2>
+            <ul>
+                <li>Carta Solicitud</li>
+                <li>Certificado de Antecedentes</li>
+                <li>Informe Antecedentes</li>
+                <li>Verificación Domiciliaria</li>
+                <li>Certificado Estado Civil</li>
+            </ul>
+            <h2>Misión</h2>
             <p>EL SEDEGES, tiene como misión fundamental aplicar normas y políticas sociales referidas al niños, niñas, adolecentes y grupo familiar a través de programas de prevención, protección y atención integral con las competencias de género, generacional y servicios sociales mediante el apoyo técnico a las instancias responsables y la supervisión del cumplimiento de los objetivos y resultados propuestos, así como la de coordinar los programas y proyectos en materia de gestión social. Al amparo de las disposiciones legales, el SEDEGES realiza trabajos en capacitación ocupacional en los diferentes espacios donde brinda el servicio, constituyéndose como una actividad que reporta resultados positivos en la autoestima personal y capacitación simultanea para enfrentar la vida, desde el punto de vista socio económico cuando las circunstancias a si lo permitan.</p>
         </div>
     </section>
